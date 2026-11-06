@@ -1,0 +1,10 @@
+{
+  "routes": [
+    {"path": "/", "title": "Viva Ira · Guia local"},
+    {"path": "/#inicio", "title": "Início · Viva Ira"},
+    {"path": "/#buscar", "title": "Buscar empresas · Viva Ira"},
+    {"path": "/#favoritos", "title": "Favoritos · Viva Ira"},
+    {"path": "/#perfil", "title": "Cadastre sua empresa · Viva Ira"},
+    {"path": "/admin.html", "title": "Central Viva Ira"}
+  ]
+}

@@ -1,0 +1,585 @@
+{
+  "categorias": [
+    {
+      "id": "comida",
+      "nome": "Comida",
+      "ordem": 1
+    },
+    {
+      "id": "mercado",
+      "nome": "Mercado",
+      "ordem": 2
+    },
+    {
+      "id": "bebidas",
+      "nome": "Bebidas",
+      "ordem": 3
+    },
+    {
+      "id": "lojas",
+      "nome": "Lojas",
+      "ordem": 4
+    },
+    {
+      "id": "serviços",
+      "nome": "Serviços",
+      "ordem": 5
+    }
+  ],
+  "negocios": [
+    {
+      "id": "burger-da-praca",
+      "nome": "Burger da Praça",
+      "categoria": "Alimentação",
+      "subcategoria": "Lanches",
+      "servicos": [
+        "Hambúrguer artesanal",
+        "Batata rústica",
+        "Combos",
+        "Milk-shake"
+      ],
+      "descricao": "Hambúrguer artesanal na chapa, com pão da casa e molhos próprios. Peça no balcão, no salão ou por delivery.",
+      "bairro": "Centro",
+      "endereco": "Praça da Matriz, 40",
+      "horarios": {
+        "seg_sex": [
+          11,
+          23
+        ],
+        "sab": [
+          11,
+          23.5
+        ],
+        "dom": [
+          17,
+          23
+        ]
+      },
+      "telefone": "(19) 90000-1001",
+      "whatsapp": "5519900001001",
+      "plano": "premium",
+      "nota": {
+        "media": 4.8,
+        "qtd": 312
+      },
+      "entrega": {
+        "tempo": "30 – 45 min",
+        "frete": 5
+      },
+      "retirada": true,
+      "orcamento": false,
+      "fotos": 10,
+      "ativo": true,
+      "ordem": 1,
+      "verificado": true,
+      "emergencia": false,
+      "redes": {
+        "instagram": ""
+      },
+      "localizacao": null,
+      "servicosDetalhados": [
+        {
+          "nome": "Hambúrguer artesanal",
+          "preco": ""
+        },
+        {
+          "nome": "Batata rústica",
+          "preco": ""
+        },
+        {
+          "nome": "Combos",
+          "preco": ""
+        },
+        {
+          "nome": "Milk-shake",
+          "preco": ""
+        }
+      ]
+    },
+    {
+      "id": "ovos-vivi",
+      "nome": "Ovos Vivi",
+      "categoria": "Comércio",
+      "subcategoria": "Hortifruti e ovos",
+      "servicos": [
+        "Ovos caipira",
+        "Ovos brancos",
+        "Cestas presente",
+        "Ovos de codorna"
+      ],
+      "descricao": "Ovos selecionados direto do produtor, em bandejas e cestas. Entrega grátis na cidade.",
+      "bairro": "Chácaras",
+      "endereco": "Estrada do Sítio, km 3",
+      "horarios": {
+        "seg_sex": [
+          7,
+          18
+        ],
+        "sab": [
+          7,
+          13
+        ],
+        "dom": null
+      },
+      "telefone": "(19) 90000-1002",
+      "whatsapp": "5519900001002",
+      "plano": "destaque",
+      "nota": {
+        "media": 4.9,
+        "qtd": 128
+      },
+      "entrega": {
+        "tempo": "30 – 50 min",
+        "frete": 0
+      },
+      "retirada": true,
+      "orcamento": false,
+      "fotos": 10,
+      "ativo": true,
+      "ordem": 2,
+      "verificado": true,
+      "emergencia": false,
+      "redes": {
+        "instagram": ""
+      },
+      "localizacao": null,
+      "servicosDetalhados": [
+        {
+          "nome": "Ovos caipira",
+          "preco": ""
+        },
+        {
+          "nome": "Ovos brancos",
+          "preco": ""
+        },
+        {
+          "nome": "Cestas presente",
+          "preco": ""
+        },
+        {
+          "nome": "Ovos de codorna",
+          "preco": ""
+        }
+      ]
+    },
+    {
+      "id": "adega-vila-vinho",
+      "nome": "Adega Vila Vinho",
+      "categoria": "Alimentação",
+      "subcategoria": "Adegas",
+      "servicos": [
+        "Vinhos",
+        "Espumantes",
+        "Destilados",
+        "Kits presente"
+      ],
+      "descricao": "Seleção de vinhos, espumantes e destilados, com kits para presente e atendimento de quem entende.",
+      "bairro": "Jardim Primavera",
+      "endereco": "Rua dos Ipês, 12",
+      "horarios": {
+        "seg_sex": [
+          10,
+          20
+        ],
+        "sab": [
+          10,
+          21
+        ],
+        "dom": null
+      },
+      "telefone": "(19) 90000-1003",
+      "whatsapp": "5519900001003",
+      "plano": "destaque",
+      "nota": {
+        "media": 4.8,
+        "qtd": 41
+      },
+      "entrega": {
+        "tempo": "30 – 45 min",
+        "frete": 6
+      },
+      "retirada": true,
+      "orcamento": false,
+      "fotos": 10,
+      "ativo": true,
+      "ordem": 3,
+      "verificado": false,
+      "emergencia": false,
+      "redes": {
+        "instagram": ""
+      },
+      "localizacao": null,
+      "servicosDetalhados": [
+        {
+          "nome": "Vinhos",
+          "preco": ""
+        },
+        {
+          "nome": "Espumantes",
+          "preco": ""
+        },
+        {
+          "nome": "Destilados",
+          "preco": ""
+        },
+        {
+          "nome": "Kits presente",
+          "preco": ""
+        }
+      ]
+    },
+    {
+      "id": "moda-fina-boutique",
+      "nome": "Moda Fina Boutique",
+      "categoria": "Comércio",
+      "subcategoria": "Moda",
+      "servicos": [
+        "Vestidos",
+        "Blusas",
+        "Acessórios",
+        "Presentes"
+      ],
+      "descricao": "Moda feminina, acessórios e presentes com embalagem especial. Chegam novidades toda semana.",
+      "bairro": "Centro",
+      "endereco": "Rua Quinze, 150",
+      "horarios": {
+        "seg_sex": [
+          9,
+          18
+        ],
+        "sab": [
+          9,
+          14
+        ],
+        "dom": null
+      },
+      "telefone": "(19) 90000-1004",
+      "whatsapp": "5519900001004",
+      "plano": "destaque",
+      "nota": {
+        "media": 4.7,
+        "qtd": 52
+      },
+      "entrega": null,
+      "retirada": true,
+      "orcamento": false,
+      "fotos": 10,
+      "ativo": true,
+      "ordem": 4,
+      "verificado": false,
+      "emergencia": false,
+      "redes": {
+        "instagram": ""
+      },
+      "localizacao": null,
+      "servicosDetalhados": [
+        {
+          "nome": "Vestidos",
+          "preco": ""
+        },
+        {
+          "nome": "Blusas",
+          "preco": ""
+        },
+        {
+          "nome": "Acessórios",
+          "preco": ""
+        },
+        {
+          "nome": "Presentes",
+          "preco": ""
+        }
+      ]
+    },
+    {
+      "id": "serralheria-sao-jose",
+      "nome": "Serralheria São José",
+      "categoria": "Serviços",
+      "subcategoria": "Casa e obra",
+      "servicos": [
+        "Portões",
+        "Grades",
+        "Corrimãos",
+        "Estruturas metálicas"
+      ],
+      "descricao": "Portões, grades e estruturas metálicas sob medida, com visita técnica e orçamento sem compromisso.",
+      "bairro": "Atende a cidade toda",
+      "endereco": "—",
+      "horarios": {
+        "seg_sex": [
+          7,
+          17
+        ],
+        "sab": [
+          7,
+          12
+        ],
+        "dom": null
+      },
+      "telefone": "(19) 90000-1005",
+      "whatsapp": "5519900001005",
+      "plano": "premium",
+      "nota": {
+        "media": 4.8,
+        "qtd": 46
+      },
+      "entrega": null,
+      "retirada": false,
+      "orcamento": true,
+      "fotos": 10,
+      "ativo": true,
+      "ordem": 5,
+      "verificado": true,
+      "emergencia": false,
+      "redes": {
+        "instagram": ""
+      },
+      "localizacao": null,
+      "servicosDetalhados": [
+        {
+          "nome": "Portões",
+          "preco": ""
+        },
+        {
+          "nome": "Grades",
+          "preco": ""
+        },
+        {
+          "nome": "Corrimãos",
+          "preco": ""
+        },
+        {
+          "nome": "Estruturas metálicas",
+          "preco": ""
+        }
+      ]
+    },
+    {
+      "id": "salao-estilo-e-cia",
+      "nome": "Salão Estilo & Cia",
+      "categoria": "Serviços",
+      "subcategoria": "Beleza",
+      "servicos": [
+        "Corte",
+        "Coloração",
+        "Unhas",
+        "Maquiagem"
+      ],
+      "descricao": "Corte, coloração, escova, manicure e maquiagem para eventos. Agende pelo WhatsApp.",
+      "bairro": "Jardim Primavera",
+      "endereco": "Rua dos Ipês, 77",
+      "horarios": {
+        "seg_sex": [
+          9,
+          19
+        ],
+        "sab": [
+          8,
+          17
+        ],
+        "dom": null
+      },
+      "telefone": "(19) 90000-1006",
+      "whatsapp": "5519900001006",
+      "plano": "gratis",
+      "nota": {
+        "media": 4.9,
+        "qtd": 134
+      },
+      "entrega": null,
+      "retirada": false,
+      "orcamento": false,
+      "fotos": 3,
+      "ativo": true,
+      "ordem": 6,
+      "verificado": false,
+      "emergencia": false,
+      "redes": {
+        "instagram": ""
+      },
+      "localizacao": null,
+      "servicosDetalhados": [
+        {
+          "nome": "Corte",
+          "preco": ""
+        },
+        {
+          "nome": "Coloração",
+          "preco": ""
+        },
+        {
+          "nome": "Unhas",
+          "preco": ""
+        },
+        {
+          "nome": "Maquiagem",
+          "preco": ""
+        }
+      ]
+    },
+    {
+      "id": "drogaria-central",
+      "nome": "Drogaria Central",
+      "categoria": "Saúde",
+      "subcategoria": "Farmácias",
+      "servicos": [
+        "Medicamentos",
+        "Higiene",
+        "Atendimento de plantão"
+      ],
+      "servicosDetalhados": [
+        {
+          "nome": "Medicamentos",
+          "preco": "a partir de R$ 5,00"
+        },
+        {
+          "nome": "Higiene",
+          "preco": ""
+        }
+      ],
+      "descricao": "Atendimento de saúde e itens essenciais para resolver o que não pode esperar.",
+      "bairro": "Centro",
+      "endereco": "Rua José Ometto, 88",
+      "horarios": "24h",
+      "telefone": "(19) 90000-1007",
+      "whatsapp": "5519900001007",
+      "plano": "premium",
+      "nota": {
+        "media": 4.9,
+        "qtd": 87
+      },
+      "entrega": {
+        "tempo": "20 – 35 min",
+        "frete": 0
+      },
+      "retirada": true,
+      "orcamento": false,
+      "fotos": 10,
+      "ativo": true,
+      "ordem": 7,
+      "verificado": true,
+      "emergencia": true,
+      "redes": {
+        "instagram": "https://instagram.com/"
+      },
+      "localizacao": {
+        "lat": -22.581,
+        "lng": -47.519
+      }
+    },
+    {
+      "id": "pet-cia",
+      "nome": "Pet & Cia",
+      "categoria": "Pets",
+      "subcategoria": "Pet shops",
+      "servicos": [
+        "Banho e tosa",
+        "Ração",
+        "Acessórios"
+      ],
+      "servicosDetalhados": [
+        {
+          "nome": "Banho e tosa",
+          "preco": "a partir de R$ 45,00"
+        },
+        {
+          "nome": "Ração",
+          "preco": ""
+        }
+      ],
+      "descricao": "Tudo para cuidar de quem faz parte da família, com atendimento próximo e carinho.",
+      "bairro": "Jardim Primavera",
+      "endereco": "Av. Pedro Cosenza, 214",
+      "horarios": {
+        "seg_sex": [
+          9,
+          18
+        ],
+        "sab": [
+          9,
+          14
+        ],
+        "dom": null
+      },
+      "telefone": "(19) 90000-1008",
+      "whatsapp": "5519900001008",
+      "plano": "presenca",
+      "nota": {
+        "media": 4.8,
+        "qtd": 62
+      },
+      "entrega": null,
+      "retirada": true,
+      "orcamento": false,
+      "fotos": 3,
+      "ativo": true,
+      "ordem": 8,
+      "verificado": false,
+      "emergencia": false,
+      "redes": {
+        "instagram": "https://instagram.com/"
+      },
+      "localizacao": {
+        "lat": -22.579,
+        "lng": -47.516
+      }
+    },
+    {
+      "id": "festa-encanto",
+      "nome": "Festa Encanto",
+      "categoria": "Eventos",
+      "subcategoria": "Festas e decoração",
+      "servicos": [
+        "Decoração",
+        "Buffet",
+        "Festas infantis"
+      ],
+      "servicosDetalhados": [
+        {
+          "nome": "Decoração",
+          "preco": "a partir de R$ 350,00"
+        },
+        {
+          "nome": "Buffet",
+          "preco": "Sob consulta"
+        }
+      ],
+      "descricao": "Planejamento e decoração para aniversários, encontros e comemorações especiais.",
+      "bairro": "Parque Residencial",
+      "endereco": "Rua das Flores, 32",
+      "horarios": {
+        "seg_sex": [
+          9,
+          18
+        ],
+        "sab": [
+          9,
+          13
+        ],
+        "dom": null
+      },
+      "telefone": "(19) 90000-1009",
+      "whatsapp": "5519900001009",
+      "plano": "destaque",
+      "nota": {
+        "media": 5.0,
+        "qtd": 31
+      },
+      "entrega": null,
+      "retirada": false,
+      "orcamento": true,
+      "fotos": 6,
+      "ativo": true,
+      "ordem": 9,
+      "verificado": true,
+      "emergencia": false,
+      "redes": {
+        "instagram": "https://instagram.com/"
+      },
+      "localizacao": {
+        "lat": -22.584,
+        "lng": -47.521
+      }
+    }
+  ]
+}

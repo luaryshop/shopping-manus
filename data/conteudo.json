@@ -1,0 +1,90 @@
+{
+  "banners": [
+    {
+      "id": "banner-1",
+      "eyebrow": "VIVA A CIDADE",
+      "titulo": "O que você precisa resolver hoje?",
+      "texto": "Encontre quem atende perto de você, sem perder tempo.",
+      "cta": "Explorar agora",
+      "link": "#buscar",
+      "cor": "coral",
+      "ativo": true,
+      "ordem": 1
+    },
+    {
+      "id": "banner-2",
+      "eyebrow": "NEGÓCIO LOCAL",
+      "titulo": "Sua empresa merece ser encontrada",
+      "texto": "Apresente seu trabalho para toda Iracemápolis.",
+      "cta": "Cadastrar empresa",
+      "link": "#perfil",
+      "cor": "navy",
+      "ativo": true,
+      "ordem": 2
+    },
+    {
+      "id": "banner-3",
+      "eyebrow": "CONFIANÇA LOCAL",
+      "titulo": "Escolha quem a cidade recomenda",
+      "texto": "Perfis verificados, contatos diretos e informação clara.",
+      "cta": "Ver destaques",
+      "link": "#inicio",
+      "cor": "gold",
+      "ativo": true,
+      "ordem": 3
+    }
+  ],
+  "novidades": [
+    {
+      "id": "novidade-1",
+      "tag": "NA CIDADE",
+      "titulo": "Conheça quem faz acontecer por aqui",
+      "texto": "Descubra empresas locais, serviços confiáveis e novas opções para o seu dia.",
+      "data": "2026-11-01",
+      "ativo": true
+    },
+    {
+      "id": "novidade-2",
+      "tag": "GUIA RÁPIDO",
+      "titulo": "Salve seus lugares favoritos",
+      "texto": "Monte sua lista pessoal e encontre de novo em poucos toques.",
+      "data": "2026-10-26",
+      "ativo": true
+    },
+    {
+      "id": "novidade-3",
+      "tag": "PARA EMPRESAS",
+      "titulo": "Atualize seu perfil e apareça melhor",
+      "texto": "Horários, serviços e contatos completos aumentam a confiança de quem procura.",
+      "data": "2026-10-18",
+      "ativo": true
+    }
+  ],
+  "plantoes": [
+    {
+      "id": "plantao-1",
+      "titulo": "Ajuda urgente",
+      "texto": "Serviços com atendimento estendido ou plantão.",
+      "categoria": "Serviços",
+      "icon": "siren",
+      "ativo": true
+    },
+    {
+      "id": "plantao-2",
+      "titulo": "Saúde e farmácia",
+      "texto": "Encontre opções de saúde quando não dá para esperar.",
+      "categoria": "Saúde",
+      "icon": "heart-pulse",
+      "ativo": true
+    }
+  ],
+  "categorias": [],
+  "configuracoes": {
+    "cidadeTexto": "Iracemápolis, SP",
+    "instagram": "",
+    "facebook": "",
+    "tiktok": "",
+    "mapaLink": "",
+    "rodape": "Protótipo de demonstração: empresas, notas, telefones, endereços e fotos são exemplos fictícios."
+  }
+}

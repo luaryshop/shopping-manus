@@ -17,6 +17,14 @@ O painel `admin.html` foi redesenhado como uma central SaaS responsiva. Ele reú
 
 Os preços em `config.js` são somente referência visual no protótipo. Não existe cobrança automática.
 
+## Acesso ao painel administrativo
+
+O painel fica em `admin.html` e usa o Firebase Authentication. Ele não possui senha padrão nem cadastro público de administrador. Para testar sem senha, existe um botão **Entrar sem senha · modo local**, exibido somente quando o endereço for `localhost`, `127.0.0.1` ou `::1`. Nesse modo, o Firebase não autentica o acesso: os dados editados ficam no navegador e o botão nunca aparece em um domínio publicado. No Firebase Console do projeto configurado em `config.js`, abra **Authentication → Sign-in method**, ative **Email/Password** e depois abra **Users → Add user** para criar o e-mail e a senha que serão usados no painel.
+
+Não abra `admin.html` por duplo clique (`file://`), porque os módulos JavaScript e o Firebase podem ser bloqueados pelo navegador. Rode `python3 -m http.server 8080` na pasta do projeto e acesse `http://localhost:8080/admin.html`.
+
+Se aparecer “Usuário não encontrado”, o usuário ainda não foi criado no Authentication. Se aparecer “login por e-mail ainda não foi ativado”, ative o provedor Email/Password.
+
 ## Testar localmente
 
 Na pasta que contém `index.html`:
