@@ -202,7 +202,36 @@ main{min-height:calc(100vh - var(--header-h))}
 .card-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
 .btn{min-height:37px;min-width:0;display:inline-flex;align-items:center;justify-content:center;gap:6px;border-radius:11px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-weight:800;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .btn .ico{width:15px;height:15px}
-.btn-wa{background:var(--green);border-color:var(--green);color:#fff}
+/* Botão WhatsApp (Verde) */
+.btn-wa {
+  background: var(--green);
+  border-color: var(--green);
+  color: #ffffff !important;
+}
+
+/* Botão Ligar (Azul) - Ajustado para Modo Claro e Escuro */
+[data-track="ligar"] {
+  background: #1e40af;
+  border-color: #1e40af;
+  color: #ffffff !important;
+}
+:root[data-theme=dark] [data-track="ligar"] {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff !important;
+}
+
+/* Botão Compartilhar (Roxo) - Ajustado para Modo Claro e Escuro */
+#share-company {
+  background: #6b21a8;
+  border-color: #6b21a8;
+  color: #ffffff !important;
+}
+:root[data-theme=dark] #share-company {
+  background: #7c3aed;
+  border-color: #7c3aed;
+  color: #ffffff !important;
+}
 
 .open-status{display:inline-flex;align-items:center;gap:5px;margin-top:8px;font-size:11px;font-weight:800;color:var(--green)}
 .open-status.closed{color:var(--muted)}
