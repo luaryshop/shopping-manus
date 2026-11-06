@@ -30,7 +30,7 @@
     match /ira_contatos/{id} {
       // Visitantes podem registrar somente um evento de clique; só o administrador lê.
       allow create: if request.resource.data.keys().hasOnly(['negocioId','tipo','origem','criadoEm'])
-                    && request.resource.data.tipo in ['whatsapp','ligar']
+                    && request.resource.data.tipo in ['whatsapp','ligar','instagram','facebook']
                     && request.resource.data.negocioId is string && request.resource.data.negocioId.size() < 80
                     && request.resource.data.origem is string && request.resource.data.origem.size() < 40
                     && request.resource.data.criadoEm == request.time;
@@ -39,11 +39,16 @@
     }
     match /ira_cadastros/{id} {
       // O formulário público cria pedido pendente; o painel administrativo decide o que fazer.
-      allow create: if request.resource.data.keys().hasOnly(['nome','categoria','whatsapp','status','criadoEm'])
+      allow create: if request.resource.data.keys().hasOnly(['nome','categoria','whatsapp','plano','status','criadoEm'])
                     && request.resource.data.nome is string && request.resource.data.nome.size() > 1 && request.resource.data.nome.size() <= 80
                     && request.resource.data.categoria is string && request.resource.data.categoria.size() <= 40
                     && request.resource.data.whatsapp is string && request.resource.data.whatsapp.size() <= 25
+                    && (!('plano' in request.resource.data) || request.resource.data.plano in ['gratis','presenca','destaque','premium'])
                     && request.resource.data.status == 'novo'
                     && request.resource.data.criadoEm == request.time;
       allow read, update, delete: if isAdmin();
+    }
+    match /ira_mensagens/{id} {
+      // Textos de venda/atendimento: só o administrador lê e edita.
+      allow read, write: if isAdmin();
     }

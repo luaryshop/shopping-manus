@@ -306,6 +306,30 @@ main{min-height:calc(100vh - var(--header-h))}
 .notice{margin-bottom:14px;padding:11px;border-radius:12px}
 .notice.ok{background:color-mix(in srgb,var(--green) 12%,transparent);color:var(--green)}
 .notice.err{background:color-mix(in srgb,var(--coral) 12%,transparent);color:var(--coral)}
+
+/* --- Cadastro com escolha de plano --- */
+.plan-picker{border:0;margin:0 0 12px;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.plan-picker legend{font-weight:700;font-size:13px;margin-bottom:8px;padding:0}
+.form-card .plan-opt{display:flex;align-items:center;gap:9px;margin:0;padding:11px 12px;border:1px solid var(--line);border-radius:14px;background:var(--bg);cursor:pointer;font-weight:600}
+.form-card .plan-opt input{width:auto;padding:0;margin:0;accent-color:var(--coral)}
+.plan-opt span{display:grid;line-height:1.25}.plan-opt small{color:var(--muted);font-weight:600;font-size:11px}
+.plan-opt.on{border-color:var(--coral);background:color-mix(in srgb,var(--coral) 8%,var(--bg))}
+.plan-benefits{border:1px solid var(--line);border-radius:16px;padding:14px 15px;margin-bottom:14px;background:color-mix(in srgb,var(--coral) 5%,var(--surface))}
+.plan-benefits h4{margin:0 0 8px;font:700 21px/1 var(--display)}
+.plan-benefits ul{list-style:none;margin:0 0 10px;padding:0;display:grid;gap:6px}
+.plan-benefits li{display:flex;gap:8px;align-items:flex-start;font-size:13px}
+.plan-benefits li .ico{width:16px;height:16px;flex:none;color:var(--green);margin-top:2px}
+.plan-benefits .upsell{font-size:12px;color:var(--muted);border-top:1px dashed var(--line);padding-top:9px;margin:0}
+.plan-benefits .upsell b{color:var(--coral)}
+button.plan-mini{text-align:left;font:inherit;color:inherit;cursor:pointer;width:100%}
+.plan-mini.on{border-color:var(--coral);box-shadow:0 0 0 3px color-mix(in srgb,var(--coral) 16%,transparent)}
+/* --- Botões de redes sociais (plano Premium) --- */
+.social-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:12px}
+.social-btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:46px;border-radius:13px;color:#fff;font-weight:800;font-size:13px}
+.social-btn .ico{width:18px;height:18px}
+.social-btn.ig{background:linear-gradient(135deg,#7a3fc0,#d6366f 55%,#f08a3c)}
+.social-btn.fb{background:#1877f2}
+@media(max-width:560px){.plan-picker{grid-template-columns:1fr 1fr}}
 .plans-mini{display:grid;gap:10px;align-content:start}
 .plan-mini{border:1px solid var(--line);border-radius:18px;background:var(--surface);padding:16px}
 .plan-mini h3{margin:0;font:700 23px/1 var(--display)}
@@ -523,7 +547,7 @@ footer a{color:var(--coral);font-weight:700}
 
 <script type="module">
 import { carregarNegocios, carregarConteudo, registrarContato, urlFoto, enviarCadastro } from './ira-data.js';
-import { BRAND, CATEGORIAS, INTENCOES, PLANOS } from './config.js';
+import { BRAND, CATEGORIAS, INTENCOES, PLANOS, MENSAGENS_CLIENTE_PADRAO, preencherMensagem } from './config.js';
 
 /* ==========================================================================
    ÍCONES
@@ -552,6 +576,8 @@ const PATHS = {
   check:'<path d="m5 12 4 4L19 6"/>',
   route:'<path d="M5 19h14M7 16l5-5 5 5M12 11V4M9 7l3-3 3 3"/><circle cx="5" cy="19" r="1.5"/><circle cx="19" cy="19" r="1.5"/>',
   waze:'<path d="M12 3a7 7 0 0 0-7 7c0 4 3 5 3 8h8c0-3 3-4 3-8a7 7 0 0 0-7-7Z"/><path d="M9 14h6M10 18h4M9.5 9.5h.01M14.5 9.5h.01"/>',
+  instagram:'<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/>',
+  facebook:'<path d="M15 3h-2.5A4.5 4.5 0 0 0 8 7.5V10H5v4h3v7h4v-7h3l1-4h-4V7.5c0-.3.2-.5.5-.5H15V3Z"/>',
   x:'<path d="m6 6 12 12M18 6 6 18"/>',
   'chev-l':'<path d="m15 18-6-6 6-6"/>',
   'chev-r':'<path d="m9 18 6-6-6-6"/>'
@@ -596,8 +622,13 @@ function status(e, now = new Date()) {
 }
 
 const fullAddress = (e) => `${e.end}, ${e.bairro}, ${BRAND.city}-${BRAND.uf}`;
+const clientMessage = (e) => {
+  const cfg = CONTENT.configuracoes || {};
+  const modelo = cfg.mensagensCliente?.[e.plan] || MENSAGENS_CLIENTE_PADRAO[e.plan] || BRAND.whatsappMessage;
+  return preencherMensagem(modelo, { empresa: e.name, marca: cfg.brand || BRAND.name, cidade: BRAND.city });
+};
 const links = {
-  wa:   (e) => `https://wa.me/${digits(e.wa)}?text=${encodeURIComponent(`${BRAND.whatsappMessage}${e.orc ? ' Gostaria de um orçamento.' : ''}`)}`,
+  wa:   (e) => `https://wa.me/${digits(e.wa)}?text=${encodeURIComponent(`${clientMessage(e)}${e.orc ? ' Gostaria de um orçamento.' : ''}`)}`,
   tel:  (e) => `tel:${digits(e.phone)}`,
   maps: (e) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress(e))}`,
   waze: (e) => `https://www.waze.com/ul?q=${encodeURIComponent(fullAddress(e))}&navigate=yes`
@@ -610,7 +641,7 @@ let COMPANIES = [];
 let CONTENT = { novidades: [], plantoes: [], configuracoes: {} };
 let current = null, galleryIndex = 0, lastFocus = null;
 
-const state = { view: 'inicio', q: '', cat: '', intent: '', sent: false, error: false, favs: new Set() };
+const state = { plano: 'gratis', view: 'inicio', q: '', cat: '', intent: '', sent: false, error: false, favs: new Set() };
 try { state.favs = new Set(JSON.parse(store.get('favs', '[]'))); } catch {}
 const saveFavs = () => store.set('favs', JSON.stringify([...state.favs]));
 
@@ -832,6 +863,24 @@ function favoritesView() {
   </section>`;
 }
 
+function planBenefitsHTML(id) {
+  const p = PLANOS[id] || PLANOS.gratis;
+  const next = PLANOS[p.proximo];
+  return `<h4>${esc(p.label)} · ${p.price ? `${brl(p.price)}/mês` : 'Gratuito'}</h4>
+    <ul>${p.benefits.map((b) => `<li>${icon('check')}<span>${esc(b)}</span></li>`).join('')}</ul>
+    ${next ? `<p class="upsell">Quer ir além? No <b>${esc(next.label)}</b> você ganha: ${esc(next.novidades.join(', '))}.</p>` : '<p class="upsell">Este é o plano mais completo do guia.</p>'}
+    ${p.price ? '<p class="upsell">Nossa equipe fala com você no WhatsApp para confirmar o plano antes de ativar.</p>' : ''}`;
+}
+
+function selectPlan(id) {
+  if (!PLANOS[id]) return;
+  state.plano = id;
+  $$('input[name="r-plano"]').forEach((input) => { input.checked = input.value === id; input.closest('.plan-opt')?.classList.toggle('on', input.value === id); });
+  $$('.plan-mini').forEach((card) => { const on = card.dataset.plano === id; card.classList.toggle('on', on); card.setAttribute('aria-pressed', on); });
+  const box = $('#plan-benefits');
+  if (box) box.innerHTML = planBenefitsHTML(id);
+}
+
 function profileView() {
   return `${globalSearch()}
   <section class="section" style="padding-top:26px">
@@ -841,14 +890,18 @@ function profileView() {
       <form class="form-card" id="reg" novalidate>
         <div id="form-msg" role="status">
           ${state.error ? '<div class="notice err">Não foi possível enviar agora. Tente novamente em instantes.</div>' : ''}
-          ${state.sent ? '<div class="notice ok">Cadastro recebido. Vamos confirmar o WhatsApp e publicar seu perfil em até 1 dia útil.</div>' : ''}
+          ${state.sent ? `<div class="notice ok">Cadastro recebido (plano ${esc(PLANOS[state.planoEnviado]?.label || 'Gratuito')}). Vamos confirmar o WhatsApp e publicar seu perfil em até 1 dia útil.</div>` : ''}
         </div>
         <label>Nome da empresa<input id="r-n" required maxlength="80" placeholder="Ex.: Padaria Pão de Praça"></label>
         <label>Categoria<select id="r-c">${CATEGORIAS.map((c) => `<option>${esc(c.nome)}</option>`).join('')}</select></label>
         <label>WhatsApp<input id="r-w" required inputmode="tel" maxlength="25" placeholder="(19) 9 0000-0000"></label>
+        <fieldset class="plan-picker"><legend>Escolha seu plano</legend>
+          ${Object.entries(PLANOS).map(([id, p]) => `<label class="plan-opt ${state.plano === id ? 'on' : ''}"><input type="radio" name="r-plano" value="${id}" ${state.plano === id ? 'checked' : ''}><span>${esc(p.label)}<small>${p.price ? `${brl(p.price)}/mês` : 'Gratuito'}</small></span></label>`).join('')}
+        </fieldset>
+        <div id="plan-benefits" class="plan-benefits" aria-live="polite">${planBenefitsHTML(state.plano)}</div>
         <button type="submit">Enviar cadastro →</button>
       </form>
-      <div class="plans-mini">${Object.values(PLANOS).map((p) => `<article class="plan-mini"><h3>${esc(p.label)}</h3><strong>${p.price ? `a partir de ${brl(p.price)}/mês` : 'Gratuito'}</strong><p>${esc(p.description)}</p></article>`).join('')}</div>
+      <div class="plans-mini">${Object.entries(PLANOS).map(([id, p]) => `<button type="button" class="plan-mini ${state.plano === id ? 'on' : ''}" data-plano="${id}" aria-pressed="${state.plano === id}"><h3>${esc(p.label)}</h3><strong>${p.price ? `${brl(p.price)}/mês` : 'Gratuito'}</strong><p>${esc(p.description)}</p></button>`).join('')}</div>
     </div>
   </section>`;
 }
@@ -904,9 +957,12 @@ function sheetHTML(e) {
           <div class="links">
             <a target="_blank" rel="noopener" href="${links.maps(e)}">${icon('route')}<span>Como chegar</span></a>
             <a class="waze-link" target="_blank" rel="noopener" href="${links.waze(e)}">${icon('waze')}<span>Waze</span></a>
-            ${e.social?.instagram ? `<a target="_blank" rel="noopener" href="${esc(e.social.instagram)}">Instagram</a>` : ''}
           </div>
         </div>
+        ${(e.social?.instagram || e.social?.facebook) ? `<div class="detail-block"><h3>Siga a empresa</h3><div class="social-row">
+          ${e.social.instagram ? `<a class="social-btn ig" data-track="instagram" data-id="${esc(e.id)}" data-origin="public-modal" target="_blank" rel="noopener noreferrer" href="${esc(e.social.instagram)}">${icon('instagram')}<span>Instagram</span></a>` : ''}
+          ${e.social.facebook ? `<a class="social-btn fb" data-track="facebook" data-id="${esc(e.id)}" data-origin="public-modal" target="_blank" rel="noopener noreferrer" href="${esc(e.social.facebook)}">${icon('facebook')}<span>Facebook</span></a>` : ''}
+        </div></div>` : ''}
         <div class="detail-block"><h3>Horários</h3><div class="hours">${hoursRows(e)}</div></div>
       </div>
     </div>
@@ -1071,10 +1127,19 @@ document.addEventListener('keydown', (event) => {
   else if (event.key === 'Tab') trapFocus(event);
 });
 
+document.addEventListener('change', (event) => {
+  if (event.target.name === 'r-plano') selectPlan(event.target.value);
+});
+document.addEventListener('click', (event) => {
+  const card = event.target.closest('[data-plano]');
+  if (card) selectPlan(card.dataset.plano);
+});
+
 document.addEventListener('submit', async (event) => {
   if (event.target.id !== 'reg') return;
   event.preventDefault();
   const nome = $('#r-n').value.trim(), whatsapp = $('#r-w').value.trim(), categoria = $('#r-c').value;
+  const plano = $('input[name="r-plano"]:checked')?.value || state.plano || 'gratis';
   const msg = $('#form-msg');
   if (!nome || digits(whatsapp).length < 10) {
     msg.innerHTML = '<div class="notice err">Informe o nome da empresa e um WhatsApp com DDD.</div>';
@@ -1082,7 +1147,7 @@ document.addEventListener('submit', async (event) => {
   }
   const button = event.target.querySelector('button[type=submit]');
   button.disabled = true;
-  try { await enviarCadastro({ nome, categoria, whatsapp }); state.sent = true; state.error = false; }
+  try { await enviarCadastro({ nome, categoria, whatsapp, plano }); state.sent = true; state.error = false; state.planoEnviado = plano; }
   catch { state.sent = false; state.error = true; }
   render();
 });

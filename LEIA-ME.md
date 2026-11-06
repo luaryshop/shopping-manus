@@ -8,14 +8,30 @@ A página pública agora começa pelo problema do morador: busca ampla, sugestõ
 
 O painel `admin.html` foi redesenhado como uma central SaaS responsiva. Ele reúne visão geral, empresas, planos, cadastros, contatos, banners editáveis, novidades, plantões e configurações. O gerenciamento de fotos via GitHub continua disponível dentro do editor de empresa, com token mantido apenas em memória.
 
-## Planos atuais
+## Planos — escada de upgrade (Gratuito → Premium)
 
-- **Gratuito:** nome, categoria, endereço, telefone, horário e 1 foto.
-- **Presença:** descrição, serviços, WhatsApp, redes sociais e até 3 fotos.
-- **Destaque:** prioridade nas listas, selo Verificado, até 6 fotos e métricas básicas.
-- **Premium:** prioridade na home, até 10 fotos, relatório avançado e participação em banners/novidades.
+| Degrau | Preço ref. | O que a empresa GANHA ao subir |
+|---|---|---|
+| 1. **Gratuito** | R$ 0 | Nome, categoria, endereço, telefone, horário e 1 foto |
+| 2. **Presença** | R$ 39 | Descrição e serviços, botão de WhatsApp, retirada/entrega/orçamento, até 3 fotos |
+| 3. **Destaque** | R$ 79 | Prioridade nas listas, selo Verificado, métricas básicas de contatos, até 6 fotos |
+| 4. **Premium** | R$ 149 | **Botões de Instagram e Facebook**, prioridade na home, banners e novidades, relatório avançado, até 10 fotos |
 
-Os preços em `config.js` são somente referência visual no protótipo. Não existe cobrança automática.
+Tudo é definido em `config.js` (`PLANOS` + `FEATURES`). O app aplica sozinho: o **limite de fotos** e os **botões de Instagram/Facebook (só Premium)**. Os demais recursos são política comercial documentada na matriz do painel. Os preços são só referência; não existe cobrança automática.
+
+## Novidades desta versão
+
+- **Cadastro com plano:** o formulário público tem seletor de plano e um painel que mostra os benefícios do plano escolhido (e o que o próximo degrau oferece). O plano escolhido é gravado em `ira_cadastros.plano`.
+- **Botões Instagram e Facebook (Premium):** aparecem na ficha da empresa em "Siga a empresa". Cliques são contabilizados (`instagram` / `facebook`) e aparecem na aba Contatos. Empresas de outros planos não exibem os botões, mesmo que tenham links salvos.
+- **Aba "Planos e upgrade":** escada de upgrade, receita mensal estimada, planos vencidos, oportunidades de upgrade (empresas fora do Premium, por contatos) e matriz de recursos.
+- **Aba "Mensagens prontas":** 12 textos de WhatsApp (3 por plano: boas-vindas, convite de upgrade, renovação) editáveis, com variáveis (`{nome}`, `{plano}`, `{preco}`, `{proximo}`, `{ganhos}`, `{validade}`…), prévia com dados de uma empresa real, botão Copiar e Abrir no WhatsApp. Também há o botão **Mensagem** nas abas Empresas e Cadastros.
+- **Mensagem que o cliente envia à empresa:** o texto que já vem preenchido no WhatsApp quando o cliente toca em "WhatsApp" agora é por plano, com o nome da empresa (`{empresa}`, `{marca}`, `{cidade}`). Edite na aba Mensagens prontas.
+- **Aprovar cadastro** agora abre o editor já preenchido (o plano começa como Gratuito; ative o plano pago depois de confirmar com a empresa). Ao escolher um plano pago, a validade é sugerida em 30 dias.
+- **Mensagem de WhatsApp do app:** a mensagem definida em Configurações agora é realmente usada na página pública, e as configurações são gravadas também no Firestore.
+
+## Regras do Firestore
+
+Atualize as regras com o arquivo `firestore.rules.ira-ADICIONAR.txt`: ele passou a aceitar o campo `plano` nos cadastros, os tipos de clique `instagram` e `facebook`, e criou a coleção `ira_mensagens` (somente administrador).
 
 ## Acesso ao painel administrativo
 

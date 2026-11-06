@@ -42,40 +42,126 @@ export const INTENCOES = [
   { id: "perto", label: "Perto de mim", icon: "pin" }
 ];
 
+// ---------------------------------------------------------------------------
+// PLANOS — escada de upgrade: Gratuito → Presença → Destaque → Premium
+// Cada plano tem:
+//   benefits   → lista completa mostrada no cadastro e no painel
+//   novidades  → o que a empresa GANHA ao subir para este plano (usado nas mensagens de upgrade)
+//   proximo    → próximo degrau da escada (null no último)
+//   features   → recursos ligados/desligados (matriz do painel). Hoje o app aplica na tela:
+//                fotos (limite) e social (botões de Instagram/Facebook, só Premium).
+// ---------------------------------------------------------------------------
+export const FEATURES = [
+  { id: "basico", label: "Nome, categoria, endereço, telefone e horário" },
+  { id: "descricao", label: "Descrição e serviços" },
+  { id: "whatsapp", label: "Botão de WhatsApp" },
+  { id: "entrega", label: "Retirada / entrega / orçamento" },
+  { id: "selo", label: "Selo Verificado" },
+  { id: "prioridadeListas", label: "Prioridade nas listas" },
+  { id: "metricas", label: "Métricas básicas de contatos" },
+  { id: "social", label: "Botões de Instagram e Facebook" },
+  { id: "prioridadeHome", label: "Prioridade na home" },
+  { id: "banners", label: "Participação em banners e novidades" },
+  { id: "relatorio", label: "Relatório avançado" }
+];
+
 export const PLANOS = {
   gratis: {
     label: "Gratuito",
     price: 0,
     color: "slate",
     photos: 1,
+    proximo: "presenca",
     description: "O essencial para ser encontrado.",
-    benefits: ["Nome, categoria e endereço", "Telefone e horário", "1 foto"]
+    benefits: ["Nome, categoria e endereço", "Telefone e horário", "1 foto"],
+    novidades: [],
+    features: { basico: true }
   },
   presenca: {
     label: "Presença",
     price: 39,
     color: "blue",
     photos: 3,
+    proximo: "destaque",
     description: "Mais informação para gerar confiança.",
-    benefits: ["Tudo do Gratuito", "Descrição e serviços", "WhatsApp e redes sociais", "Até 3 fotos"]
+    benefits: ["Tudo do Gratuito", "Descrição e serviços", "Botão de WhatsApp", "Retirada, entrega e orçamento", "Até 3 fotos"],
+    novidades: ["descrição e serviços", "botão de WhatsApp", "retirada/entrega", "até 3 fotos"],
+    features: { basico: true, descricao: true, whatsapp: true, entrega: true }
   },
   destaque: {
     label: "Destaque",
     price: 79,
     color: "coral",
     photos: 6,
+    proximo: "premium",
     description: "Mais visibilidade e mais contatos.",
-    benefits: ["Tudo do Presença", "Prioridade nas listas", "Selo Verificado", "Até 6 fotos", "Métricas básicas"]
+    benefits: ["Tudo do Presença", "Prioridade nas listas", "Selo Verificado", "Métricas básicas de contatos", "Até 6 fotos"],
+    novidades: ["prioridade nas listas", "selo Verificado", "métricas de contatos", "até 6 fotos"],
+    features: { basico: true, descricao: true, whatsapp: true, entrega: true, selo: true, prioridadeListas: true, metricas: true }
   },
   premium: {
     label: "Premium",
     price: 149,
     color: "gold",
     photos: 10,
+    proximo: null,
     description: "A vitrine completa da sua empresa.",
-    benefits: ["Tudo do Destaque", "Prioridade na home", "Até 10 fotos", "Relatório avançado", "Participação em banners"]
+    benefits: ["Tudo do Destaque", "Botões de Instagram e Facebook", "Prioridade na home", "Participação em banners e novidades", "Relatório avançado", "Até 10 fotos"],
+    novidades: ["botões de Instagram e Facebook", "prioridade na home", "banners e novidades", "relatório avançado", "até 10 fotos"],
+    features: { basico: true, descricao: true, whatsapp: true, entrega: true, selo: true, prioridadeListas: true, metricas: true, social: true, prioridadeHome: true, banners: true, relatorio: true }
   }
 };
+
+export const planoTem = (plano, recurso) => !!(PLANOS[plano] || PLANOS.gratis).features?.[recurso];
+export const ORDEM_PLANOS = ["gratis", "presenca", "destaque", "premium"];
+
+// ---------------------------------------------------------------------------
+// MENSAGENS PRONTAS (WhatsApp) para o administrador enviar às empresas.
+// Variáveis: {nome} {plano} {preco} {proximo} {proximoPreco} {ganhos}
+//            {beneficios} {validade} {marca} {cidade}
+// O painel permite editar e salvar estes textos (aba "Mensagens").
+// ---------------------------------------------------------------------------
+export const TIPOS_MENSAGEM = [
+  { id: "boasVindas", label: "Boas-vindas", hint: "Depois de aprovar o cadastro ou ativar o plano." },
+  { id: "upgrade", label: "Convite de upgrade", hint: "Para oferecer o próximo degrau da escada." },
+  { id: "renovacao", label: "Renovação / lembrete", hint: "Perto do vencimento ou para pedir atualização." }
+];
+
+export const MENSAGENS_PADRAO = {
+  gratis: {
+    boasVindas: "Olá, {nome}! 👋 Seu perfil gratuito já está no {marca}, o guia de {cidade}. Quem procura por vocês já encontra endereço, telefone e horário. Quando quiser mostrar mais (descrição, serviços, WhatsApp e mais fotos), é só me chamar que eu explico o plano Presença.",
+    upgrade: "Olá, {nome}! Seu perfil no {marca} está no plano Gratuito. Com o plano {proximo} ({proximoPreco}) vocês passam a ter: {ganhos}. Quer que eu ative para vocês?",
+    renovacao: "Olá, {nome}! Passando para conferir se endereço, telefone e horário do seu perfil no {marca} continuam corretos. Se algo mudou, me envie por aqui que eu atualizo."
+  },
+  presenca: {
+    boasVindas: "Olá, {nome}! 🎉 Seu plano {plano} está ativo no {marca}. Agora seu perfil mostra descrição, serviços, botão de WhatsApp e até 3 fotos. Me envie as fotos e o texto que você quer destacar que eu publico.",
+    upgrade: "Olá, {nome}! Vi que seu perfil no {marca} está no plano {plano}. Com o {proximo} ({proximoPreco}) vocês ganham: {ganhos}. Isso coloca sua empresa na frente de quem está procurando agora. Posso ativar?",
+    renovacao: "Olá, {nome}! Seu plano {plano} no {marca} vence em {validade}. Para continuar com {beneficios}, é só confirmar a renovação ({preco}). Posso renovar para vocês?"
+  },
+  destaque: {
+    boasVindas: "Olá, {nome}! 🚀 Seu plano {plano} está ativo no {marca}. Sua empresa agora tem prioridade nas listas, selo Verificado, até 6 fotos e métricas de contatos. Me envie fotos novas e o que vocês querem destacar neste mês.",
+    upgrade: "Olá, {nome}! Seu perfil no {marca} está indo bem no plano {plano}. Com o {proximo} ({proximoPreco}) vocês ganham: {ganhos}. Seus clientes passam a chamar direto pelo Instagram e Facebook também. Quer conhecer?",
+    renovacao: "Olá, {nome}! Seu plano {plano} no {marca} vence em {validade}. Renovando ({preco}), vocês mantêm {beneficios}. Posso renovar?"
+  },
+  premium: {
+    boasVindas: "Olá, {nome}! 🌟 Seu plano {plano} está ativo no {marca}. Para ativar os botões de Instagram e Facebook no seu perfil, me envie os links das duas páginas. Também posso criar uma novidade na home para divulgar vocês.",
+    upgrade: "Olá, {nome}! Dica para aproveitar o plano {plano} no {marca}: mantenha os links do Instagram e Facebook atualizados, envie fotos novas todo mês e me avise de promoções para eu publicar como novidade ou banner na home.",
+    renovacao: "Olá, {nome}! Seu plano {plano} no {marca} vence em {validade}. Renovando ({preco}), vocês mantêm {beneficios}. Posso renovar?"
+  }
+};
+
+// Mensagem que já vai preenchida no WhatsApp quando o CLIENTE clica em "WhatsApp" na empresa.
+// Variáveis: {empresa} {marca} {cidade}. Editável no painel (aba Mensagens prontas).
+export const MENSAGENS_CLIENTE_PADRAO = {
+  gratis: "Olá! Vi o {empresa} no {marca} e gostaria de mais informações.",
+  presenca: "Olá! Encontrei o {empresa} no {marca}. Vocês podem me atender?",
+  destaque: "Olá! Vi o {empresa} em destaque no {marca}, em {cidade}. Gostaria de saber mais sobre os serviços e valores.",
+  premium: "Olá! Vi o {empresa} no {marca} e gostei do que vocês oferecem. Podem me passar mais informações e valores?"
+};
+
+export function preencherMensagem(texto = "", vars = {}) {
+  return String(texto).replace(/\{(\w+)\}/g, (match, chave) => (vars[chave] ?? match));
+}
 
 export const COLECOES = {
   negocios: "ira_negocios",
@@ -85,7 +171,8 @@ export const COLECOES = {
   banners: "ira_banners",
   novidades: "ira_novidades",
   plantoes: "ira_plantoes",
-  configuracoes: "ira_configuracoes"
+  configuracoes: "ira_configuracoes",
+  mensagens: "ira_mensagens"
 };
 
 export const IMAGE_BASE = "images/";

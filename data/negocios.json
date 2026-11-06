@@ -74,7 +74,8 @@
       "verificado": true,
       "emergencia": false,
       "redes": {
-        "instagram": ""
+        "instagram": "",
+        "facebook": ""
       },
       "localizacao": null,
       "servicosDetalhados": [
@@ -140,7 +141,8 @@
       "verificado": true,
       "emergencia": false,
       "redes": {
-        "instagram": ""
+        "instagram": "",
+        "facebook": ""
       },
       "localizacao": null,
       "servicosDetalhados": [
@@ -206,7 +208,8 @@
       "verificado": false,
       "emergencia": false,
       "redes": {
-        "instagram": ""
+        "instagram": "",
+        "facebook": ""
       },
       "localizacao": null,
       "servicosDetalhados": [
@@ -269,7 +272,8 @@
       "verificado": false,
       "emergencia": false,
       "redes": {
-        "instagram": ""
+        "instagram": "",
+        "facebook": ""
       },
       "localizacao": null,
       "servicosDetalhados": [
@@ -332,7 +336,8 @@
       "verificado": true,
       "emergencia": false,
       "redes": {
-        "instagram": ""
+        "instagram": "",
+        "facebook": ""
       },
       "localizacao": null,
       "servicosDetalhados": [
@@ -395,7 +400,8 @@
       "verificado": false,
       "emergencia": false,
       "redes": {
-        "instagram": ""
+        "instagram": "",
+        "facebook": ""
       },
       "localizacao": null,
       "servicosDetalhados": [
@@ -460,7 +466,8 @@
       "verificado": true,
       "emergencia": true,
       "redes": {
-        "instagram": "https://instagram.com/"
+        "instagram": "https://instagram.com/",
+        "facebook": ""
       },
       "localizacao": {
         "lat": -22.581,
@@ -517,7 +524,8 @@
       "verificado": false,
       "emergencia": false,
       "redes": {
-        "instagram": "https://instagram.com/"
+        "instagram": "https://instagram.com/",
+        "facebook": ""
       },
       "localizacao": {
         "lat": -22.579,
@@ -574,7 +582,8 @@
       "verificado": true,
       "emergencia": false,
       "redes": {
-        "instagram": "https://instagram.com/"
+        "instagram": "https://instagram.com/",
+        "facebook": ""
       },
       "localizacao": {
         "lat": -22.584,

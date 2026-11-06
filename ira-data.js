@@ -1,6 +1,6 @@
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getFirestore, collection, getDocs, addDoc, serverTimestamp, doc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-import { firebaseConfig, COLECOES, IMAGE_BASE, PLANOS, CATEGORIAS, BRAND } from "./config.js";
+import { firebaseConfig, COLECOES, IMAGE_BASE, PLANOS, CATEGORIAS, BRAND, planoTem } from "./config.js";
 
 export const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 export const db = getFirestore(app);
@@ -25,6 +25,7 @@ const categoryMap = new Map([
 ]);
 const categoryId = (value = "") => categoryMap.get(String(value).toLowerCase()) || String(value).toLowerCase().replace(/\s+/g, "-");
 const categoryName = (value = "") => CATEGORIAS.find((item) => item.id === categoryId(value))?.nome || value || "Serviços";
+const safeUrl = (value = "") => { const v = String(value || "").trim(); return /^https?:\/\//i.test(v) ? v : ""; };
 const asArray = (value) => Array.isArray(value) ? value : value ? String(value).split(",").map((item) => item.trim()).filter(Boolean) : [];
 
 export function normalizar(n, i = 0, hoje = new Date()) {
@@ -62,7 +63,10 @@ export function normalizar(n, i = 0, hoje = new Date()) {
     ordem: n.ordem ?? i,
     verified: !!(n.verificado || n.verified),
     emergency: !!(n.emergencia || n.emergency),
-    social: n.redes || n.social || {},
+    // Botões de Instagram/Facebook só existem a partir do plano Premium (config.js → features.social).
+    social: planoTem(plano, "social")
+      ? { instagram: safeUrl((n.redes || n.social || {}).instagram), facebook: safeUrl((n.redes || n.social || {}).facebook) }
+      : {},
     location: n.localizacao || n.location || null,
     createdAt: n.createdAt || null,
     i
@@ -87,6 +91,12 @@ export async function carregarNegocios() {
   return { lista, fonte, raw: docs };
 }
 
+// A configuração local pode estar salva como objeto (salvarConteudoLocal) ou como lista de documentos (gravarDocumento).
+const configLocal = () => {
+  const valor = readLocal("configuracoes", {});
+  return Array.isArray(valor) ? (valor.find((item) => item.id === "geral") || {}) : valor;
+};
+
 export async function carregarConteudo() {
   const fallback = { banners: [], novidades: [], plantoes: [], categorias: CATEGORIAS, configuracoes: {} };
   try {
@@ -105,7 +115,13 @@ export async function carregarConteudo() {
     }
   }
   result.categorias = fallback.categorias;
-  result.configuracoes = { ...fallback.configuracoes, ...readLocal("configuracoes", {}) };
+  let remoto = {};
+  try {
+    const snap = await timeout(getDocs(collection(db, COLECOES.configuracoes)), 2500);
+    const geral = snap.docs.find((item) => item.id === "geral");
+    if (geral) remoto = geral.data();
+  } catch { /* sem Firestore: usa o que está salvo neste navegador */ }
+  result.configuracoes = { ...fallback.configuracoes, ...(Object.keys(remoto).length ? remoto : configLocal()) };
   return result;
 }
 
@@ -150,8 +166,9 @@ export async function registrarContato(negocioId, tipo, origem = "app") {
   } catch { /* analytics não pode impedir a conversão */ }
 }
 
-export async function enviarCadastro({ nome, categoria, whatsapp }) {
-  const payload = { nome: String(nome).slice(0, 80), categoria: String(categoria).slice(0, 40), whatsapp: String(whatsapp).slice(0, 25), status: "novo", criadoEm: serverTimestamp() };
+export async function enviarCadastro({ nome, categoria, whatsapp, plano = "gratis" }) {
+  const planoValido = PLANOS[plano] ? plano : "gratis";
+  const payload = { nome: String(nome).slice(0, 80), categoria: String(categoria).slice(0, 40), whatsapp: String(whatsapp).slice(0, 25), plano: planoValido, status: "novo", criadoEm: serverTimestamp() };
   await addDoc(collection(db, COLECOES.cadastros), payload);
 }
 
