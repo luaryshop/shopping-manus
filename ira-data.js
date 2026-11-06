@@ -1,0 +1,158 @@
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getFirestore, collection, getDocs, addDoc, serverTimestamp, doc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { firebaseConfig, COLECOES, IMAGE_BASE, PLANOS, CATEGORIAS, BRAND } from "./config.js";
+
+export const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+export const db = getFirestore(app);
+export { COLECOES, IMAGE_BASE, PLANOS, CATEGORIAS, BRAND };
+
+const timeout = (promise, ms = 5000) => Promise.race([
+  promise,
+  new Promise((_, reject) => setTimeout(() => reject(new Error("tempo esgotado")), ms))
+]);
+const localKey = (name) => `viva-ira:${name}`;
+const readLocal = (name, fallback = []) => {
+  try { return JSON.parse(localStorage.getItem(localKey(name)) || "null") ?? fallback; } catch { return fallback; }
+};
+const writeLocal = (name, value) => { try { localStorage.setItem(localKey(name), JSON.stringify(value)); } catch {} };
+
+const categoryMap = new Map([
+  ["comida", "alimentacao"], ["alimentação", "alimentacao"], ["alimentacao", "alimentacao"],
+  ["mercado", "comercio"], ["lojas", "comercio"], ["comércio", "comercio"], ["comercio", "comercio"],
+  ["bebidas", "alimentacao"], ["serviços", "servicos"], ["servicos", "servicos"],
+  ["saúde", "saude"], ["saude", "saude"], ["casa e obra", "casa-obra"], ["casa-obra", "casa-obra"],
+  ["beleza", "beleza"], ["educação", "educacao"], ["educacao", "educacao"], ["pets", "pets"], ["eventos", "eventos"]
+]);
+const categoryId = (value = "") => categoryMap.get(String(value).toLowerCase()) || String(value).toLowerCase().replace(/\s+/g, "-");
+const categoryName = (value = "") => CATEGORIAS.find((item) => item.id === categoryId(value))?.nome || value || "Serviços";
+const asArray = (value) => Array.isArray(value) ? value : value ? String(value).split(",").map((item) => item.trim()).filter(Boolean) : [];
+
+export function normalizar(n, i = 0, hoje = new Date()) {
+  const horarios = n.horarios;
+  const vencido = n.plano && n.plano !== "gratis" && n.planoAte && new Date(`${n.planoAte}T23:59:59`) < hoje;
+  const plano = vencido ? "gratis" : n.plano || "gratis";
+  const fotosLimite = PLANOS[plano]?.photos || 1;
+  const services = Array.isArray(n.servicosDetalhados) ? n.servicosDetalhados : asArray(n.servicos).map((item) => ({ nome: item, preco: "" }));
+  return {
+    id: n.id,
+    name: n.nome || n.name || "Empresa sem nome",
+    cat: categoryName(n.categoriaId || n.categoria || n.category),
+    catId: categoryId(n.categoriaId || n.categoria || n.category),
+    sub: n.subcategoria || n.sub || "",
+    tags: asArray(n.servicos || n.tags),
+    services,
+    desc: n.descricao || n.desc || "",
+    bairro: n.bairro || "",
+    end: n.endereco || n.end || "—",
+    t24: horarios === "24h",
+    h: horarios === "24h" ? { wk: [0, 24], sat: [0, 24], sun: [0, 24] } : { wk: horarios?.seg_sex ?? horarios?.wk ?? null, sat: horarios?.sab ?? horarios?.sat ?? null, sun: horarios?.dom ?? horarios?.sun ?? null },
+    phone: n.telefone || n.phone || "",
+    wa: n.whatsapp || n.wa || "",
+    plan: plano,
+    planLabel: PLANOS[plano]?.label || plano,
+    ver: n.fotosVersao || n.ver || "",
+    n: [Number(n.nota?.media ?? n.rating) || 0, Number(n.nota?.qtd ?? n.reviews) || 0],
+    t: n.entrega?.tempo || "",
+    f: n.entrega ? Number(n.entrega.frete) || 0 : undefined,
+    ret: !!n.retirada,
+    orc: !!n.orcamento,
+    delivery: !!n.entrega,
+    photos: Math.min(fotosLimite, Math.max(1, Number(n.fotos) || 1)),
+    ativo: n.ativo !== false,
+    ordem: n.ordem ?? i,
+    verified: !!(n.verificado || n.verified),
+    emergency: !!(n.emergencia || n.emergency),
+    social: n.redes || n.social || {},
+    location: n.localizacao || n.location || null,
+    createdAt: n.createdAt || null,
+    i
+  };
+}
+
+export async function carregarNegocios() {
+  let fonte = "arquivo local (data/negocios.json)";
+  let docs = [];
+  try {
+    const snap = await timeout(getDocs(collection(db, COLECOES.negocios)));
+    docs = snap.docs.map((item) => ({ ...item.data(), id: item.id }));
+    if (docs.length) fonte = "Firestore";
+  } catch (error) {
+    console.warn("Firestore indisponível; usando dados locais:", error.message);
+  }
+  if (!docs.length) {
+    const response = await fetch("data/negocios.json", { cache: "no-store" });
+    docs = (await response.json()).negocios || [];
+  }
+  const lista = docs.filter((item) => item.ativo !== false).sort((a, b) => (a.ordem ?? 0) - (b.ordem ?? 0)).map(normalizar);
+  return { lista, fonte, raw: docs };
+}
+
+export async function carregarConteudo() {
+  const fallback = { banners: [], novidades: [], plantoes: [], categorias: CATEGORIAS, configuracoes: {} };
+  try {
+    const response = await fetch("data/conteudo.json", { cache: "no-store" });
+    Object.assign(fallback, await response.json());
+  } catch (error) {
+    console.warn("Conteúdo local indisponível:", error.message);
+  }
+  const result = {};
+  for (const [key, collectionName] of Object.entries({ banners: COLECOES.banners, novidades: COLECOES.novidades, plantoes: COLECOES.plantoes })) {
+    try {
+      const snap = await timeout(getDocs(collection(db, collectionName)), 2500);
+      result[key] = snap.docs.length ? snap.docs.map((item) => ({ ...item.data(), id: item.id })) : (readLocal(key, fallback[key]) || fallback[key]);
+    } catch {
+      result[key] = readLocal(key, fallback[key]) || fallback[key];
+    }
+  }
+  result.categorias = fallback.categorias;
+  result.configuracoes = { ...fallback.configuracoes, ...readLocal("configuracoes", {}) };
+  return result;
+}
+
+export async function carregarColecao(nome, fallback = []) {
+  try {
+    const snap = await timeout(getDocs(collection(db, nome)), 4000);
+    return snap.docs.map((item) => ({ ...item.data(), id: item.id }));
+  } catch {
+    return readLocal(nome, fallback);
+  }
+}
+
+export async function gravarDocumento(collectionName, id, data) {
+  const payload = { ...data, atualizadoEm: new Date().toISOString() };
+  const key = Object.entries(COLECOES).find(([, value]) => value === collectionName)?.[0] || collectionName;
+  const current = readLocal(key, []);
+  const list = Array.isArray(current) ? current.filter((item) => item.id !== id) : [];
+  writeLocal(key, [...list, { ...payload, id }]);
+  try {
+    await setDoc(doc(db, collectionName, id), payload, { merge: true });
+    return { remote: true, id };
+  } catch (error) {
+    console.warn("Documento salvo apenas localmente:", error.message);
+    return { remote: false, id };
+  }
+}
+
+export async function removerDocumento(collectionName, id) {
+  const key = Object.entries(COLECOES).find(([, value]) => value === collectionName)?.[0] || collectionName;
+  const current = readLocal(key, []);
+  writeLocal(key, Array.isArray(current) ? current.filter((item) => item.id !== id) : []);
+  try { await deleteDoc(doc(db, collectionName, id)); } catch (error) { console.warn("Exclusão remota indisponível:", error.message); }
+}
+
+const versionQuery = (version) => version ? `?v=${encodeURIComponent(version)}` : "";
+export const urlFoto = (id, index, version = "") => `${IMAGE_BASE}${id}/${String(index + 1).padStart(2, "0")}.webp${versionQuery(version)}`;
+export const urlLogo = (id, version = "") => `${IMAGE_BASE}${id}/logo.webp${versionQuery(version)}`;
+
+export async function registrarContato(negocioId, tipo, origem = "app") {
+  try {
+    await addDoc(collection(db, COLECOES.contatos), { negocioId, tipo, origem, criadoEm: serverTimestamp() });
+  } catch { /* analytics não pode impedir a conversão */ }
+}
+
+export async function enviarCadastro({ nome, categoria, whatsapp }) {
+  const payload = { nome: String(nome).slice(0, 80), categoria: String(categoria).slice(0, 40), whatsapp: String(whatsapp).slice(0, 25), status: "novo", criadoEm: serverTimestamp() };
+  await addDoc(collection(db, COLECOES.cadastros), payload);
+}
+
+export const salvarConteudoLocal = (key, value) => writeLocal(key, value);

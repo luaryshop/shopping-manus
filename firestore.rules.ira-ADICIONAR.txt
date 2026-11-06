@@ -1,0 +1,49 @@
+// ADICIONE estas linhas às regras que já existem no Firebase.
+// Não substitua as regras da Luary: elas continuam valendo enquanto o ambiente for provisório.
+// A função isAdmin() precisa existir nas regras principais e exigir usuário autenticado.
+
+    // ---- Viva Ira / Ira Shopping ----
+    match /ira_negocios/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /ira_categorias/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /ira_banners/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /ira_novidades/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /ira_plantoes/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /ira_configuracoes/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /ira_contatos/{id} {
+      // Visitantes podem registrar somente um evento de clique; só o administrador lê.
+      allow create: if request.resource.data.keys().hasOnly(['negocioId','tipo','origem','criadoEm'])
+                    && request.resource.data.tipo in ['whatsapp','ligar']
+                    && request.resource.data.negocioId is string && request.resource.data.negocioId.size() < 80
+                    && request.resource.data.origem is string && request.resource.data.origem.size() < 40
+                    && request.resource.data.criadoEm == request.time;
+      allow read: if isAdmin();
+      allow update, delete: if false;
+    }
+    match /ira_cadastros/{id} {
+      // O formulário público cria pedido pendente; o painel administrativo decide o que fazer.
+      allow create: if request.resource.data.keys().hasOnly(['nome','categoria','whatsapp','status','criadoEm'])
+                    && request.resource.data.nome is string && request.resource.data.nome.size() > 1 && request.resource.data.nome.size() <= 80
+                    && request.resource.data.categoria is string && request.resource.data.categoria.size() <= 40
+                    && request.resource.data.whatsapp is string && request.resource.data.whatsapp.size() <= 25
+                    && request.resource.data.status == 'novo'
+                    && request.resource.data.criadoEm == request.time;
+      allow read, update, delete: if isAdmin();
+    }
