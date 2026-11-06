@@ -156,25 +156,21 @@ main{min-height:calc(100vh - var(--header-h))}
 .category[data-color=lime]{--tone:var(--lime)}   .category[data-color=orange]{--tone:var(--orange)}
 
 /* ==========================================================================
-   6. BANNERS
+   6. BLOCOS FIXOS (SUBSTITUIU O CARROSSEL SLIDER)
    ========================================================================== */
-.banner-slider{position:relative;overflow:hidden;min-height:205px;margin:10px 0 5px;border-radius:26px;background:var(--navy);color:#fff;box-shadow:var(--shadow)}
-.banner-slide{display:none;position:relative;min-height:205px;padding:30px 36% 28px 30px}
-.banner-slide.active{display:flex;flex-direction:column;justify-content:center}
-.banner-slide::after{content:"";position:absolute;right:-2%;bottom:-30%;width:46%;height:155%;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--coral) 90%,transparent),transparent 63%)}
-.banner-slide[data-color=navy]{background:linear-gradient(120deg,#102448,#1b477d)}
-.banner-slide[data-color=coral]{background:linear-gradient(120deg,#b94e38,#e66a4e)}
-.banner-slide[data-color=gold]{background:linear-gradient(120deg,#6e5125,#b48537)}
-.banner-slide .eyebrow{color:#ffd1a6}
-.banner-slide h2{position:relative;z-index:1;font:700 clamp(29px,4vw,46px)/.95 var(--display);margin:10px 0}
-.banner-slide p{position:relative;z-index:1;max-width:450px;color:#f7e4d3;margin:0 0 18px}
-.banner-slide a{position:relative;z-index:2;align-self:flex-start;border-radius:999px;background:#fff;color:#132b52;padding:11px 16px;font-weight:800}
-.banner-dots{position:absolute;z-index:3;left:30px;bottom:17px;display:flex;gap:5px}
-.banner-dots button{width:7px;height:7px;border:0;border-radius:999px;padding:0;background:rgba(255,255,255,.35);transition:width .2s}
-.banner-dots button.active{width:24px;background:#fff}
+.banners-fixed{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:15px 0 10px}
+.banner-card{position:relative;overflow:hidden;border-radius:24px;padding:26px 28px;color:#fff;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;justify-content:center;min-height:180px;transition:transform .22s,box-shadow .22s}
+.banner-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.banner-card::after{content:"";position:absolute;right:-10%;bottom:-40%;width:60%;height:160%;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--coral) 80%,transparent),transparent 65%);pointer-events:none}
+.banner-card[data-color=navy]{background:linear-gradient(120deg,#102448,#1b477d)}
+.banner-card[data-color=coral]{background:linear-gradient(120deg,#b94e38,#e66a4e)}
+.banner-card .eyebrow{color:#ffd1a6;margin-bottom:6px}
+.banner-card h2{position:relative;z-index:1;font:700 clamp(22px,2.5vw,30px)/1.05 var(--display);margin:4px 0 8px}
+.banner-card p{position:relative;z-index:1;color:#f7e4d3;margin:0 0 16px;font-size:13px;line-height:1.4}
+.banner-card a{position:relative;z-index:2;align-self:flex-start;border-radius:999px;background:#fff;color:#132b52;padding:9px 15px;font-weight:800;font-size:13px}
 
 /* ==========================================================================
-   7. CARDS DE EMPRESA
+   7. CARDS DE EMPRESA & GRID RECONFIGURADO
    ========================================================================== */
 .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;align-items:stretch}
 .business-card{position:relative;overflow:hidden;min-width:0;height:100%;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:21px;box-shadow:var(--shadow-sm);transition:transform .26s,box-shadow .26s,border-color .26s}
@@ -202,6 +198,7 @@ main{min-height:calc(100vh - var(--header-h))}
 .card-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
 .btn{min-height:37px;min-width:0;display:inline-flex;align-items:center;justify-content:center;gap:6px;border-radius:11px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-weight:800;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .btn .ico{width:15px;height:15px}
+
 /* Botão WhatsApp (Verde) */
 .btn-wa {
   background: var(--green);
@@ -209,7 +206,7 @@ main{min-height:calc(100vh - var(--header-h))}
   color: #ffffff !important;
 }
 
-/* Botão Ligar (Azul) - Ajustado para Modo Claro e Escuro */
+/* Botão Ligar (Azul) - Modo Claro e Escuro */
 [data-track="ligar"] {
   background: #1e40af;
   border-color: #1e40af;
@@ -221,7 +218,7 @@ main{min-height:calc(100vh - var(--header-h))}
   color: #ffffff !important;
 }
 
-/* Botão Compartilhar (Roxo) - Ajustado para Modo Claro e Escuro */
+/* Botão Compartilhar (Roxo) - Modo Claro e Escuro */
 #share-company {
   background: #6b21a8;
   border-color: #6b21a8;
@@ -319,9 +316,6 @@ main{min-height:calc(100vh - var(--header-h))}
 
 /* ==========================================================================
    10. MODAL DA EMPRESA
-   Estrutura: .veil > .sheet > (.sheet-main > .sheet-media + .sheet-info) + .sheet-actions
-   Desktop: diálogo centralizado, 2 colunas iguais; só a coluna de texto rola.
-   Mobile : tela cheia; galeria + texto rolam juntos; ações fixas no rodapé.
    ========================================================================== */
 .veil{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:24px;background:rgba(7,14,30,.72)}
 .sheet{position:relative;width:min(960px,100%);height:min(720px,100%);display:flex;flex-direction:column;overflow:hidden;border-radius:26px;background:var(--surface);box-shadow:var(--shadow)}
@@ -379,6 +373,7 @@ footer a{color:var(--coral);font-weight:700}
 }
 
 @media(max-width:1100px){
+  .grid{grid-template-columns:repeat(3,minmax(0,1fr))}
   .category-grid{grid-template-columns:repeat(5,1fr)}
   .hero{gap:28px}
   .panel{padding:18px}
@@ -414,6 +409,7 @@ footer a{color:var(--coral);font-weight:700}
   .hero-search{max-width:none}
   .btn-send{font-size:0;padding:0;width:44px}
   .btn-send::after{content:"→";font-size:24px}
+  .banners-fixed{grid-template-columns:1fr}
   .category-grid{grid-template-columns:repeat(3,1fr)}
   .section-head h2{font-size:32px}
   .card-desc{display:none}
@@ -449,7 +445,7 @@ footer a{color:var(--coral);font-weight:700}
   .category-grid{gap:7px}
   .category{padding:10px 5px;font-size:11px}
   .cat-icon{width:38px;height:38px}
-  .grid{grid-template-columns:1fr;gap:12px}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
   .split{gap:12px}
   .panel{padding:16px;border-radius:20px}
   .panel-head{gap:9px;margin-bottom:12px}
@@ -600,10 +596,10 @@ const links = {
    ESTADO
    ========================================================================== */
 let COMPANIES = [];
-let CONTENT = { banners: [], novidades: [], plantoes: [], configuracoes: {} };
+let CONTENT = { novidades: [], plantoes: [], configuracoes: {} };
 let current = null, galleryIndex = 0, lastFocus = null;
 
-const state = { view: 'inicio', q: '', cat: '', intent: '', banner: 0, sent: false, error: false, favs: new Set() };
+const state = { view: 'inicio', q: '', cat: '', intent: '', sent: false, error: false, favs: new Set() };
 try { state.favs = new Set(JSON.parse(store.get('favs', '[]'))); } catch {}
 const saveFavs = () => store.set('favs', JSON.stringify([...state.favs]));
 
@@ -618,7 +614,7 @@ function filtered() {
     if (state.intent === 'aberto')     return status(e).on;
     if (state.intent === 'emergencia') return e.emergency;
     if (state.intent === 'delivery')   return e.delivery;
-    return true; // 'perto' não filtra; só reordena quando houver localização
+    return true;
   }));
 }
 
@@ -729,21 +725,23 @@ function heroView() {
   </section>`;
 }
 
+/* 2 BLOCOS FIXOS */
 function bannersView() {
-  const items = activeBanners();
-  if (!items.length) return '';
-  state.banner = Math.min(state.banner, items.length - 1);
-  return `<section class="banner-slider" aria-label="Destaques">
-    ${items.map((b, i) => `<article class="banner-slide ${i === state.banner ? 'active' : ''}" data-color="${esc(b.cor || 'navy')}">
-      <span class="eyebrow">${esc(b.eyebrow || 'Viva a cidade')}</span>
-      <h2>${esc(b.titulo)}</h2>
-      <p>${esc(b.texto || '')}</p>
-      ${b.link ? `<a href="${esc(b.link)}" data-go="${esc(String(b.link).replace('#', ''))}">${esc(b.cta || 'Saiba mais')} →</a>` : ''}
-    </article>`).join('')}
-    <div class="banner-dots">${items.map((_, i) => `<button aria-label="Banner ${i + 1}" class="${i === state.banner ? 'active' : ''}" data-banner="${i}"></button>`).join('')}</div>
+  return `<section class="banners-fixed" aria-label="Destaques e Atalhos">
+    <article class="banner-card" data-color="navy">
+      <span class="eyebrow">CONFIANÇA LOCAL</span>
+      <h2>Escolha quem a cidade recomenda</h2>
+      <p>Perfis verificados, contatos diretos e informação clara sobre empresas de Iracemápolis.</p>
+      <a href="#buscar" data-go="buscar">Ver destaques →</a>
+    </article>
+    <article class="banner-card" data-color="coral">
+      <span class="eyebrow">GUIA DA CIDADE</span>
+      <h2>Tudo o que você precisa no dia a dia</h2>
+      <p>Encontre serviços, comércios e telefones úteis de forma rápida e prática.</p>
+      <a href="#buscar" data-go="buscar">Explorar agora →</a>
+    </article>
   </section>`;
 }
-const activeBanners = () => (CONTENT.banners || []).filter((b) => b.ativo !== false).sort((a, b) => (a.ordem || 0) - (b.ordem || 0));
 
 function nearbyPanel() {
   const items = sortCompanies(COMPANIES).slice(0, 4);
@@ -805,7 +803,6 @@ function searchView() {
 }
 const resultsTitle = () => state.q ? `Resultados para <em>“${esc(state.q)}”</em>` : 'Todas as empresas';
 
-/* Atualiza só a lista, sem recriar o campo de busca (mantém foco e cursor). */
 function paintResults() {
   const results = filtered();
   $('#results').innerHTML = resultsHTML(results);
@@ -932,7 +929,7 @@ async function shareCompany() {
   try {
     if (navigator.share) await navigator.share(data);
     else { await navigator.clipboard.writeText(location.href); label.textContent = 'Link copiado'; setTimeout(() => label && (label.textContent = 'Compartilhar'), 1800); }
-  } catch { /* o usuário cancelou */ }
+  } catch { /* usuário cancelou */ }
 }
 
 function trapFocus(event) {
@@ -963,7 +960,6 @@ function navigate(view) {
 
 function applyIntent(id) {
   if (id === 'perto' && state.intent !== 'perto' && navigator.geolocation) {
-    // pede a localização, mas segue mesmo se o usuário negar
     navigator.geolocation.getCurrentPosition(() => {}, () => {});
   }
   state.intent = state.intent === id ? '' : id;
@@ -976,14 +972,6 @@ function setTheme(theme) {
   $('#theme-toggle').innerHTML = icon(theme === 'dark' ? 'sun' : 'moon');
   $('#theme-toggle').setAttribute('aria-label', theme === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro');
   $('meta[name=theme-color]').content = theme === 'dark' ? '#091225' : '#102448';
-}
-
-function rotateBanner(next) {
-  const slides = $$('.banner-slide'), dots = $$('.banner-dots button');
-  if (!slides.length) return;
-  state.banner = next;
-  slides.forEach((s, i) => s.classList.toggle('active', i === next));
-  dots.forEach((d, i) => d.classList.toggle('active', i === next));
 }
 
 function toggleFavorite(id) {
@@ -1003,7 +991,6 @@ function toggleFavorite(id) {
 document.addEventListener('click', (event) => {
   const t = event.target;
 
-  // rastreio de contato (não bloqueia o link)
   const track = t.closest('[data-track]');
   if (track) registrarContato(track.dataset.id, track.dataset.track, track.dataset.origin || 'public-card');
 
@@ -1028,9 +1015,6 @@ document.addEventListener('click', (event) => {
   if (intent) return applyIntent(intent.dataset.intent);
 
   if (t.closest('[data-clear]')) { Object.assign(state, { q: '', cat: '', intent: '', view: 'buscar' }); return render(); }
-
-  const banner = t.closest('[data-banner]');
-  if (banner) return rotateBanner(Number(banner.dataset.banner));
 });
 
 document.addEventListener('input', (event) => {
@@ -1072,7 +1056,6 @@ document.addEventListener('submit', async (event) => {
   render();
 });
 
-// imagens que falharam ficam translúcidas em vez de mostrar o ícone quebrado
 document.addEventListener('error', (event) => {
   if (event.target.tagName === 'IMG') event.target.classList.add('broken');
 }, true);
@@ -1102,10 +1085,6 @@ $('#view').innerHTML = '<div class="loading">Carregando empresas...</div>';
     return;
   }
   render();
-  setInterval(() => {
-    const total = activeBanners().length;
-    if (total > 1 && state.view === 'inicio' && $('#veil').hidden) rotateBanner((state.banner + 1) % total);
-  }, 7000);
 })();
 </script>
 </body>
