@@ -8,6 +8,10 @@ export const firebaseConfig = {
   appId: "1:996287172742:web:4ff8c22a01cabe4015c107"
 };
 
+// Temporário para testes: o painel abre sem login enquanto false.
+// Altere para true antes de publicar o painel em produção.
+export const ADMIN_AUTH_REQUIRED = false;
+
 export const BRAND = {
   name: "Viva Ira",
   tagline: "O melhor da cidade, mais perto de você",
