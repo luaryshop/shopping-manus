@@ -156,7 +156,7 @@ main{min-height:calc(100vh - var(--header-h))}
 .category[data-color=lime]{--tone:var(--lime)}   .category[data-color=orange]{--tone:var(--orange)}
 
 /* ==========================================================================
-   6. BLOCOS FIXOS (SUBSTITUIU O CARROSSEL SLIDER)
+   6. BLOCOS FIXOS
    ========================================================================== */
 .banners-fixed{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:15px 0 10px}
 .banner-card{position:relative;overflow:hidden;border-radius:24px;padding:26px 28px;color:#fff;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;justify-content:center;min-height:180px;transition:transform .22s,box-shadow .22s}
@@ -170,7 +170,7 @@ main{min-height:calc(100vh - var(--header-h))}
 .banner-card a{position:relative;z-index:2;align-self:flex-start;border-radius:999px;background:#fff;color:#132b52;padding:9px 15px;font-weight:800;font-size:13px}
 
 /* ==========================================================================
-   7. CARDS DE EMPRESA & GRID RECONFIGURADO
+   7. CARDS DE EMPRESA, MINI FOTOS & GRID
    ========================================================================== */
 .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;align-items:stretch}
 .business-card{position:relative;overflow:hidden;min-width:0;height:100%;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:21px;box-shadow:var(--shadow-sm);transition:transform .26s,box-shadow .26s,border-color .26s}
@@ -186,6 +186,13 @@ main{min-height:calc(100vh - var(--header-h))}
 .save[aria-pressed=true]{background:#fff;color:var(--coral)}
 .save[aria-pressed=true] .ico{fill:currentColor}
 .save .ico{width:17px;height:17px}
+
+/* Mini Fotos (Thumbnails) nos Cards */
+.card-thumbs{display:flex;gap:6px;padding:10px 15px 0;overflow-x:auto;scrollbar-width:none}
+.card-thumbs::-webkit-scrollbar{display:none}
+.thumb-btn{width:36px;height:36px;flex:none;padding:0;border:1.5px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface-2);cursor:pointer;transition:border-color .2s,transform .15s}
+.thumb-btn:hover,.thumb-btn.active{border-color:var(--coral);transform:scale(1.06)}
+.thumb-btn img{width:100%;height:100%;object-fit:cover;display:block}
 
 .card-body{display:flex;flex-direction:column;flex-grow:1;min-width:0;padding:15px}
 .card-body h3{margin:0;font:700 22px/1.2 var(--display);letter-spacing:-.01em;overflow-wrap:break-word;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
@@ -397,31 +404,6 @@ footer a{color:var(--coral);font-weight:700}
   .sheet-close{top:max(14px,env(safe-area-inset-top))}
 }
 
-@media(max-width:720px){
-  .wrap{padding:0 16px}
-  .header-inner{min-height:70px}
-  .brand-mark{width:39px;height:39px;border-radius:12px}
-  .brand-mark svg{width:24px;height:24px}
-  .brand-name{font-size:25px}
-  .brand small,.city-chip{display:none}
-  .hero{padding:42px 0 22px;gap:25px}
-  .hero .lead{font-size:16px}
-  .hero-search{max-width:none}
-  .btn-send{font-size:0;padding:0;width:44px}
-  .btn-send::after{content:"→";font-size:24px}
-  .banners-fixed{grid-template-columns:1fr}
-  .category-grid{grid-template-columns:repeat(3,1fr)}
-  .section-head h2{font-size:32px}
-  .card-desc{display:none}
-  .card-actions{grid-template-columns:1fr}
-  .news-grid{grid-template-columns:1fr}
-  .news-card{min-height:130px}
-  .cta-business{flex-direction:column;align-items:flex-start;padding:20px}
-  .cta-business a{align-self:stretch;text-align:center}
-  footer{display:block;padding:25px 16px}
-  .footer-brand{margin-bottom:8px}
-}
-
 @media(max-width:560px){
   body{font-size:14px}
   :root{--header-h:64px}
@@ -446,6 +428,8 @@ footer a{color:var(--coral);font-weight:700}
   .category{padding:10px 5px;font-size:11px}
   .cat-icon{width:38px;height:38px}
   .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .card-thumbs{padding:8px 10px 0;gap:4px}
+  .thumb-btn{width:30px;height:30px;border-radius:6px}
   .split{gap:12px}
   .panel{padding:16px;border-radius:20px}
   .panel-head{gap:9px;margin-bottom:12px}
@@ -652,13 +636,21 @@ function card(e, eager = false) {
   const s = status(e);
   const fav = state.favs.has(e.id);
   const tag = e.plan === 'premium' ? 'Premium' : e.plan === 'destaque' ? 'Destaque' : e.cat;
+  
+  // Renderiza a faixa de mini fotos caso a empresa possua mais de 1 foto no plano
+  const thumbsHTML = (e.photos && e.photos > 1) ? `<div class="card-thumbs">${Array.from({length: e.photos}, (_, i) => `
+    <button type="button" class="thumb-btn ${i === 0 ? 'active' : ''}" data-open="${esc(e.id)}" data-photo="${i}" data-hover-img="${urlFoto(e.id, i, e.ver)}" aria-label="Ver foto ${i + 1} de ${esc(e.name)}">
+      <img src="${urlFoto(e.id, i, e.ver)}" alt="">
+    </button>`).join('')}</div>` : '';
+
   return `<article class="business-card">
-    <button class="cover" data-open="${esc(e.id)}" aria-label="Abrir perfil de ${esc(e.name)}">
+    <button class="cover" data-open="${esc(e.id)}" data-photo="0" aria-label="Abrir perfil de ${esc(e.name)}">
       <img loading="${eager ? 'eager' : 'lazy'}" alt="${esc(e.name)}" src="${urlFoto(e.id, 0, e.ver)}">
       <span class="badge ${e.plan === 'premium' ? 'premium' : ''}">${esc(tag)}</span>
       ${e.verified ? `<span class="badge verified">${icon('check')} Verificado</span>` : ''}
     </button>
     <button class="save" data-fav="${esc(e.id)}" aria-pressed="${fav}" aria-label="${fav ? 'Remover dos favoritos:' : 'Salvar nos favoritos:'} ${esc(e.name)}">${icon('heart')}</button>
+    ${thumbsHTML}
     <div class="card-body">
       <h3>${esc(e.name)}</h3>
       <div class="card-meta">${ratingLabel(e)}<span>·</span><span>${esc(e.cat)}</span></div>
@@ -725,7 +717,6 @@ function heroView() {
   </section>`;
 }
 
-/* 2 BLOCOS FIXOS */
 function bannersView() {
   return `<section class="banners-fixed" aria-label="Destaques e Atalhos">
     <article class="banner-card" data-color="navy">
@@ -858,9 +849,9 @@ function sheetHTML(e) {
     <div class="sheet-main">
       <div class="sheet-media">
         <div class="sheet-gallery">
-          <img id="gallery-image" src="${urlFoto(e.id, 0, e.ver)}" alt="${esc(e.name)}, foto 1">
+          <img id="gallery-image" src="${urlFoto(e.id, galleryIndex, e.ver)}" alt="${esc(e.name)}, foto ${galleryIndex + 1}">
           ${nav}
-          <span class="gallery-count" id="gallery-count">1 / ${e.photos}</span>
+          <span class="gallery-count" id="gallery-count">${galleryIndex + 1} / ${e.photos}</span>
         </div>
       </div>
       <div class="sheet-info">
@@ -894,10 +885,10 @@ function sheetHTML(e) {
     </div>`;
 }
 
-function openCompany(id) {
+function openCompany(id, photoIndex = 0) {
   const e = COMPANIES.find((x) => x.id === id);
   if (!e) return;
-  current = e; galleryIndex = 0; lastFocus = document.activeElement;
+  current = e; galleryIndex = photoIndex; lastFocus = document.activeElement;
   $('#sheet').innerHTML = sheetHTML(e);
   $('#veil').hidden = false;
   document.body.style.overflow = 'hidden';
@@ -988,6 +979,19 @@ function toggleFavorite(id) {
 /* ==========================================================================
    EVENTOS
    ========================================================================== */
+document.addEventListener('mouseover', (event) => {
+  const btn = event.target.closest('[data-hover-img]');
+  if (!btn) return;
+  const cardEl = btn.closest('.business-card');
+  if (!cardEl) return;
+  const coverImg = cardEl.querySelector('.cover img');
+  if (coverImg && btn.dataset.hoverImg) {
+    coverImg.src = btn.dataset.hoverImg;
+    cardEl.querySelectorAll('.thumb-btn').forEach((b) => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+});
+
 document.addEventListener('click', (event) => {
   const t = event.target;
 
@@ -1003,7 +1007,10 @@ document.addEventListener('click', (event) => {
   if (go) { event.preventDefault(); return navigate(go.dataset.go || 'inicio'); }
 
   const open = t.closest('[data-open]');
-  if (open) return openCompany(open.dataset.open);
+  if (open) {
+    const photoIdx = Number(open.dataset.photo || 0);
+    return openCompany(open.dataset.open, photoIdx);
+  }
 
   const fav = t.closest('[data-fav]');
   if (fav) return toggleFavorite(fav.dataset.fav);
