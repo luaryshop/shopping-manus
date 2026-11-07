@@ -17,11 +17,29 @@ O painel `admin.html` foi redesenhado como uma central SaaS responsiva. Ele reú
 - **Cadastro:** erros por campo, máscara de WhatsApp, caixa de aceite da Política de Privacidade (`privacidade.html`, modelo para revisão jurídica) e passo a passo "Como funciona".
 - **Publicação:** `favicon.svg`, ícones, imagem de compartilhamento (`og-image.png`), `manifest.webmanifest`, `robots.txt`, `sitemap.xml`.
 
+## Cadastrar muitas empresas de uma vez (plano Gratuito)
+
+1. Painel → **Empresas → Importar planilha (CSV)** → "Baixar modelo". O arquivo `modelo-importacao-empresas.csv` também está na raiz do projeto.
+2. Preencha uma empresa por linha no Excel ou Google Planilhas e salve como **CSV**. Obrigatórios: nome, categoria e telefone (ou WhatsApp).
+   - Categoria: use as do guia (Comércio, Serviços, Saúde, Alimentação, Casa e obra, Beleza, Educação, Pets, Eventos). Palavras como "padaria", "farmácia", "salão" ou "eletricista" são convertidas sozinhas.
+   - Horário: `8h às 18h`, `08:00-18:00`, `fechado` ou `24h`. Em branco = "Horário não informado".
+   - Serviços e palavras de busca: separe com `;`.
+   - Telefone fixo sem WhatsApp é aceito: o card mostra só o botão **Ligar**.
+3. O painel mostra uma **prévia** (prontas, avisos, erros, já existentes) e só grava depois do seu clique. Dá para baixar as linhas com erro, corrigir e importar de novo. Até 500 por vez.
+4. Todas entram como **Gratuito, não verificadas, sem fotos**, com o selo "Perfil informado pelo guia". Quem confirmar vira "Verificado" (caixa no editor da empresa).
+
+## Divulgação e acompanhamento
+
+- Link para o cadastro: `https://SEU-SITE/?origem=instagram#participar`. Troque `instagram` por `facebook`, `whatsapp`, `grupo-bairro`, `visita`, `qr-balcao`… O painel (Cadastros) mostra "via instagram" em cada pedido, e você descobre qual divulgação funciona.
+- Link para o guia: `https://SEU-SITE/`. Link para uma empresa: `https://SEU-SITE/#empresa/<id>`.
+- Na ficha de cada empresa não verificada aparece **"Esta é a sua empresa?"**: com `BRAND.whatsapp` preenchido, o botão abre o WhatsApp do guia com a mensagem pronta; sem ele, leva ao cadastro com o nome já preenchido. Há também "Informar erro ou pedir remoção" (WhatsApp ou `BRAND.email`).
+- Reponda cada pedido de remoção rapidamente: reduz risco jurídico e irritação.
+
 ## Checklist antes de publicar
 
 1. Em `config.js`: `BRAND.siteUrl`, `BRAND.whatsapp` (WhatsApp do guia) e `MODO_DEMO = false` (esconde o aviso de demonstração e liga os dados estruturados do Google).
 2. Troque `https://guiabusca.com.br` pelo seu endereço real em `index.html` (tags `og:` e canonical), `robots.txt` e `sitemap.xml`.
-3. Cole de novo `firestore.rules.ira-ADICIONAR.txt` nas regras do Firebase (aceita o campo `aceite` no cadastro).
+3. Cole de novo `firestore.rules.ira-ADICIONAR.txt` nas regras do Firebase (aceita os campos `aceite` e `origem` no cadastro).
 4. Troque empresas, telefones e fotos fictícios; preencha palavras de busca e latitude/longitude.
 5. Complete `privacidade.html` (nome, CNPJ, e-mail) e peça revisão jurídica.
 6. Crie Firebase e GitHub próprios; `ADMIN_AUTH_REQUIRED = true` para o painel.

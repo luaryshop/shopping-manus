@@ -22,6 +22,7 @@ export const BRAND = {
   segmento: "Cidade",                      // "Cidade", "Hotéis"... aparece no rodapé e nos textos de compartilhamento
   siteUrl: "https://guiabusca.com.br",     // troque pelo endereço real (usado em compartilhamento e Google)
   whatsapp: "",                            // WhatsApp do próprio guia, só números com DDD (ex.: 5519999999999). Vazio = botão some
+  email: "",                               // e-mail de contato do guia (aparece como alternativa ao WhatsApp para "Informar erro ou remover")
   whatsappMessage: "Olá! Vi sua empresa no Guia Busca e gostaria de mais informações.",
   adminLabel: "Central Guia Busca"
 };

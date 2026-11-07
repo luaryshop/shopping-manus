@@ -191,7 +191,7 @@ main{min-height:calc(100vh - var(--header-h))}
 .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;align-items:stretch}
 .business-card{position:relative;overflow:hidden;min-width:0;height:100%;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:21px;box-shadow:var(--shadow-sm);transition:transform .26s,box-shadow .26s,border-color .26s}
 .business-card:hover{transform:translateY(-6px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--coral) 45%,var(--line))}
-.cover{position:relative;display:block;flex:none;width:100%;aspect-ratio:1;overflow:hidden;border:0;padding:0;background:var(--surface)}
+.cover{position:relative;display:block;flex:none;width:100%;aspect-ratio:16/10;overflow:hidden;border:0;padding:0;background:var(--surface)}
 .cover img{width:100%;height:100%;display:block;object-fit:contain;transition:transform .6s;background:var(--surface)}
 .business-card:hover .cover img{transform:scale(1.06)}
 .cover::after{content:"";position:absolute;inset:auto 0 0;height:45%;background:linear-gradient(transparent,rgba(8,20,45,.65))}
@@ -596,8 +596,8 @@ input,select,textarea{font-size:16px}
 @media(max-width:820px){
   .hero-art{display:none}
   .hero{padding:28px 0 10px;gap:14px}
-  .sheet-gallery{aspect-ratio:4/3;width:100%;max-height:38vh}
-  .sheet-gallery img{object-fit:cover}
+  .sheet-gallery{aspect-ratio:16/10;width:100%;max-height:none}
+  .sheet-gallery img{object-fit:contain;background:#0d1b36}
   .sheet-media{padding:0}
   .sheet-thumbs{padding:8px 12px 0}
   .sheet-info{padding-bottom:calc(30px + env(safe-area-inset-bottom))}
@@ -611,6 +611,20 @@ input,select,textarea{font-size:16px}
   .intent{flex:none;min-width:158px}
   .category-grid{grid-template-columns:repeat(3,1fr)}
 }
+
+/* perfil informado / reivindicar */
+.card-actions.single{grid-template-columns:1fr}
+.sheet-actions.two{grid-template-columns:repeat(2,1fr)}
+.detail-pill.info{background:transparent;border:1px dashed var(--line);color:var(--muted)}
+.claim{margin-top:18px;padding:16px;border:1.5px dashed var(--line);border-radius:18px;background:var(--bg)}
+.claim strong{display:block;font:700 22px/1.1 var(--display)}
+.claim p{margin:6px 0 12px;color:var(--muted);font-size:13px}
+.claim-actions{display:grid;gap:4px}
+.btn-claim{background:var(--coral);border-color:var(--coral);color:#fff;text-decoration:none}
+.link-quiet{font-size:13px;color:var(--muted);text-decoration:underline;display:inline-flex;align-items:center;min-height:44px;background:none;border:0;padding:0;cursor:pointer;font-weight:600}
+.claim.small{display:flex;gap:6px 14px;flex-wrap:wrap;align-items:center;justify-content:space-between;font-size:12px;color:var(--muted);border-style:solid;padding:6px 14px}
+.claim.small .link-quiet{min-height:40px}
+.notice.prefill{margin-bottom:12px}
 
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
@@ -707,6 +721,7 @@ const slotOf = (e, day) => e.t24 ? [0, 24] : day === 0 ? e.h.sun : day === 6 ? e
 
 function status(e, now = new Date()) {
   if (e.t24) return { on: true, text: 'Aberto 24 horas' };
+  if (e.noHours) return { on: false, text: 'Horário não informado' };
   const day = now.getDay();
   const t = now.getHours() + now.getMinutes() / 60;
   const today = slotOf(e, day);
@@ -720,7 +735,9 @@ function status(e, now = new Date()) {
   return { on: false, text: 'Fechado agora' };
 }
 
-const fullAddress = (e) => `${e.end}, ${e.bairro}, ${BRAND.city}-${BRAND.uf}`;
+const fullAddress = (e) => [e.end, e.bairro, `${BRAND.city}-${BRAND.uf}`].filter(Boolean).join(', ');
+const hasWa = (e) => digits(e.wa).length >= 12;
+const guideLink = (text) => BRAND.whatsapp ? `https://wa.me/${digits(BRAND.whatsapp)}?text=${encodeURIComponent(text)}` : BRAND.email ? `mailto:${BRAND.email}?subject=${encodeURIComponent(`${BRAND.name}: ${text.slice(0, 60)}`)}&body=${encodeURIComponent(text)}` : '';
 const clientMessage = (e) => {
   const cfg = CONTENT.configuracoes || {};
   const modelo = cfg.mensagensCliente?.[e.plan] || MENSAGENS_CLIENTE_PADRAO[e.plan] || BRAND.whatsappMessage;
@@ -740,7 +757,7 @@ let COMPANIES = [];
 let CONTENT = { novidades: [], plantoes: [], configuracoes: {} };
 let current = null, galleryIndex = 0, lastFocus = null;
 
-const state = { plano: 'gratis', view: 'inicio', q: '', cat: '', intent: '', bairro: '', geo: null, geoStatus: '', sent: false, error: false, favs: new Set() };
+const state = { origem: '', prefill: null, plano: 'gratis', view: 'inicio', q: '', cat: '', intent: '', bairro: '', geo: null, geoStatus: '', sent: false, error: false, favs: new Set() };
 try { state.favs = new Set(JSON.parse(store.get('favs', '[]'))); } catch {}
 const saveFavs = () => store.set('favs', JSON.stringify([...state.favs]));
 
@@ -917,8 +934,8 @@ function card(e, eager = false) {
       <div class="open-status ${s.on ? '' : 'closed'}"><span class="dot"></span>${esc(s.on ? 'Aberto agora' : s.text)}</div>
       <p class="card-desc">${esc(e.desc || 'Perfil em atualização.')}</p>
       <div class="card-location">${icon('pin')}<span>${esc(e.bairro || BRAND.city)}${distOf(e) != null ? ` · <span class="dist">${fmtDist(distOf(e))}</span>` : ''}</span></div>
-      <div class="card-actions">
-        <a class="btn btn-wa" data-track="whatsapp" data-id="${esc(e.id)}" href="${links.wa(e)}" target="_blank" rel="noopener">${icon('chat')} WhatsApp</a>
+      <div class="card-actions ${hasWa(e) ? '' : 'single'}">
+        ${hasWa(e) ? `<a class="btn btn-wa" data-track="whatsapp" data-id="${esc(e.id)}" href="${links.wa(e)}" target="_blank" rel="noopener">${icon('chat')} WhatsApp</a>` : ''}
         <a class="btn" data-track="ligar" data-id="${esc(e.id)}" href="${links.tel(e)}">${icon('phone')} Ligar</a>
       </div>
     </div>
@@ -1128,10 +1145,11 @@ function profileView() {
     <div class="profile-layout">
       <form class="form-card" id="reg" novalidate>
         <div id="form-msg" role="status">
+          ${state.prefill?.nome ? `<div class="notice prefill">Você está confirmando o perfil de <strong>${esc(state.prefill.nome)}</strong>. Confira o nome e informe o WhatsApp da empresa.</div>` : ''}
           ${state.error ? '<div class="notice err">Não foi possível enviar agora. Tente novamente em instantes.</div>' : ''}
           ${state.sent ? `<div class="notice ok">Cadastro recebido (plano ${esc(PLANOS[state.planoEnviado]?.label || 'Gratuito')}). Vamos confirmar o WhatsApp e publicar seu perfil em até 1 dia útil.</div>` : ''}
         </div>
-        <label>Nome da empresa<input id="r-n" required maxlength="80" autocomplete="organization" placeholder="Ex.: Padaria Pão de Praça" aria-describedby="r-n-err"><small class="field-err" id="r-n-err" role="alert" hidden></small></label>
+        <label>Nome da empresa<input id="r-n" required maxlength="80" autocomplete="organization" value="${esc(state.prefill?.nome || '')}" placeholder="Ex.: Padaria Pão de Praça" aria-describedby="r-n-err"><small class="field-err" id="r-n-err" role="alert" hidden></small></label>
         <label>Categoria<select id="r-c">${CATEGORIAS.map((c) => `<option>${esc(c.nome)}</option>`).join('')}</select></label>
         <label>WhatsApp da empresa<input id="r-w" type="tel" required inputmode="tel" autocomplete="tel-national" maxlength="16" placeholder="(19) 99999-0000" aria-describedby="r-w-err"><small class="field-err" id="r-w-err" role="alert" hidden></small></label>
         <fieldset class="plan-picker"><legend>Escolha seu plano</legend>
@@ -1156,8 +1174,24 @@ function profileView() {
    ========================================================================== */
 function hoursRows(e) {
   if (e.t24) return '<div class="hours-row"><span>Todos os dias</span><strong>24 horas</strong></div>';
+  if (e.noHours) return '<div class="hours-row"><span>Horário</span><strong>Não informado · ligue para confirmar</strong></div>';
   return [['Segunda a sexta', e.h.wk], ['Sábado', e.h.sat], ['Domingo', e.h.sun]]
     .map(([label, h]) => `<div class="hours-row"><span>${label}</span><strong>${h ? `${fmtHour(h[0])} às ${fmtHour(h[1])}` : 'Fechado'}</strong></div>`).join('');
+}
+
+function claimBlock(e) {
+  const base = (BRAND.siteUrl || location.origin).replace(/\/$/, '');
+  const ficha = `${base}/#empresa/${e.id}`;
+  const claim = guideLink(`Olá! Sou o responsável por "${e.name}" e quero confirmar e completar meu perfil no ${BRAND.name} ${BRAND.city}. ${ficha}`);
+  const error = guideLink(`Olá! Quero corrigir ou remover as informações de "${e.name}" no ${BRAND.name} ${BRAND.city}. ${ficha}`);
+  const errorLink = `<a class="link-quiet" href="${esc(error || 'privacidade.html')}" target="_blank" rel="noopener">Informar erro ou pedir remoção</a>`;
+  if (e.verified) return `<div class="claim small"><span>Perfil confirmado pela empresa.</span>${errorLink}</div>`;
+  return `<div class="claim"><strong>Esta é a sua empresa?</strong>
+    <p>Este perfil foi montado pelo ${esc(BRAND.name)} com informações públicas. Confirme os dados, adicione fotos e conte o que você oferece. É grátis.</p>
+    <div class="claim-actions">
+      ${claim ? `<a class="btn btn-claim" data-track-claim="${esc(e.id)}" href="${esc(claim)}" target="_blank" rel="noopener">${icon('store')}<span>Sou o dono · atualizar perfil</span></a>` : `<button class="btn btn-claim" type="button" data-claim="${esc(e.id)}">${icon('store')}<span>Sou o dono · atualizar perfil</span></button>`}
+      ${errorLink}
+    </div></div>`;
 }
 
 function sheetHTML(e) {
@@ -1190,7 +1224,7 @@ function sheetHTML(e) {
         <div class="category-line">${ratingLabel(e)} · ${esc(e.bairro)}</div>
         <div class="detail-status">
           <span class="detail-pill ${s.on ? 'live' : ''}"><span class="dot"></span>${esc(s.text)}</span>
-          ${e.verified ? `<span class="detail-pill verify">${icon('check')} Verificado</span>` : ''}
+          ${e.verified ? `<span class="detail-pill verify">${icon('check')} Verificado</span>` : `<span class="detail-pill info" title="Dados públicos reunidos pelo guia, ainda não confirmados pela empresa">Perfil informado pelo guia</span>`}
           ${e.delivery ? `<span class="detail-pill">${icon('truck')} ${e.f === 0 ? 'Entrega grátis' : 'Delivery'}</span>` : ''}
           ${e.ret ? '<span class="detail-pill">Retirada no local</span>' : ''}
         </div>
@@ -1198,7 +1232,7 @@ function sheetHTML(e) {
         ${services}
         <div class="detail-block">
           <h3>Onde encontrar</h3>
-          <div class="detail-row"><b>Endereço</b><span>${esc(e.end)}<br>${esc(e.bairro)}, ${esc(BRAND.city)}-${esc(BRAND.uf)}</span></div>
+          <div class="detail-row"><b>Endereço</b><span>${e.end ? `${esc(e.end)}<br>` : '<em>Endereço não informado</em><br>'}${esc(e.bairro)}${e.bairro ? ', ' : ''}${esc(BRAND.city)}-${esc(BRAND.uf)}</span></div>
           <div class="links">
             <a target="_blank" rel="noopener" href="${links.maps(e)}">${icon('route')}<span>Como chegar</span></a>
             <a class="waze-link" target="_blank" rel="noopener" href="${links.waze(e)}">${icon('waze')}<span>Waze</span></a>
@@ -1209,10 +1243,11 @@ function sheetHTML(e) {
           ${e.social.facebook ? `<a class="social-btn fb" data-track="facebook" data-id="${esc(e.id)}" data-origin="public-modal" target="_blank" rel="noopener noreferrer" href="${esc(e.social.facebook)}">${icon('facebook')}<span>Facebook</span></a>` : ''}
         </div></div>` : ''}
         <div class="detail-block"><h3>Horários</h3><div class="hours">${hoursRows(e)}</div></div>
+        ${claimBlock(e)}
       </div>
     </div>
-    <div class="sheet-actions">
-      <a class="btn btn-wa" data-track="whatsapp" data-id="${esc(e.id)}" data-origin="public-modal" href="${links.wa(e)}" target="_blank" rel="noopener">${icon('chat')}<span>${e.orc ? 'Pedir orçamento' : 'WhatsApp'}</span></a>
+    <div class="sheet-actions ${hasWa(e) ? '' : 'two'}">
+      ${hasWa(e) ? `<a class="btn btn-wa" data-track="whatsapp" data-id="${esc(e.id)}" data-origin="public-modal" href="${links.wa(e)}" target="_blank" rel="noopener">${icon('chat')}<span>${e.orc ? 'Pedir orçamento' : 'WhatsApp'}</span></a>` : ''}
       <a class="btn" data-track="ligar" data-id="${esc(e.id)}" data-origin="public-modal" href="${links.tel(e)}">${icon('phone')}<span>Ligar</span></a>
       <button class="btn" id="share-company" type="button">${icon('share')}<span>Compartilhar</span></button>
     </div>`;
@@ -1244,11 +1279,22 @@ function pushRoute(mode = 'push') {
 const BASE_TITLE = document.title;
 const setTitle = (txt) => { document.title = txt || BASE_TITLE; };
 
+/* De onde veio o visitante: link com ?origem=instagram (ou utm_source). Ajuda a saber qual divulgação funciona. */
+function captureOrigin(extra) {
+  try {
+    const q = new URLSearchParams(location.search);
+    const v = extra?.get('origem') || q.get('origem') || q.get('utm_source') || sessionStorage.getItem('guia-busca:origem') || '';
+    if (v) { state.origem = v; sessionStorage.setItem('guia-busca:origem', v); }
+  } catch {}
+}
+
 function applyRoute(initial = false) {
   const raw = location.hash.slice(1), cut = raw.indexOf('?');
   let path = cut < 0 ? raw : raw.slice(0, cut);
   try { path = decodeURIComponent(path); } catch {}
   const params = new URLSearchParams(cut < 0 ? '' : raw.slice(cut + 1));
+  if (path === 'participar' || path === 'cadastro') path = 'perfil';
+  captureOrigin(params);
   if (path.startsWith('empresa/')) {
     const id = path.slice(8);
     if (COMPANIES.some((x) => x.id === id)) { if (!current || current.id !== id) openCompany(id, 0, { fromRoute: true }); return; }
@@ -1335,6 +1381,7 @@ function render() {
 }
 
 function navigate(view) {
+  if (view !== 'perfil') state.prefill = null;
   state.view = view;
   render();
   pushRoute('push');
@@ -1389,6 +1436,9 @@ document.addEventListener('click', (event) => {
     moveGallery(idx - galleryIndex);
     return;
   }
+
+  const claimBtn = t.closest('[data-claim]');
+  if (claimBtn) { const c = COMPANIES.find((x) => x.id === claimBtn.dataset.claim); state.prefill = { nome: c?.name || '', origem: 'reivindicacao' }; closeCompany({ fromRoute: true }); return navigate('perfil'); }
 
   const pop = t.closest('[data-q]');
   if (pop) { state.q = pop.dataset.q; state.view = 'buscar'; render(); pushRoute('push'); return scrollTo({ top: 0 }); }
@@ -1482,7 +1532,7 @@ document.addEventListener('submit', async (event) => {
   if (first) { $(`#${first}`).focus(); return; }
   const button = event.target.querySelector('button[type=submit]');
   button.disabled = true; button.textContent = 'Enviando…';
-  try { await enviarCadastro({ nome, categoria, whatsapp, plano, aceite: true }); state.sent = true; state.error = false; state.planoEnviado = plano; }
+  try { await enviarCadastro({ nome, categoria, whatsapp, plano, aceite: true, origem: state.prefill?.origem || state.origem }); state.sent = true; state.error = false; state.planoEnviado = plano; state.prefill = null; }
   catch { state.sent = false; state.error = true; }
   render();
   $('#form-msg')?.scrollIntoView({ behavior: 'smooth', block: 'center' });

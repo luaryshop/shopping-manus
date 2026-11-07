@@ -47,8 +47,10 @@ export function normalizar(n, i = 0, hoje = new Date()) {
     services,
     desc: n.descricao || n.desc || "",
     bairro: n.bairro || "",
-    end: n.endereco || n.end || "—",
+    end: (n.endereco || n.end || "").replace(/^—$/, ""),
     t24: horarios === "24h",
+    noHours: horarios === undefined || horarios === null,
+    fonte: n.fonte || "",
     h: horarios === "24h" ? { wk: [0, 24], sat: [0, 24], sun: [0, 24] } : { wk: horarios?.seg_sex ?? horarios?.wk ?? null, sat: horarios?.sab ?? horarios?.sat ?? null, sun: horarios?.dom ?? horarios?.sun ?? null },
     phone: n.telefone || n.phone || "",
     wa: n.whatsapp || n.wa || "",
@@ -169,9 +171,11 @@ export async function registrarContato(negocioId, tipo, origem = "app") {
   } catch { /* analytics não pode impedir a conversão */ }
 }
 
-export async function enviarCadastro({ nome, categoria, whatsapp, plano = "gratis", aceite = false }) {
+export async function enviarCadastro({ nome, categoria, whatsapp, plano = "gratis", aceite = false, origem = "" }) {
   const planoValido = PLANOS[plano] ? plano : "gratis";
   const payload = { nome: String(nome).slice(0, 80), categoria: String(categoria).slice(0, 40), whatsapp: String(whatsapp).slice(0, 25), plano: planoValido, aceite: aceite === true, status: "novo", criadoEm: serverTimestamp() };
+  const o = String(origem || "").toLowerCase().replace(/[^a-z0-9_-]/g, "").slice(0, 40);
+  if (o) payload.origem = o;
   await addDoc(collection(db, COLECOES.cadastros), payload);
 }
 

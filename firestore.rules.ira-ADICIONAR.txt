@@ -39,12 +39,13 @@
     }
     match /ira_cadastros/{id} {
       // O formulário público cria pedido pendente; o painel administrativo decide o que fazer.
-      allow create: if request.resource.data.keys().hasOnly(['nome','categoria','whatsapp','plano','aceite','status','criadoEm'])
+      allow create: if request.resource.data.keys().hasOnly(['nome','categoria','whatsapp','plano','aceite','origem','status','criadoEm'])
                     && request.resource.data.nome is string && request.resource.data.nome.size() > 1 && request.resource.data.nome.size() <= 80
                     && request.resource.data.categoria is string && request.resource.data.categoria.size() <= 40
                     && request.resource.data.whatsapp is string && request.resource.data.whatsapp.size() <= 25
                     && (!('plano' in request.resource.data) || request.resource.data.plano in ['gratis','presenca','destaque','premium'])
                     && (!('aceite' in request.resource.data) || request.resource.data.aceite == true)
+                    && (!('origem' in request.resource.data) || (request.resource.data.origem is string && request.resource.data.origem.size() <= 40))
                     && request.resource.data.status == 'novo'
                     && request.resource.data.criadoEm == request.time;
       allow read, update, delete: if isAdmin();
