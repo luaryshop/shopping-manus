@@ -8,6 +8,25 @@ A página pública agora começa pelo problema do morador: busca ampla, sugestõ
 
 O painel `admin.html` foi redesenhado como uma central SaaS responsiva. Ele reúne visão geral, empresas, planos, cadastros, contatos, banners editáveis, novidades, plantões e configurações. O gerenciamento de fotos via GitHub continua disponível dentro do editor de empresa, com token mantido apenas em memória.
 
+## Atualização: busca, navegação e publicação
+
+- **Busca inteligente** (`SINONIMOS` em `config.js` + campo "Palavras de busca" no editor da empresa): "cabelo" acha salão, "remédio" acha farmácia, "cachorro" acha pet. Entende plural, acento e pequenos erros ("farmcia"). Quando não acha nada, sugere categorias e oferece "Minha empresa não está aqui".
+- **Botão voltar funciona** (rotas `#buscar?q=…`, `#empresa/<id>`): cada empresa e cada busca tem link próprio, que pode ser compartilhado.
+- **Perto de mim de verdade:** pede a localização, ordena pela distância (precisa de latitude/longitude da empresa, campos novos no editor) e mostra "a 1,2 km". Se a pessoa negar, mostra o filtro por bairro. A localização não sai do aparelho.
+- **Ordem dos resultados:** relevância → abertas antes das fechadas → plano (Premium/Destaque) → ordem manual. O app avisa que Premium e Destaque são anunciantes.
+- **Cadastro:** erros por campo, máscara de WhatsApp, caixa de aceite da Política de Privacidade (`privacidade.html`, modelo para revisão jurídica) e passo a passo "Como funciona".
+- **Publicação:** `favicon.svg`, ícones, imagem de compartilhamento (`og-image.png`), `manifest.webmanifest`, `robots.txt`, `sitemap.xml`.
+
+## Checklist antes de publicar
+
+1. Em `config.js`: `BRAND.siteUrl`, `BRAND.whatsapp` (WhatsApp do guia) e `MODO_DEMO = false` (esconde o aviso de demonstração e liga os dados estruturados do Google).
+2. Troque `https://guiabusca.com.br` pelo seu endereço real em `index.html` (tags `og:` e canonical), `robots.txt` e `sitemap.xml`.
+3. Cole de novo `firestore.rules.ira-ADICIONAR.txt` nas regras do Firebase (aceita o campo `aceite` no cadastro).
+4. Troque empresas, telefones e fotos fictícios; preencha palavras de busca e latitude/longitude.
+5. Complete `privacidade.html` (nome, CNPJ, e-mail) e peça revisão jurídica.
+6. Crie Firebase e GitHub próprios; `ADMIN_AUTH_REQUIRED = true` para o painel.
+7. Diagnóstico: abra `index.html?debug` para ver a origem dos dados no rodapé.
+
 ## Planos — escada de upgrade (Gratuito → Premium)
 
 | Degrau | Preço ref. | O que a empresa GANHA ao subir |

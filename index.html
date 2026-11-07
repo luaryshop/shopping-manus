@@ -3,9 +3,25 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Viva Ira · Guia local de Iracemápolis</title>
+<title>Guia Busca Iracemápolis · Empresas, serviços e telefones da cidade</title>
 <meta name="description" content="Encontre empresas, serviços e soluções de Iracemápolis com contato direto, informações claras e confiança local.">
 <meta name="theme-color" content="#102448">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="icon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="canonical" href="https://guiabusca.com.br/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Guia Busca">
+<meta property="og:title" content="Guia Busca Iracemápolis · O que você procura, perto de você">
+<meta property="og:description" content="Farmácia, comida, serviços, beleza e muito mais. Veja quem está aberto agora e chame no WhatsApp.">
+<meta property="og:url" content="https://guiabusca.com.br/">
+<meta property="og:image" content="https://guiabusca.com.br/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Guia Busca Iracemápolis","url":"https://guiabusca.com.br/","inLanguage":"pt-BR","potentialAction":{"@type":"SearchAction","target":"https://guiabusca.com.br/#buscar?q={search_term_string}","query-input":"required name=search_term_string"}}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -513,6 +529,89 @@ footer a{color:var(--coral);font-weight:700}
   .hours-row strong{text-align:left}
 }
 
+
+/* ==========================================================================
+   AJUSTES GUIA BUSCA (mobile first)
+   ========================================================================== */
+input,select,textarea{font-size:16px}
+.form-card input,.form-card select,.global-search input,.hero-search input{font-size:16px!important}
+:root[data-theme=dark] .brand-mark svg{color:#102448}
+:root[data-theme=dark] .brand-mark{box-shadow:0 7px 16px rgba(229,189,114,.18)}
+.demo-note{margin-top:6px;color:var(--coral);font-weight:700}
+.footer-links{display:grid;gap:6px;justify-items:start}
+.footer-links a{padding:4px 0}
+#source-note{font-size:11px}
+
+/* alvos de toque confortáveis (>= 44px) */
+.section-link{min-height:44px;display:inline-flex;align-items:center}
+.icon-btn{min-height:44px!important;width:44px!important}
+.city-chip{min-height:44px}
+.btn,.card-actions .btn{min-height:44px}
+.save{position:absolute}
+.save::after,.btn-go::after,.btn-send::before{content:"";position:absolute;inset:-6px}
+.btn-go,.btn-send{position:relative}
+.tabbar button{min-height:54px}
+
+/* busca: filtros em faixa rolável, resultados logo abaixo */
+.chip-row{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 8px;margin:10px -2px 0;scroll-snap-type:x proximity;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.chip-row::-webkit-scrollbar{display:none}
+.chip-row>*{flex:none;scroll-snap-align:start}
+.chip-row .filter-chip,.cat-chip{min-height:44px;padding:0 14px;white-space:nowrap}
+.cat-chip{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);border-radius:999px;color:var(--ink);font-size:13px;font-weight:700;cursor:pointer}
+.cat-chip .ico{width:18px;height:18px;color:var(--coral)}
+.cat-chip[aria-pressed=true]{background:var(--navy);border-color:var(--navy);color:var(--bg)}
+.cat-chip[aria-pressed=true] .ico{color:var(--bg)}
+.filter-clear{border-style:dashed}
+.search-tools{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin:6px 0 14px}
+.search-tools select{min-height:44px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);padding:0 12px;max-width:100%}
+.result-line{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:10px 0 12px}
+.result-line h2{margin:0;font:700 clamp(26px,5vw,36px)/1 var(--display)}
+.result-line h2 em{color:var(--coral)}
+.result-count{color:var(--muted);font-size:13px;font-weight:700}
+.notice-inline{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:12px 14px;margin:0 0 14px;font-size:13px;color:var(--muted)}
+.notice-inline .ico{width:20px;height:20px;color:var(--coral);flex:none;margin-top:1px}
+.sponsor-note{margin:16px 2px 0;font-size:12px;color:var(--muted)}
+.dist{color:var(--green);font-weight:800}
+.empty .empty-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:16px}
+.empty .empty-actions a,.empty .empty-actions button{min-height:44px;display:inline-flex;align-items:center;gap:6px;padding:0 16px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-weight:700;text-decoration:none;cursor:pointer}
+.empty .empty-actions .primary{background:var(--coral);border-color:var(--coral);color:#fff}
+.empty .chip-row{justify-content:center;flex-wrap:wrap;overflow:visible}
+.popular{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;align-items:center}
+.popular span{font-size:12px;color:var(--muted);font-weight:700}
+.popular button{min-height:40px;padding:0 13px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-size:13px;font-weight:700;cursor:pointer}
+
+/* cadastro */
+.field-err{display:block;margin-top:5px;color:#c0392b;font-size:12px;font-weight:700}
+:root[data-theme=dark] .field-err{color:#ff8f7e}
+.form-card input[aria-invalid=true]{border-color:#c0392b;box-shadow:0 0 0 3px rgba(192,57,43,.14)}
+.consent{display:flex!important;gap:10px;align-items:flex-start;font-size:12px;font-weight:600;line-height:1.45;color:var(--muted)}
+.consent input{width:22px!important;height:22px;flex:none;margin:0!important;padding:0!important;accent-color:var(--coral)}
+.how{display:grid;gap:10px;align-content:start}
+.how-step{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:18px;background:var(--surface);padding:14px}
+.how-step b{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--coral);color:#fff;font-size:14px;flex:none}
+.how-step strong{display:block;font-size:14px}
+.how-step span{font-size:12px;color:var(--muted)}
+.how h3{margin:0 0 2px;font:700 23px/1 var(--display)}
+
+@media(max-width:820px){
+  .hero-art{display:none}
+  .hero{padding:28px 0 10px;gap:14px}
+  .sheet-gallery{aspect-ratio:4/3;width:100%;max-height:38vh}
+  .sheet-gallery img{object-fit:cover}
+  .sheet-media{padding:0}
+  .sheet-thumbs{padding:8px 12px 0}
+  .sheet-info{padding-bottom:calc(30px + env(safe-area-inset-bottom))}
+}
+@media(max-width:560px){
+  .global-search input{height:46px}
+  .global-search .gs-icon{height:46px}
+  .global-search .btn-go{height:38px}
+  .intents{display:flex;overflow-x:auto;gap:8px;margin:0 -14px;padding:2px 14px 8px;scrollbar-width:none}
+  .intents::-webkit-scrollbar{display:none}
+  .intent{flex:none;min-width:158px}
+  .category-grid{grid-template-columns:repeat(3,1fr)}
+}
+
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
 }
@@ -522,12 +621,12 @@ footer a{color:var(--coral);font-weight:700}
 <body>
 <header class="site-header">
   <div class="header-inner wrap">
-    <a class="brand" href="#inicio" data-go="inicio" aria-label="Viva Ira, início">
+    <a class="brand" href="#inicio" data-go="inicio" aria-label="Guia Busca, início">
       <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/><path d="M4 18.5h16" opacity=".55"/></svg></span>
-      <span><strong class="brand-name">Viva <em>Ira</em></strong><small>Guia local de Iracemápolis</small></span>
+      <span><strong class="brand-name" id="brand-name">Guia <em>Busca</em></strong><small id="brand-sub">Iracemápolis</small></span>
     </a>
     <div class="header-tools">
-      <span class="city-chip" data-icon="pin"><strong>Iracemápolis, SP</strong></span>
+      <span class="city-chip" data-icon="pin"><strong id="city-chip">Iracemápolis, SP</strong></span>
       <button class="icon-btn" id="theme-toggle" type="button"></button>
     </div>
   </div>
@@ -537,8 +636,8 @@ footer a{color:var(--coral);font-weight:700}
 <main class="wrap" id="view" aria-live="polite"></main>
 
 <footer>
-  <div><div class="footer-brand">Viva Ira</div><div id="source-note">Carregando dados locais...</div></div>
-  <div><a href="#perfil" data-go="perfil">Sua empresa no guia</a><br><span>Um projeto de demonstração para Iracemápolis</span></div>
+  <div><div class="footer-brand" id="footer-brand">Guia Busca</div><div id="footer-sub">Guia de empresas e serviços de Iracemápolis</div><div id="demo-note" class="demo-note" hidden>Dados de demonstração: empresas, telefones e fotos são fictícios.</div></div>
+  <div class="footer-links"><a href="#perfil" data-go="perfil">Sua empresa no guia</a><a href="privacidade.html">Privacidade</a><span id="source-note" hidden></span></div>
 </footer>
 
 <div class="veil" id="veil" hidden>
@@ -547,7 +646,7 @@ footer a{color:var(--coral);font-weight:700}
 
 <script type="module">
 import { carregarNegocios, carregarConteudo, registrarContato, urlFoto, enviarCadastro } from './ira-data.js';
-import { BRAND, CATEGORIAS, INTENCOES, PLANOS, MENSAGENS_CLIENTE_PADRAO, preencherMensagem } from './config.js';
+import { BRAND, CATEGORIAS, INTENCOES, PLANOS, MENSAGENS_CLIENTE_PADRAO, preencherMensagem, SINONIMOS, MODO_DEMO, BUSCAS_POPULARES } from './config.js';
 
 /* ==========================================================================
    ÍCONES
@@ -595,8 +694,8 @@ const norm = (s = '') => String(s).toLowerCase().normalize('NFD').replace(/[̀-�
 const digits = (s = '') => String(s).replace(/\D/g, '');
 const brl = (n) => `R$ ${Number(n || 0).toFixed(2).replace('.', ',')}`;
 const store = {
-  get(key, fallback) { try { return localStorage.getItem(`viva-ira:${key}`) ?? fallback; } catch { return fallback; } },
-  set(key, value)    { try { localStorage.setItem(`viva-ira:${key}`, value); } catch {} }
+  get(key, fallback) { try { return localStorage.getItem(`guia-busca:${key}`) ?? fallback; } catch { return fallback; } },
+  set(key, value)    { try { localStorage.setItem(`guia-busca:${key}`, value); } catch {} }
 };
 
 /* ==========================================================================
@@ -641,23 +740,125 @@ let COMPANIES = [];
 let CONTENT = { novidades: [], plantoes: [], configuracoes: {} };
 let current = null, galleryIndex = 0, lastFocus = null;
 
-const state = { plano: 'gratis', view: 'inicio', q: '', cat: '', intent: '', sent: false, error: false, favs: new Set() };
+const state = { plano: 'gratis', view: 'inicio', q: '', cat: '', intent: '', bairro: '', geo: null, geoStatus: '', sent: false, error: false, favs: new Set() };
 try { state.favs = new Set(JSON.parse(store.get('favs', '[]'))); } catch {}
 const saveFavs = () => store.set('favs', JSON.stringify([...state.favs]));
+
+/* ==========================================================================
+   BUSCA INTELIGENTE
+   Entende sinônimos (cabelo → salão), plural, acentos e pequenos erros de digitação.
+   Os grupos de sinônimos ficam em config.js (SINONIMOS).
+   ========================================================================== */
+const STOP = new Set('a o as os de da do das dos e em um uma para por com no na nos nas perto preciso quero procuro buscar tem que mais ao aos pra pro meu minha'.split(' '));
+const SYN = new Map();
+SINONIMOS.forEach((g, i) => g.forEach((w) => { const k = norm(w); if (!SYN.has(k)) SYN.set(k, new Set()); SYN.get(k).add(i); }));
+const stem = (w) => w.length > 4 ? w.replace(/(es|s)$/, '') : w;
+const wordsOf = (v) => norm(v).split(/[^a-z0-9]+/).filter(Boolean);
+
+function lev(a, b, max) {
+  if (Math.abs(a.length - b.length) > max) return max + 1;
+  let prev = Array.from({ length: b.length + 1 }, (_, j) => j);
+  for (let i = 1; i <= a.length; i++) {
+    const cur = [i]; let best = i;
+    for (let j = 1; j <= b.length; j++) {
+      cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+      best = Math.min(best, cur[j]);
+    }
+    if (best > max) return max + 1;
+    prev = cur;
+  }
+  return prev[b.length];
+}
+
+function hayOf(e) {
+  if (e._hay) return e._hay;
+  const extra = [e.t24 ? '24h 24 horas plantao' : '', e.emergency ? 'emergencia urgencia plantao' : '', e.delivery ? 'delivery entrega' : '', e.orc ? 'orcamento' : ''];
+  const name = norm(e.name);
+  const rest = norm([e.cat, e.sub, e.desc, e.bairro, ...e.tags, ...(e.keywords || []), ...extra].join(' '));
+  return (e._hay = { name, all: `${name} ${rest}`, words: new Set(wordsOf(`${e.name} ${rest}`)) });
+}
+
+function altsOf(term) {
+  const out = new Set(); const st = stem(term);
+  for (const [w, groups] of SYN) {
+    if (w === term || w === st || stem(w) === st || (term.length >= 4 && (w.startsWith(term) || (w.length >= 4 && term.startsWith(w))))) {
+      groups.forEach((g) => SINONIMOS[g].forEach((x) => out.add(norm(x))));
+    }
+  }
+  out.delete(term);
+  return [...out];
+}
+
+/* 0 = não combina · 4 nome · 3 texto · 1,5 sinônimo · 1 erro de digitação */
+function relevance(e, tokens) {
+  const h = hayOf(e); let total = 0;
+  for (const t of tokens) {
+    const st = stem(t); let sc = 0;
+    if (h.name.includes(t) || (st.length >= 3 && h.name.includes(st))) sc = 4;
+    else if (h.all.includes(t) || (st.length >= 3 && h.all.includes(st))) sc = 3;
+    else if (altsOf(t).some((a) => a.length >= 2 && (a.includes(' ') ? h.all.includes(a) : h.words.has(a)))) sc = 1.5;
+    else if (t.length >= 4) {
+      const max = t.length >= 7 ? 2 : 1;
+      for (const w of h.words) if (lev(w, t, max) <= max) { sc = 1; break; }
+    }
+    if (!sc) return 0;
+    total += sc;
+  }
+  return total;
+}
+
+const rad = (v) => v * Math.PI / 180;
+function distOf(e) {
+  if (!state.geo || !e.location) return null;
+  const dLat = rad(e.location.lat - state.geo.lat), dLng = rad(e.location.lng - state.geo.lng);
+  const x = Math.sin(dLat / 2) ** 2 + Math.cos(rad(state.geo.lat)) * Math.cos(rad(e.location.lat)) * Math.sin(dLng / 2) ** 2;
+  return 6371 * 2 * Math.asin(Math.sqrt(x));
+}
+const fmtDist = (km) => km < 1 ? `a ${Math.max(50, Math.round(km * 10) * 100)} m` : `a ${km.toFixed(1).replace('.', ',')} km`;
 
 const PLAN_RANK = { premium: 0, destaque: 1, presenca: 2, gratis: 3 };
 const sortCompanies = (items) => [...items].sort((a, b) => (PLAN_RANK[a.plan] ?? 9) - (PLAN_RANK[b.plan] ?? 9) || a.ordem - b.ordem);
 
+function searchTokens() {
+  const all = wordsOf(state.q);
+  const keep = all.filter((t) => t.length > 1 && !STOP.has(t));
+  return keep.length ? keep : all;
+}
+
 function filtered() {
-  const q = norm(state.q.trim());
-  return sortCompanies(COMPANIES.filter((e) => {
-    if (state.cat && e.catId !== state.cat) return false;
-    if (q && !norm([e.name, e.cat, e.sub, e.desc, e.bairro, ...e.tags].join(' ')).includes(q)) return false;
-    if (state.intent === 'aberto')     return status(e).on;
-    if (state.intent === 'emergencia') return e.emergency;
-    if (state.intent === 'delivery')   return e.delivery;
-    return true;
-  }));
+  const tokens = searchTokens();
+  const list = [];
+  for (const e of COMPANIES) {
+    if (state.cat && e.catId !== state.cat) continue;
+    if (state.bairro && e.bairro !== state.bairro) continue;
+    const open = status(e).on;
+    if (state.intent === 'aberto' && !open) continue;
+    if (state.intent === 'emergencia' && !(e.emergency || e.t24)) continue;
+    if (state.intent === 'delivery' && !e.delivery) continue;
+    let rel = 0;
+    if (tokens.length) { rel = relevance(e, tokens); if (!rel) continue; }
+    list.push({ e, tier: tokens.length ? Math.floor(rel / tokens.length) : 0, open, d: distOf(e) });
+  }
+  const byDistance = state.intent === 'perto' && state.geo;
+  list.sort((a, b) =>
+    (byDistance ? (a.d ?? 1e9) - (b.d ?? 1e9) : 0)
+    || b.tier - a.tier
+    || Number(b.open) - Number(a.open)
+    || (PLAN_RANK[a.e.plan] ?? 9) - (PLAN_RANK[b.e.plan] ?? 9)
+    || a.e.ordem - b.e.ordem);
+  return list.map((x) => x.e);
+}
+
+const bairros = () => [...new Set(COMPANIES.map((e) => e.bairro).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+
+function askLocation() {
+  if (!navigator.geolocation) { state.geoStatus = 'indisponivel'; return; }
+  state.geoStatus = 'pedindo';
+  navigator.geolocation.getCurrentPosition(
+    (pos) => { state.geo = { lat: pos.coords.latitude, lng: pos.coords.longitude }; state.geoStatus = 'ok'; if (state.view === 'buscar') paintResults(); },
+    () => { state.geoStatus = 'negado'; if (state.view === 'buscar') paintResults(); },
+    { enableHighAccuracy: false, timeout: 8000, maximumAge: 300000 }
+  );
 }
 
 /* ==========================================================================
@@ -672,7 +873,7 @@ function ratingLabel(e) {
 }
 
 const INTENT_ICON = { aberto: 'clock', emergencia: 'siren', delivery: 'truck', perto: 'pin' };
-const INTENT_HINT = { aberto: 'Veja quem atende agora', emergencia: 'Atendimento prioritário', delivery: 'Receba onde estiver', perto: 'Encontre opções próximas' };
+const INTENT_HINT = { aberto: 'Veja quem atende agora', emergencia: 'Atendimento prioritário', delivery: 'Receba onde estiver', perto: 'Ordenar pela distância' };
 
 const intentTiles = () => `<div class="intents">${INTENCOES.map((i) => `
   <button class="intent intent-${i.id}" data-intent="${i.id}" aria-pressed="${state.intent === i.id}">
@@ -685,8 +886,15 @@ const categoryTiles = () => `<div class="category-grid">${CATEGORIAS.map((c) => 
     <span class="cat-icon">${icon(c.icon)}</span><span>${esc(c.nome)}</span>
   </button>`).join('')}</div>`;
 
-const filterChips = () => `<div class="filters">
+const filterChips = () => `<div class="chip-row" role="group" aria-label="Quando e como">
   ${INTENCOES.map((x) => `<button class="filter-chip filter-${x.id}" data-intent="${x.id}" aria-pressed="${state.intent === x.id}">${icon(INTENT_ICON[x.id])}<span>${esc(x.label)}</span></button>`).join('')}
+</div>
+<div class="chip-row" role="group" aria-label="Categorias">
+  ${CATEGORIAS.map((c) => `<button class="cat-chip" data-cat="${c.id}" aria-pressed="${state.cat === c.id}">${icon(c.icon)}${esc(c.nome)}</button>`).join('')}
+</div>
+<div class="search-tools">
+  <label class="sr" for="f-bairro">Filtrar por bairro</label>
+  <select id="f-bairro"><option value="">Todos os bairros</option>${bairros().map((b) => `<option ${state.bairro === b ? 'selected' : ''}>${esc(b)}</option>`).join('')}</select>
   <button class="filter-chip filter-clear" data-clear>${icon('x')}<span>Limpar filtros</span></button>
 </div>`;
 
@@ -708,7 +916,7 @@ function card(e, eager = false) {
       <div class="card-meta">${ratingLabel(e)}<span>·</span><span>${esc(e.cat)}</span></div>
       <div class="open-status ${s.on ? '' : 'closed'}"><span class="dot"></span>${esc(s.on ? 'Aberto agora' : s.text)}</div>
       <p class="card-desc">${esc(e.desc || 'Perfil em atualização.')}</p>
-      <div class="card-location">${icon('pin')}<span>${esc(e.bairro || BRAND.city)}</span></div>
+      <div class="card-location">${icon('pin')}<span>${esc(e.bairro || BRAND.city)}${distOf(e) != null ? ` · <span class="dist">${fmtDist(distOf(e))}</span>` : ''}</span></div>
       <div class="card-actions">
         <a class="btn btn-wa" data-track="whatsapp" data-id="${esc(e.id)}" href="${links.wa(e)}" target="_blank" rel="noopener">${icon('chat')} WhatsApp</a>
         <a class="btn" data-track="ligar" data-id="${esc(e.id)}" href="${links.tel(e)}">${icon('phone')} Ligar</a>
@@ -718,7 +926,19 @@ function card(e, eager = false) {
 }
 
 const emptyState = (ico, title, text) => `<div class="empty">${icon(ico)}<br><strong>${title}</strong><br>${text}</div>`;
-const resultsHTML = (items) => items.length ? items.map((e) => card(e)).join('') : emptyState('search', 'Nada encontrado ainda.', 'Tente outra palavra ou retire um filtro.');
+
+function emptyResults() {
+  const q = state.q.trim();
+  const filtros = state.cat || state.intent || state.bairro;
+  const title = q ? `Não encontramos “${esc(q)}”.` : 'Nenhuma empresa com esses filtros.';
+  const dica = q ? 'Tente uma palavra mais simples (ex.: farmácia, cabelo, marmita) ou escolha uma categoria.' : 'Tire um filtro para ver mais opções.';
+  const wa = BRAND.whatsapp ? `<a class="primary" href="https://wa.me/${digits(BRAND.whatsapp)}?text=${encodeURIComponent(`Olá! Procurei “${q || 'um serviço'}” no ${BRAND.name} ${BRAND.city} e não encontrei. Podem me ajudar?`)}" target="_blank" rel="noopener">${icon('chat')} Pedir ajuda no WhatsApp</a>` : '';
+  return `<div class="empty">${icon('search')}<br><strong>${title}</strong><br>${dica}
+    <div class="chip-row" style="margin-top:14px">${CATEGORIAS.slice(0, 6).map((c) => `<button class="cat-chip" data-cat="${c.id}">${icon(c.icon)}${esc(c.nome)}</button>`).join('')}</div>
+    <div class="empty-actions">${(q || filtros) ? `<button data-clear>${icon('x')} Limpar busca e filtros</button>` : ''}${wa}<button data-go="perfil">${icon('store')} Minha empresa não está aqui</button></div>
+  </div>`;
+}
+const resultsHTML = (items) => items.length ? items.map((e) => card(e)).join('') : emptyResults();
 
 function sectionHead(title, sub, go = 'buscar') {
   return `<div class="section-head"><div><h2>${title}</h2>${sub ? `<p>${sub}</p>` : ''}</div><button class="section-link" data-go="${go}">Ver todos →</button></div>`;
@@ -727,15 +947,14 @@ function sectionHead(title, sub, go = 'buscar') {
 function globalSearch({ button = true } = {}) {
   return `<div class="global-search">
     <label for="global-q"><span class="sr">Buscar empresa, serviço ou categoria</span><span class="gs-icon">${icon('search')}</span></label>
-    <input id="global-q" type="search" autocomplete="off" placeholder="Buscar empresa, serviço ou categoria..." value="${esc(state.q)}">
+    <input id="global-q" type="search" autocomplete="off" placeholder="Buscar farmácia, salão…" value="${esc(state.q)}">
     ${button ? '<button class="btn-go" data-go="buscar" type="button">Buscar</button>' : ''}
   </div>`;
 }
 
 function suggestions() {
-  const q = norm(state.q.trim());
-  if (!q) return '';
-  const found = COMPANIES.filter((e) => norm([e.name, e.cat, e.sub, ...e.tags].join(' ')).includes(q)).slice(0, 5);
+  if (!state.q.trim()) return '';
+  const found = filtered().slice(0, 5);
   const body = found.map((e) => `<button data-open="${esc(e.id)}">${icon('search')}<span><strong>${esc(e.name)}</strong><small class="muted">${esc(e.cat)} · ${esc(e.bairro)}</small></span></button>`).join('')
     || `<button data-go="buscar">${icon('search')}Ver resultados para “${esc(state.q)}”</button>`;
   return `<div class="suggestions" role="listbox">${body}</div>`;
@@ -755,10 +974,11 @@ function heroView() {
       <div class="hero-search">
         <label class="sr" for="q">Buscar empresas, serviços ou produtos</label>
         ${icon('search')}
-        <input id="q" type="search" autocomplete="off" placeholder="Ex.: encanador, marmita, dentista..." value="${esc(state.q)}">
+        <input id="q" type="search" autocomplete="off" placeholder="Ex.: farmácia, marmita, salão" value="${esc(state.q)}">
         <button class="btn-send" data-go="buscar" type="button" aria-label="Buscar">Encontrar</button>
         <div id="suggestions-slot">${suggestions()}</div>
       </div>
+      <div class="popular"><span>Mais buscados:</span>${BUSCAS_POPULARES.map((t) => `<button type="button" data-q="${esc(t)}">${esc(t)}</button>`).join('')}</div>
     </div>
     <div class="hero-art ${img ? 'has-image' : ''}">
       ${img ? `<img class="city-image" src="${esc(img)}" alt="Imagem de ${esc(BRAND.city)}">` : ''}
@@ -775,7 +995,7 @@ function bannersView() {
     <article class="banner-card" data-color="navy">
       <span class="eyebrow">CONFIANÇA LOCAL</span>
       <h2>Escolha quem a cidade recomenda</h2>
-      <p>Perfis verificados, contatos diretos e informação clara sobre empresas de Iracemápolis.</p>
+      <p>Perfis verificados, contatos diretos e informação clara sobre empresas de ${esc(BRAND.city)}.</p>
       <a href="#buscar" data-go="buscar">Ver destaques →</a>
     </article>
     <article class="banner-card" data-color="coral">
@@ -790,7 +1010,7 @@ function bannersView() {
 function nearbyPanel() {
   const items = sortCompanies(COMPANIES).slice(0, 4);
   return `<div class="panel">
-    <div class="panel-head"><div><h3>Perto de você</h3><p>Opções que merecem sua atenção hoje.</p></div>${icon('pin')}</div>
+    <div class="panel-head"><div><h3>Em destaque na cidade</h3><p>Empresas em evidência hoje.</p></div>${icon('pin')}</div>
     <div class="nearby-list">${items.map((e, i) => `
       <button class="nearby-row" data-open="${esc(e.id)}">
         <img class="mini-cover" src="${urlFoto(e.id, 0, e.ver)}" alt="">
@@ -826,32 +1046,51 @@ function homeView() {
     <section class="section">${sectionHead('Escolha pelo que você precisa', 'Atalhos rápidos para resolver o dia.')}${intentTiles()}</section>
     <section class="section"><div class="section-head"><div><h2>Explore por <em>categoria</em></h2><p>Do essencial ao especial, tudo organizado.</p></div></div>${categoryTiles()}</section>
     ${bannersView()}
-    <section class="section">${sectionHead('Destaques em Iracemápolis', 'Empresas que estão fazendo bonito por aqui.')}<div class="grid">${shown.map((e) => card(e, true)).join('')}</div></section>
+    <section class="section">${sectionHead(`Destaques em ${esc(BRAND.city)}`, 'Empresas que estão fazendo bonito por aqui.')}<div class="grid">${shown.map((e) => card(e, true)).join('')}</div></section>
     <section class="section split">${nearbyPanel()}${emergencyPanel()}</section>
     <section class="section">${sectionHead('Novidades na cidade', 'Conteúdo rápido para descobrir algo novo.', 'perfil')}${newsView()}</section>
     <div class="cta-business"><div><h2>Sua empresa merece ser encontrada.</h2><p>Crie um perfil e apareça para quem está procurando agora.</p></div><a href="#perfil" data-go="perfil">Cadastrar empresa →</a></div>`;
 }
 
 function searchView() {
-  const results = filtered();
   return `${globalSearch({ button: false })}
-  <section class="section" style="padding-top:26px">
-    <span class="eyebrow">Descoberta local</span>
-    <div class="section-head">
-      <div><h2 id="results-title">${resultsTitle()}</h2><p>Escolha uma opção e vá direto ao ponto.</p></div>
-      <span class="result-count" id="results-count">${results.length} resultado(s)</span>
-    </div>
-    ${categoryTiles()}${filterChips()}
-    <div class="grid" id="results">${resultsHTML(results)}</div>
+  <section class="section" style="padding-top:8px">
+    ${filterChips()}
+    <div id="results-area">${resultsArea()}</div>
   </section>`;
 }
-const resultsTitle = () => state.q ? `Resultados para <em>“${esc(state.q)}”</em>` : 'Todas as empresas';
+
+function resultsTitle() {
+  if (state.q.trim()) return `Resultados para <em>“${esc(state.q.trim())}”</em>`;
+  const cat = CATEGORIAS.find((c) => c.id === state.cat);
+  if (cat) return esc(cat.nome);
+  const it = INTENCOES.find((i) => i.id === state.intent);
+  return it ? esc(it.label) : 'Todas as empresas';
+}
+
+function geoNotice() {
+  if (state.intent !== 'perto') return '';
+  const note = (txt, extra = '') => `<div class="notice-inline" role="status">${icon('pin')}<span>${txt}${extra}</span></div>`;
+  if (state.geoStatus === 'pedindo') return note('Procurando sua localização…');
+  if (state.geoStatus === 'negado' || state.geoStatus === 'indisponivel') return note('Não conseguimos usar sua localização. Escolha o seu bairro na lista acima para ver quem está por perto.');
+  if (state.geo) return COMPANIES.some((e) => e.location)
+    ? note('Ordenado pela distância até você. Sua localização fica só no seu aparelho e não é guardada.')
+    : note('Ainda não temos o mapa dessas empresas. Escolha seu bairro na lista acima.');
+  return note('Para ordenar pela distância, precisamos saber onde você está. ', '<button class="section-link" data-geo type="button">Usar minha localização</button>');
+}
+
+function resultsArea() {
+  const results = filtered();
+  const anunciantes = results.some((e) => e.plan === 'premium' || e.plan === 'destaque');
+  return `${geoNotice()}
+    <div class="result-line"><h2 id="results-title">${resultsTitle()}</h2><span class="result-count" id="results-count" role="status">${results.length} ${results.length === 1 ? 'resultado' : 'resultados'}</span></div>
+    <div class="grid" id="results">${resultsHTML(results)}</div>
+    ${anunciantes ? '<p class="sponsor-note">Empresas Premium e Destaque são anunciantes do guia. Entre as que estão abertas agora, elas aparecem primeiro.</p>' : ''}`;
+}
 
 function paintResults() {
-  const results = filtered();
-  $('#results').innerHTML = resultsHTML(results);
-  $('#results-count').textContent = `${results.length} resultado(s)`;
-  $('#results-title').innerHTML = resultsTitle();
+  const area = $('#results-area');
+  if (area) area.innerHTML = resultsArea();
 }
 
 function favoritesView() {
@@ -866,7 +1105,7 @@ function favoritesView() {
 function planBenefitsHTML(id) {
   const p = PLANOS[id] || PLANOS.gratis;
   const next = PLANOS[p.proximo];
-  return `<h4>${esc(p.label)} · ${p.price ? `${brl(p.price)}/mês` : 'Gratuito'}</h4>
+  return `<h4>${esc(p.label)} · ${p.price ? `${brl(p.price)}/mês` : 'sem custo'}</h4>
     <ul>${p.benefits.map((b) => `<li>${icon('check')}<span>${esc(b)}</span></li>`).join('')}</ul>
     ${next ? `<p class="upsell">Quer ir além? No <b>${esc(next.label)}</b> você ganha: ${esc(next.novidades.join(', '))}.</p>` : '<p class="upsell">Este é o plano mais completo do guia.</p>'}
     ${p.price ? '<p class="upsell">Nossa equipe fala com você no WhatsApp para confirmar o plano antes de ativar.</p>' : ''}`;
@@ -892,16 +1131,22 @@ function profileView() {
           ${state.error ? '<div class="notice err">Não foi possível enviar agora. Tente novamente em instantes.</div>' : ''}
           ${state.sent ? `<div class="notice ok">Cadastro recebido (plano ${esc(PLANOS[state.planoEnviado]?.label || 'Gratuito')}). Vamos confirmar o WhatsApp e publicar seu perfil em até 1 dia útil.</div>` : ''}
         </div>
-        <label>Nome da empresa<input id="r-n" required maxlength="80" placeholder="Ex.: Padaria Pão de Praça"></label>
+        <label>Nome da empresa<input id="r-n" required maxlength="80" autocomplete="organization" placeholder="Ex.: Padaria Pão de Praça" aria-describedby="r-n-err"><small class="field-err" id="r-n-err" role="alert" hidden></small></label>
         <label>Categoria<select id="r-c">${CATEGORIAS.map((c) => `<option>${esc(c.nome)}</option>`).join('')}</select></label>
-        <label>WhatsApp<input id="r-w" required inputmode="tel" maxlength="25" placeholder="(19) 9 0000-0000"></label>
+        <label>WhatsApp da empresa<input id="r-w" type="tel" required inputmode="tel" autocomplete="tel-national" maxlength="16" placeholder="(19) 99999-0000" aria-describedby="r-w-err"><small class="field-err" id="r-w-err" role="alert" hidden></small></label>
         <fieldset class="plan-picker"><legend>Escolha seu plano</legend>
-          ${Object.entries(PLANOS).map(([id, p]) => `<label class="plan-opt ${state.plano === id ? 'on' : ''}"><input type="radio" name="r-plano" value="${id}" ${state.plano === id ? 'checked' : ''}><span>${esc(p.label)}<small>${p.price ? `${brl(p.price)}/mês` : 'Gratuito'}</small></span></label>`).join('')}
+          ${Object.entries(PLANOS).map(([id, p]) => `<label class="plan-opt ${state.plano === id ? 'on' : ''}"><input type="radio" name="r-plano" value="${id}" ${state.plano === id ? 'checked' : ''}><span>${esc(p.label)}<small>${p.price ? `${brl(p.price)}/mês` : 'sem custo'}</small></span></label>`).join('')}
         </fieldset>
         <div id="plan-benefits" class="plan-benefits" aria-live="polite">${planBenefitsHTML(state.plano)}</div>
+        <label class="consent"><input type="checkbox" id="r-ok"><span>Concordo em ser contatado por WhatsApp pelo ${esc(BRAND.name)} e com a <a href="privacidade.html" target="_blank" rel="noopener">Política de Privacidade</a>.</span></label>
+        <small class="field-err" id="r-ok-err" role="alert" hidden></small>
         <button type="submit">Enviar cadastro →</button>
       </form>
-      <div class="plans-mini">${Object.entries(PLANOS).map(([id, p]) => `<button type="button" class="plan-mini ${state.plano === id ? 'on' : ''}" data-plano="${id}" aria-pressed="${state.plano === id}"><h3>${esc(p.label)}</h3><strong>${p.price ? `${brl(p.price)}/mês` : 'Gratuito'}</strong><p>${esc(p.description)}</p></button>`).join('')}</div>
+      <aside class="how" aria-label="Como funciona"><h3>Como funciona</h3>
+        <div class="how-step"><b>1</b><div><strong>Você envia os dados</strong><span>Leva menos de um minuto.</span></div></div>
+        <div class="how-step"><b>2</b><div><strong>Confirmamos pelo WhatsApp</strong><span>Conferimos o número e combinamos o plano.</span></div></div>
+        <div class="how-step"><b>3</b><div><strong>Seu perfil entra no ar</strong><span>Em até 1 dia útil, com fotos e horários.</span></div></div>
+      </aside>
     </div>
   </section>`;
 }
@@ -973,7 +1218,57 @@ function sheetHTML(e) {
     </div>`;
 }
 
-function openCompany(id, photoIndex = 0) {
+/* ==========================================================================
+   ROTAS (botão "voltar" do celular funciona)
+   #inicio · #buscar?q=…&cat=…&quando=…&bairro=… · #favoritos · #perfil · #empresa/<id>
+   ========================================================================== */
+let sheetPushed = false;
+const hashOf = () => {
+  if (current) return `#empresa/${encodeURIComponent(current.id)}`;
+  const q = new URLSearchParams();
+  if (state.view === 'buscar') {
+    if (state.q.trim()) q.set('q', state.q.trim());
+    if (state.cat) q.set('cat', state.cat);
+    if (state.intent) q.set('quando', state.intent);
+    if (state.bairro) q.set('bairro', state.bairro);
+  }
+  const qs = q.toString();
+  return `#${state.view}${qs ? `?${qs}` : ''}`;
+};
+function pushRoute(mode = 'push') {
+  const h = hashOf();
+  if (h === location.hash || (!location.hash && h === '#inicio' && mode === 'push')) return;
+  try { history[mode === 'push' ? 'pushState' : 'replaceState']({ guia: 1 }, '', h); } catch {}
+}
+
+const BASE_TITLE = document.title;
+const setTitle = (txt) => { document.title = txt || BASE_TITLE; };
+
+function applyRoute(initial = false) {
+  const raw = location.hash.slice(1), cut = raw.indexOf('?');
+  let path = cut < 0 ? raw : raw.slice(0, cut);
+  try { path = decodeURIComponent(path); } catch {}
+  const params = new URLSearchParams(cut < 0 ? '' : raw.slice(cut + 1));
+  if (path.startsWith('empresa/')) {
+    const id = path.slice(8);
+    if (COMPANIES.some((x) => x.id === id)) { if (!current || current.id !== id) openCompany(id, 0, { fromRoute: true }); return; }
+  }
+  const next = {
+    view: VIEWS[path] ? path : 'inicio',
+    q: path === 'buscar' ? params.get('q') || '' : '',
+    cat: path === 'buscar' ? params.get('cat') || '' : '',
+    intent: path === 'buscar' ? params.get('quando') || '' : '',
+    bairro: path === 'buscar' ? params.get('bairro') || '' : ''
+  };
+  const same = Object.keys(next).every((k) => state[k] === next[k]);
+  if (!$('#veil').hidden) closeCompany({ fromRoute: true });
+  if (same && !initial) return;
+  Object.assign(state, next);
+  render();
+  if (!initial) scrollTo({ top: 0 });
+}
+
+function openCompany(id, photoIndex = 0, opts = {}) {
   const e = COMPANIES.find((x) => x.id === id);
   if (!e) return;
   current = e; galleryIndex = photoIndex; lastFocus = document.activeElement;
@@ -981,14 +1276,20 @@ function openCompany(id, photoIndex = 0) {
   $('#veil').hidden = false;
   document.body.style.overflow = 'hidden';
   $('#sheet-close').focus();
+  setTitle(`${e.name} · ${e.cat} em ${BRAND.city} | ${BRAND.name}`);
+  if (!opts.fromRoute) { pushRoute('push'); sheetPushed = true; }
 }
 
-function closeCompany() {
+function closeCompany(opts = {}) {
   if ($('#veil').hidden) return;
   $('#veil').hidden = true;
   document.body.style.overflow = '';
   current = null;
+  setTitle();
   lastFocus?.focus?.();
+  if (opts.fromRoute) { sheetPushed = false; return; }
+  if (sheetPushed) { sheetPushed = false; history.back(); }
+  else pushRoute('replace');
 }
 
 function moveGallery(delta) {
@@ -1004,7 +1305,7 @@ function moveGallery(delta) {
 
 async function shareCompany() {
   if (!current) return;
-  const data = { title: current.name, text: `${current.name} no Viva Ira`, url: location.href };
+  const data = { title: current.name, text: `${current.name} · ${current.cat} em ${BRAND.city} (${BRAND.name})`, url: location.href };
   const label = $('#share-company span');
   try {
     if (navigator.share) await navigator.share(data);
@@ -1029,22 +1330,25 @@ const VIEWS = { inicio: homeView, buscar: searchView, favoritos: favoritesView, 
 function render() {
   $('#view').innerHTML = (VIEWS[state.view] || homeView)();
   $('#nav').innerHTML = TABS.map(([id, label, ico]) => `<button data-go="${id}" aria-current="${state.view === id ? 'page' : 'false'}">${icon(ico)}${label}</button>`).join('');
-  $('#source-note').textContent = `Fonte: ${window.__source || 'dados locais'} · ${COMPANIES.length} empresas de demonstração`;
+  $('#demo-note').hidden = !MODO_DEMO;
+  if (new URLSearchParams(location.search).has('debug')) { const n = $('#source-note'); n.hidden = false; n.textContent = `Fonte: ${window.__source || 'dados locais'} · ${COMPANIES.length} empresas`; }
 }
 
 function navigate(view) {
   state.view = view;
   render();
+  pushRoute('push');
   scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function applyIntent(id) {
-  if (id === 'perto' && state.intent !== 'perto' && navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(() => {}, () => {});
-  }
-  state.intent = state.intent === id ? '' : id;
+  const on = state.intent !== id;
+  state.intent = on ? id : '';
   state.view = 'buscar';
+  if (id === 'perto' && on && !state.geo) askLocation();
   render();
+  pushRoute('replace');
+  if (state.view === 'buscar') scrollTo({ top: 0 });
 }
 
 function setTheme(theme) {
@@ -1086,6 +1390,11 @@ document.addEventListener('click', (event) => {
     return;
   }
 
+  const pop = t.closest('[data-q]');
+  if (pop) { state.q = pop.dataset.q; state.view = 'buscar'; render(); pushRoute('push'); return scrollTo({ top: 0 }); }
+
+  if (t.closest('[data-geo]')) { askLocation(); return paintResults(); }
+
   const go = t.closest('[data-go]');
   if (go) { event.preventDefault(); return navigate(go.dataset.go || 'inicio'); }
 
@@ -1096,19 +1405,30 @@ document.addEventListener('click', (event) => {
   if (fav) return toggleFavorite(fav.dataset.fav);
 
   const cat = t.closest('[data-cat]');
-  if (cat) { state.cat = state.cat === cat.dataset.cat ? '' : cat.dataset.cat; state.view = 'buscar'; return render(); }
+  if (cat) { state.cat = state.cat === cat.dataset.cat ? '' : cat.dataset.cat; const wasHome = state.view !== 'buscar'; state.view = 'buscar'; render(); pushRoute(wasHome ? 'push' : 'replace'); return wasHome && scrollTo({ top: 0 }); }
 
   const intent = t.closest('[data-intent]');
   if (intent) return applyIntent(intent.dataset.intent);
 
-  if (t.closest('[data-clear]')) { Object.assign(state, { q: '', cat: '', intent: '', view: 'buscar' }); return render(); }
+  if (t.closest('[data-clear]')) { Object.assign(state, { q: '', cat: '', intent: '', bairro: '', view: 'buscar' }); render(); return pushRoute('replace'); }
 });
+
+const maskPhone = (v) => {
+  let d = digits(v); if (d.startsWith('55') && d.length > 11) d = d.slice(2);
+  d = d.slice(0, 11);
+  if (d.length <= 2) return d ? `(${d}` : '';
+  if (d.length <= 6) return `(${d.slice(0, 2)}) ${d.slice(2)}`;
+  if (d.length <= 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`;
+  return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+};
 
 document.addEventListener('input', (event) => {
   const id = event.target.id;
+  if (id === 'r-w') { event.target.value = maskPhone(event.target.value); clearFieldError('r-w'); return; }
+  if (id === 'r-n' || id === 'r-ok') clearFieldError(id);
   if (id !== 'q' && id !== 'global-q') return;
   state.q = event.target.value;
-  if (state.view === 'buscar') paintResults();
+  if (state.view === 'buscar') { paintResults(); pushRoute('replace'); }
   else if (id === 'q') $('#suggestions-slot').innerHTML = suggestions();
 });
 
@@ -1117,7 +1437,7 @@ document.addEventListener('keydown', (event) => {
   if ((id === 'q' || id === 'global-q') && event.key === 'Enter') {
     event.preventDefault();
     state.q = event.target.value;
-    if (state.view === 'buscar') return paintResults();
+    if (state.view === 'buscar') { paintResults(); return pushRoute('replace'); }
     return navigate('buscar');
   }
   if ($('#veil').hidden) return;
@@ -1128,6 +1448,7 @@ document.addEventListener('keydown', (event) => {
 });
 
 document.addEventListener('change', (event) => {
+  if (event.target.id === 'f-bairro') { state.bairro = event.target.value; paintResults(); pushRoute('replace'); return; }
   if (event.target.name === 'r-plano') selectPlan(event.target.value);
 });
 document.addEventListener('click', (event) => {
@@ -1135,21 +1456,36 @@ document.addEventListener('click', (event) => {
   if (card) selectPlan(card.dataset.plano);
 });
 
+function fieldError(id, msg) {
+  const input = $(`#${id}`), err = $(`#${id}-err`);
+  if (input && input.type !== 'checkbox') input.setAttribute('aria-invalid', 'true');
+  if (err) { err.textContent = msg; err.hidden = false; }
+}
+function clearFieldError(id) {
+  $(`#${id}`)?.removeAttribute('aria-invalid');
+  const err = $(`#${id}-err`); if (err) err.hidden = true;
+}
+
 document.addEventListener('submit', async (event) => {
   if (event.target.id !== 'reg') return;
   event.preventDefault();
   const nome = $('#r-n').value.trim(), whatsapp = $('#r-w').value.trim(), categoria = $('#r-c').value;
   const plano = $('input[name="r-plano"]:checked')?.value || state.plano || 'gratis';
-  const msg = $('#form-msg');
-  if (!nome || digits(whatsapp).length < 10) {
-    msg.innerHTML = '<div class="notice err">Informe o nome da empresa e um WhatsApp com DDD.</div>';
-    return;
-  }
+  ['r-n', 'r-w', 'r-ok'].forEach(clearFieldError);
+  let first = '';
+  const bad = (id, msg) => { fieldError(id, msg); first = first || id; };
+  if (nome.length < 2) bad('r-n', 'Escreva o nome da sua empresa.');
+  let d = digits(whatsapp); if (d.startsWith('55') && d.length > 11) d = d.slice(2);
+  if (d.length < 10 || d.length > 11) bad('r-w', 'Confira o WhatsApp: DDD + número. Ex.: (19) 99999-0000.');
+  else if (d.length === 11 && d[2] !== '9') bad('r-w', 'Celular com 11 números começa com 9 depois do DDD.');
+  if (!$('#r-ok').checked) bad('r-ok', 'Marque a caixa para podermos entrar em contato.');
+  if (first) { $(`#${first}`).focus(); return; }
   const button = event.target.querySelector('button[type=submit]');
-  button.disabled = true;
-  try { await enviarCadastro({ nome, categoria, whatsapp, plano }); state.sent = true; state.error = false; state.planoEnviado = plano; }
+  button.disabled = true; button.textContent = 'Enviando…';
+  try { await enviarCadastro({ nome, categoria, whatsapp, plano, aceite: true }); state.sent = true; state.error = false; state.planoEnviado = plano; }
   catch { state.sent = false; state.error = true; }
   render();
+  $('#form-msg')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 });
 
 document.addEventListener('error', (event) => {
@@ -1169,6 +1505,33 @@ document.querySelectorAll('[data-icon]').forEach((n) => n.insertAdjacentHTML('af
 setTheme(store.get('theme', matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
 $('#view').innerHTML = '<div class="loading">Carregando empresas...</div>';
 
+/* Marca e cidade vêm de config.js: trocar lá basta para abrir outra cidade ou segmento. */
+(() => {
+  const parts = BRAND.name.trim().split(/\s+/), last = parts.pop();
+  $('#brand-name').innerHTML = `${esc(parts.join(' '))} <em>${esc(last)}</em>`;
+  $('#brand-sub').textContent = `${BRAND.segmento && BRAND.segmento !== 'Cidade' ? `${BRAND.segmento} · ` : ''}${BRAND.city}`;
+  $('#city-chip').textContent = `${BRAND.city}, ${BRAND.uf}`;
+  $('#footer-brand').textContent = BRAND.name;
+  $('#footer-sub').textContent = `Guia de empresas e serviços de ${BRAND.city}`;
+  $('.brand')?.setAttribute('aria-label', `${BRAND.name}, início`);
+})();
+
+/* Dados estruturados para o Google (só com dados reais; no modo demonstração não publica telefones fictícios). */
+function injectSchema() {
+  if (MODO_DEMO) return;
+  const base = (BRAND.siteUrl || location.origin).replace(/\/$/, '');
+  const data = { '@context': 'https://schema.org', '@type': 'ItemList', itemListElement: COMPANIES.map((e, i) => ({
+    '@type': 'ListItem', position: i + 1, item: {
+      '@type': 'LocalBusiness', name: e.name, url: `${base}/#empresa/${encodeURIComponent(e.id)}`, telephone: e.phone ? `+55${digits(e.phone).replace(/^55/, '')}` : undefined,
+      image: urlFoto(e.id, 0, e.ver), address: { '@type': 'PostalAddress', streetAddress: e.end, addressLocality: BRAND.city, addressRegion: BRAND.uf, addressCountry: 'BR' },
+      ...(e.location ? { geo: { '@type': 'GeoCoordinates', latitude: e.location.lat, longitude: e.location.lng } } : {})
+    } })) };
+  const tag = document.createElement('script'); tag.type = 'application/ld+json'; tag.textContent = JSON.stringify(data);
+  document.head.appendChild(tag);
+}
+
+window.addEventListener('popstate', () => applyRoute());
+
 (async () => {
   try {
     const [negocios, conteudo] = await Promise.all([carregarNegocios(), carregarConteudo()]);
@@ -1180,7 +1543,9 @@ $('#view').innerHTML = '<div class="loading">Carregando empresas...</div>';
     $('#view').innerHTML = '<div class="loading">Não foi possível carregar o guia agora. Atualize a página em instantes.</div>';
     return;
   }
+  injectSchema();
   render();
+  applyRoute(true);
 })();
 </script>
 </body>

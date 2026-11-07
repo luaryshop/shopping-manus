@@ -12,14 +12,48 @@ export const firebaseConfig = {
 // Altere para true antes de publicar o painel em produção.
 export const ADMIN_AUTH_REQUIRED = false;
 
+// Marca e cidade. Para abrir outra cidade ou outro segmento (ex.: Guia Busca Hotéis),
+// copie o projeto e troque apenas este bloco, os dados e as categorias.
 export const BRAND = {
-  name: "Viva Ira",
-  tagline: "O melhor da cidade, mais perto de você",
+  name: "Guia Busca",
+  tagline: "O que você procura, perto de você",
   city: "Iracemápolis",
   uf: "SP",
-  whatsappMessage: "Olá! Vi sua empresa no Viva Ira e gostaria de mais informações.",
-  adminLabel: "Central Viva Ira"
+  segmento: "Cidade",                      // "Cidade", "Hotéis"... aparece no rodapé e nos textos de compartilhamento
+  siteUrl: "https://guiabusca.com.br",     // troque pelo endereço real (usado em compartilhamento e Google)
+  whatsapp: "",                            // WhatsApp do próprio guia, só números com DDD (ex.: 5519999999999). Vazio = botão some
+  whatsappMessage: "Olá! Vi sua empresa no Guia Busca e gostaria de mais informações.",
+  adminLabel: "Central Guia Busca"
 };
+
+// Atalhos "Mais buscados" na página inicial (o morador leigo não sabe o que digitar).
+export const BUSCAS_POPULARES = ["Farmácia", "Marmita", "Salão", "Cachorro", "Festa", "Portão"];
+
+// true = mostra aviso "dados de demonstração" no rodapé. Coloque false quando trocar pelos dados reais.
+export const MODO_DEMO = true;
+
+// Busca inteligente: cada grupo reúne palavras que significam a mesma coisa para o morador.
+// Quem digita qualquer uma encontra empresas que usem as outras. Sem acento e minúsculas.
+export const SINONIMOS = [
+  ["cabelo", "cabeleireiro", "cabeleireira", "corte", "escova", "barba", "barbeiro", "salao", "unha", "unhas", "manicure", "pedicure", "esmalte", "beleza", "estetica", "sobrancelha", "maquiagem"],
+  ["remedio", "remedios", "farmacia", "drogaria", "medicamento", "medicamentos", "saude", "receita", "genericos"],
+  ["dentista", "dente", "odontologia", "ortodontia", "aparelho"],
+  ["medico", "clinica", "consulta", "exame", "exames", "laboratorio", "pediatra", "saude"],
+  ["cachorro", "cao", "gato", "pet", "pets", "animal", "racao", "veterinario", "vet", "banho e tosa", "tosa"],
+  ["pizza", "lanche", "lanches", "hamburguer", "burger", "marmita", "marmitex", "almoco", "jantar", "comida", "restaurante", "delivery", "refeicao", "alimentacao", "batata", "milk shake", "milkshake"],
+  ["padaria", "pao", "paes", "bolo", "doce", "doces", "confeitaria", "cafe"],
+  ["encanador", "hidraulica", "vazamento", "cano", "torneira", "desentupimento", "caixa d'agua"],
+  ["eletricista", "eletrica", "fiacao", "tomada", "disjuntor", "instalacao eletrica"],
+  ["pedreiro", "reforma", "obra", "obras", "construcao", "azulejo", "reboco", "casa e obra"],
+  ["serralheria", "serralheiro", "portao", "grade", "grades", "solda", "soldador", "metal", "ferro", "estrutura metalica", "orcamento"],
+  ["festa", "festas", "evento", "eventos", "aniversario", "decoracao", "buffet", "casamento", "bolo de festa", "salgados", "lembrancinha", "balao"],
+  ["vinho", "vinhos", "bebida", "bebidas", "cerveja", "adega", "destilado", "whisky"],
+  ["ovos", "ovo", "granja", "caipira", "frango", "aves"],
+  ["roupa", "roupas", "moda", "boutique", "vestido", "camisa", "calca", "look", "feminina", "masculina", "presente"],
+  ["24h", "24 horas", "vinte e quatro horas", "plantao", "emergencia", "urgencia", "urgente", "madrugada", "noite"],
+  ["escola", "curso", "aula", "aulas", "reforco", "idioma", "ingles", "educacao"],
+  ["carro", "mecanico", "oficina", "automovel", "moto", "pneu", "borracharia", "auto"]
+];
 
 export const CIDADE = { nome: BRAND.city, uf: BRAND.uf };
 

@@ -10,7 +10,7 @@ const timeout = (promise, ms = 5000) => Promise.race([
   promise,
   new Promise((_, reject) => setTimeout(() => reject(new Error("tempo esgotado")), ms))
 ]);
-const localKey = (name) => `viva-ira:${name}`;
+const localKey = (name) => `guia-busca:${name}`;
 const readLocal = (name, fallback = []) => {
   try { return JSON.parse(localStorage.getItem(localKey(name)) || "null") ?? fallback; } catch { return fallback; }
 };
@@ -28,6 +28,8 @@ const categoryName = (value = "") => CATEGORIAS.find((item) => item.id === categ
 const safeUrl = (value = "") => { const v = String(value || "").trim(); return /^https?:\/\//i.test(v) ? v : ""; };
 const asArray = (value) => Array.isArray(value) ? value : value ? String(value).split(",").map((item) => item.trim()).filter(Boolean) : [];
 
+const geo = (v) => { const lat = Number(v?.lat), lng = Number(v?.lng); return Number.isFinite(lat) && Number.isFinite(lng) && (lat || lng) ? { lat, lng } : null; };
+
 export function normalizar(n, i = 0, hoje = new Date()) {
   const horarios = n.horarios;
   const vencido = n.plano && n.plano !== "gratis" && n.planoAte && new Date(`${n.planoAte}T23:59:59`) < hoje;
@@ -41,6 +43,7 @@ export function normalizar(n, i = 0, hoje = new Date()) {
     catId: categoryId(n.categoriaId || n.categoria || n.category),
     sub: n.subcategoria || n.sub || "",
     tags: asArray(n.servicos || n.tags),
+    keywords: asArray(n.palavras || n.keywords),
     services,
     desc: n.descricao || n.desc || "",
     bairro: n.bairro || "",
@@ -67,7 +70,7 @@ export function normalizar(n, i = 0, hoje = new Date()) {
     social: planoTem(plano, "social")
       ? { instagram: safeUrl((n.redes || n.social || {}).instagram), facebook: safeUrl((n.redes || n.social || {}).facebook) }
       : {},
-    location: n.localizacao || n.location || null,
+    location: geo(n.localizacao || n.location),
     createdAt: n.createdAt || null,
     i
   };
@@ -166,9 +169,9 @@ export async function registrarContato(negocioId, tipo, origem = "app") {
   } catch { /* analytics não pode impedir a conversão */ }
 }
 
-export async function enviarCadastro({ nome, categoria, whatsapp, plano = "gratis" }) {
+export async function enviarCadastro({ nome, categoria, whatsapp, plano = "gratis", aceite = false }) {
   const planoValido = PLANOS[plano] ? plano : "gratis";
-  const payload = { nome: String(nome).slice(0, 80), categoria: String(categoria).slice(0, 40), whatsapp: String(whatsapp).slice(0, 25), plano: planoValido, status: "novo", criadoEm: serverTimestamp() };
+  const payload = { nome: String(nome).slice(0, 80), categoria: String(categoria).slice(0, 40), whatsapp: String(whatsapp).slice(0, 25), plano: planoValido, aceite: aceite === true, status: "novo", criadoEm: serverTimestamp() };
   await addDoc(collection(db, COLECOES.cadastros), payload);
 }
 

@@ -77,7 +77,10 @@
         "instagram": "",
         "facebook": ""
       },
-      "localizacao": null,
+      "localizacao": {
+        "lat": -22.5831,
+        "lng": -47.5232
+      },
       "servicosDetalhados": [
         {
           "nome": "Hambúrguer artesanal",
@@ -95,6 +98,19 @@
           "nome": "Milk-shake",
           "preco": ""
         }
+      ],
+      "palavras": [
+        "hamburguer",
+        "lanche",
+        "pizza",
+        "marmita",
+        "jantar",
+        "comida",
+        "delivery",
+        "batata",
+        "milk",
+        "shake",
+        "restaurante"
       ]
     },
     {
@@ -144,7 +160,10 @@
         "instagram": "",
         "facebook": ""
       },
-      "localizacao": null,
+      "localizacao": {
+        "lat": -22.5921,
+        "lng": -47.5102
+      },
       "servicosDetalhados": [
         {
           "nome": "Ovos caipira",
@@ -162,6 +181,14 @@
           "nome": "Ovos de codorna",
           "preco": ""
         }
+      ],
+      "palavras": [
+        "ovo",
+        "ovos",
+        "caipira",
+        "granja",
+        "frango",
+        "aves"
       ]
     },
     {
@@ -211,7 +238,10 @@
         "instagram": "",
         "facebook": ""
       },
-      "localizacao": null,
+      "localizacao": {
+        "lat": -22.5788,
+        "lng": -47.5301
+      },
       "servicosDetalhados": [
         {
           "nome": "Vinhos",
@@ -229,6 +259,15 @@
           "nome": "Kits presente",
           "preco": ""
         }
+      ],
+      "palavras": [
+        "vinho",
+        "bebida",
+        "cerveja",
+        "adega",
+        "destilado",
+        "whisky",
+        "presente"
       ]
     },
     {
@@ -275,7 +314,10 @@
         "instagram": "",
         "facebook": ""
       },
-      "localizacao": null,
+      "localizacao": {
+        "lat": -22.5829,
+        "lng": -47.5227
+      },
       "servicosDetalhados": [
         {
           "nome": "Vestidos",
@@ -293,6 +335,15 @@
           "nome": "Presentes",
           "preco": ""
         }
+      ],
+      "palavras": [
+        "roupa",
+        "moda",
+        "vestido",
+        "feminina",
+        "presente",
+        "look",
+        "boutique"
       ]
     },
     {
@@ -339,7 +390,10 @@
         "instagram": "",
         "facebook": ""
       },
-      "localizacao": null,
+      "localizacao": {
+        "lat": -22.5859,
+        "lng": -47.5268
+      },
       "servicosDetalhados": [
         {
           "nome": "Portões",
@@ -357,6 +411,19 @@
           "nome": "Estruturas metálicas",
           "preco": ""
         }
+      ],
+      "palavras": [
+        "serralheiro",
+        "portao",
+        "grade",
+        "solda",
+        "metal",
+        "ferro",
+        "estrutura",
+        "metalica",
+        "reforma",
+        "conserto",
+        "orcamento"
       ]
     },
     {
@@ -403,7 +470,10 @@
         "instagram": "",
         "facebook": ""
       },
-      "localizacao": null,
+      "localizacao": {
+        "lat": -22.5783,
+        "lng": -47.5305
+      },
       "servicosDetalhados": [
         {
           "nome": "Corte",
@@ -421,6 +491,19 @@
           "nome": "Maquiagem",
           "preco": ""
         }
+      ],
+      "palavras": [
+        "cabelo",
+        "cabeleireiro",
+        "corte",
+        "escova",
+        "unha",
+        "manicure",
+        "pedicure",
+        "barba",
+        "sobrancelha",
+        "maquiagem",
+        "beleza"
       ]
     },
     {
@@ -470,9 +553,19 @@
         "facebook": ""
       },
       "localizacao": {
-        "lat": -22.581,
-        "lng": -47.519
-      }
+        "lat": -22.5836,
+        "lng": -47.524
+      },
+      "palavras": [
+        "farmacia",
+        "remedio",
+        "medicamento",
+        "receita",
+        "genericos",
+        "saude",
+        "plantao",
+        "24h"
+      ]
     },
     {
       "id": "pet-cia",
@@ -528,9 +621,19 @@
         "facebook": ""
       },
       "localizacao": {
-        "lat": -22.579,
-        "lng": -47.516
-      }
+        "lat": -22.5791,
+        "lng": -47.5298
+      },
+      "palavras": [
+        "cachorro",
+        "gato",
+        "pet",
+        "racao",
+        "banho",
+        "tosa",
+        "veterinario",
+        "animal"
+      ]
     },
     {
       "id": "festa-encanto",
@@ -586,9 +689,20 @@
         "facebook": ""
       },
       "localizacao": {
-        "lat": -22.584,
-        "lng": -47.521
-      }
+        "lat": -22.5764,
+        "lng": -47.5189
+      },
+      "palavras": [
+        "festa",
+        "aniversario",
+        "decoracao",
+        "buffet",
+        "casamento",
+        "salgados",
+        "lembrancinha",
+        "balao",
+        "evento"
+      ]
     }
   ]
 }
