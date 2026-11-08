@@ -85,18 +85,20 @@ export const INTENCOES = [
 //   novidades  → o que a empresa GANHA ao subir para este plano (usado nas mensagens de upgrade)
 //   proximo    → próximo degrau da escada (null no último)
 //   features   → recursos ligados/desligados (matriz do painel). Hoje o app aplica na tela:
-//                fotos (limite) e social (botões de Instagram/Facebook, só Premium).
+//                fotos (limite), botão de WhatsApp (Presença+), Instagram (Presença+),
+//                Facebook (Destaque+) e site (Premium). No Gratuito o WhatsApp aparece só como número.
 // ---------------------------------------------------------------------------
 export const FEATURES = [
-  { id: "basico", label: "Nome, categoria, endereço, telefone e horário" },
+  { id: "basico", label: "Nome, categoria, endereço, telefone, número de WhatsApp e horário" },
   { id: "descricao", label: "Descrição e serviços" },
   { id: "whatsapp", label: "Botão de WhatsApp" },
-  { id: "site", label: "Botão para o site da empresa" },
+  { id: "instagram", label: "Botão do Instagram" },
   { id: "entrega", label: "Retirada / entrega / orçamento" },
   { id: "selo", label: "Selo Verificado" },
   { id: "prioridadeListas", label: "Prioridade nas listas" },
   { id: "metricas", label: "Métricas básicas de contatos" },
-  { id: "social", label: "Botões de Instagram e Facebook" },
+  { id: "facebook", label: "Botão do Facebook" },
+  { id: "site", label: "Botão para o site da empresa" },
   { id: "prioridadeHome", label: "Prioridade na home" },
   { id: "banners", label: "Participação em banners e novidades" },
   { id: "relatorio", label: "Relatório avançado" }
@@ -110,7 +112,7 @@ export const PLANOS = {
     photos: 1,
     proximo: "presenca",
     description: "O essencial para ser encontrado.",
-    benefits: ["Nome, categoria e endereço", "Telefone e horário", "1 foto"],
+    benefits: ["Nome, categoria e endereço", "Telefone, WhatsApp e horário", "1 foto"],
     novidades: [],
     features: { basico: true }
   },
@@ -121,9 +123,9 @@ export const PLANOS = {
     photos: 3,
     proximo: "destaque",
     description: "Mais informação para gerar confiança.",
-    benefits: ["Tudo do Gratuito", "Descrição e serviços", "Botão de WhatsApp", "Botão para o seu site", "Retirada, entrega e orçamento", "Até 3 fotos"],
-    novidades: ["descrição e serviços", "botão de WhatsApp", "botão para o site", "retirada/entrega", "até 3 fotos"],
-    features: { basico: true, descricao: true, whatsapp: true, site: true, entrega: true }
+    benefits: ["Tudo do Gratuito", "Descrição e serviços", "Botão de WhatsApp", "Botão Instagram", "Retirada, entrega e orçamento", "Até 3 fotos"],
+    novidades: ["descrição e serviços", "botão de WhatsApp", "botão do Instagram", "retirada/entrega", "até 3 fotos"],
+    features: { basico: true, descricao: true, whatsapp: true, instagram: true, entrega: true }
   },
   destaque: {
     label: "Destaque",
@@ -132,9 +134,9 @@ export const PLANOS = {
     photos: 6,
     proximo: "premium",
     description: "Mais visibilidade e mais contatos.",
-    benefits: ["Tudo do Presença", "Prioridade nas listas", "Selo Verificado", "Métricas básicas de contatos", "Até 6 fotos"],
-    novidades: ["prioridade nas listas", "selo Verificado", "métricas de contatos", "até 6 fotos"],
-    features: { basico: true, descricao: true, whatsapp: true, site: true, entrega: true, selo: true, prioridadeListas: true, metricas: true }
+    benefits: ["Tudo do Presença", "Botão Facebook", "Prioridade nas listas", "Selo Verificado", "Métricas básicas de contatos", "Até 6 fotos"],
+    novidades: ["botão do Facebook", "prioridade nas listas", "selo Verificado", "métricas de contatos", "até 6 fotos"],
+    features: { basico: true, descricao: true, whatsapp: true, instagram: true, facebook: true, entrega: true, selo: true, prioridadeListas: true, metricas: true }
   },
   premium: {
     label: "Premium",
@@ -143,9 +145,9 @@ export const PLANOS = {
     photos: 10,
     proximo: null,
     description: "A vitrine completa da sua empresa.",
-    benefits: ["Tudo do Destaque", "Botões de Instagram e Facebook", "Prioridade na home", "Participação em banners e novidades", "Relatório avançado", "Até 10 fotos"],
-    novidades: ["botões de Instagram e Facebook", "prioridade na home", "banners e novidades", "relatório avançado", "até 10 fotos"],
-    features: { basico: true, descricao: true, whatsapp: true, site: true, entrega: true, selo: true, prioridadeListas: true, metricas: true, social: true, prioridadeHome: true, banners: true, relatorio: true }
+    benefits: ["Tudo do Destaque", "Botões de Instagram e Facebook", "Botão Site", "Prioridade na home", "Participação em banners e novidades", "Relatório avançado", "Até 10 fotos"],
+    novidades: ["botão do site", "prioridade na home", "banners e novidades", "relatório avançado", "até 10 fotos"],
+    features: { basico: true, descricao: true, whatsapp: true, instagram: true, facebook: true, site: true, entrega: true, selo: true, prioridadeListas: true, metricas: true, prioridadeHome: true, banners: true, relatorio: true }
   }
 };
 

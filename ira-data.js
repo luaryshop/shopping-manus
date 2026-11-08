@@ -54,7 +54,6 @@ export function normalizar(n, i = 0, hoje = new Date()) {
     fonte: n.fonte || "",
     h: horarios === "24h" ? { wk: [0, 24], sat: [0, 24], sun: [0, 24] } : { wk: horarios?.seg_sex ?? horarios?.wk ?? null, sat: horarios?.sab ?? horarios?.sat ?? null, sun: horarios?.dom ?? horarios?.sun ?? null },
     phone: n.telefone || n.phone || "",
-    wa: n.whatsapp || n.wa || "",
     plan: plano,
     planLabel: PLANOS[plano]?.label || plano,
     ver: n.fotosVersao || n.ver || "",
@@ -69,11 +68,14 @@ export function normalizar(n, i = 0, hoje = new Date()) {
     ordem: n.ordem ?? i,
     verified: !!(n.verificado || n.verified),
     emergency: !!(n.emergencia || n.emergency),
-    // Botões de Instagram/Facebook só existem a partir do plano Premium (config.js → features.social).
-    social: planoTem(plano, "social")
-      ? { instagram: safeUrl((n.redes || n.social || {}).instagram), facebook: safeUrl((n.redes || n.social || {}).facebook) }
-      : {},
-    // Botão do site: a partir do plano Presença (config.js → features.site).
+    // Instagram: Presença+; Facebook: Destaque+ (config.js → features). No Gratuito, o WhatsApp aparece só como número.
+    wa: n.whatsapp || n.wa || "",
+    waBtn: planoTem(plano, "whatsapp"),
+    social: {
+      ...(planoTem(plano, "instagram") ? { instagram: safeUrl((n.redes || n.social || {}).instagram) } : {}),
+      ...(planoTem(plano, "facebook") ? { facebook: safeUrl((n.redes || n.social || {}).facebook) } : {})
+    },
+    // Botão do site: só no Premium (config.js → features.site).
     site: planoTem(plano, "site") ? safeSite(n.site || n.website) : "",
     location: geo(n.localizacao || n.location),
     createdAt: n.createdAt || null,

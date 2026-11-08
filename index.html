@@ -140,13 +140,16 @@ main{min-height:calc(100vh - var(--header-h))}
 .row-actions{display:flex;gap:8px;position:relative;z-index:2}
 .ra{flex:1;min-width:0;padding:0 6px;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:40px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap}
 .ra .ico{width:18px;height:18px}
-.ra-wa{background:#25d366;border-color:#25d366;color:#fff}
+.ra-num{flex:1.8;white-space:nowrap;font-size:12.5px;border-style:dashed;background:transparent;color:var(--ink);font-weight:700}.ra-num .ico{fill:#25d366}
+.wa-inline{width:16px;height:16px;fill:#25d366;vertical-align:-3px}
+.ra-wa{flex:1.4;background:#25d366;border-color:#25d366;color:#fff}
 .ra-wa .ico{fill:#fff}
 .row-card.plan-premium{border:1.5px solid #d9b25e;background:linear-gradient(180deg,color-mix(in srgb,#f3d27a 16%,var(--surface)),var(--surface) 60%);box-shadow:0 10px 28px rgba(196,147,61,.2)}
 .row-card.plan-premium .row-media,.row-card.plan-premium .row-thumb{width:104px;height:104px}
 .row-card.plan-destaque{border-color:color-mix(in srgb,var(--coral) 45%,var(--line));box-shadow:inset 4px 0 0 var(--coral),var(--shadow-sm)}
 .row-card.is-preview .ra,.row-card.is-preview .row-open{pointer-events:none}
 @media(hover:hover){.row-card:hover{border-color:color-mix(in srgb,var(--coral) 55%,var(--line));box-shadow:var(--shadow)}}
+@media(max-width:430px){.ra-rota{flex:none;width:46px}.ra-rota span{display:none}.row-actions{gap:6px}}
 @media(max-width:380px){.row-media,.row-thumb{width:80px;height:80px}.row-card.plan-premium .row-media,.row-card.plan-premium .row-thumb{width:88px;height:88px}.ra span{font-size:12px}}
 
 .rail{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -14px;padding:2px 14px 10px;scrollbar-width:none}
@@ -174,12 +177,14 @@ main{min-height:calc(100vh - var(--header-h))}
 .plan-benefits{min-width:0}
 .plan-preview{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;margin:4px 0 12px}
 @media(min-width:700px){.plan-preview{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)}}
-.pp-col{min-width:0}
+.pp-col{min-width:0;overflow:hidden;padding:2px}
 .pp-label{display:block;margin-bottom:6px;color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
 .pp-note{margin:0 0 12px;color:var(--muted);font-size:12px}
-.mock{border:1px solid var(--line);border-radius:16px;background:var(--surface);padding:10px;display:grid;gap:7px;max-width:300px}
-.mock-gal{display:flex;gap:4px;height:74px;position:relative}
-.mock-gal span{flex:1;border-radius:9px;background:linear-gradient(135deg,var(--surface-2),color-mix(in srgb,var(--coral) 18%,var(--surface-2)));display:grid;place-items:center;color:var(--coral)}
+.mock{border:1px solid var(--line);border-radius:16px;background:var(--surface);padding:10px;display:grid;grid-template-columns:minmax(0,1fr);gap:7px;overflow:hidden}
+.mock-num{font-size:12px;color:var(--muted)}.mock-num .ico{width:15px;height:15px;color:#25d366;vertical-align:-3px}.mock-num b{color:var(--ink)}
+.mock-btns{flex-wrap:wrap}
+.mock-gal{display:flex;gap:4px;height:74px;position:relative;overflow:hidden;border-radius:9px}
+.mock-gal span{flex:1;min-width:0;border-radius:9px;background:linear-gradient(135deg,var(--surface-2),color-mix(in srgb,var(--coral) 18%,var(--surface-2)));display:grid;place-items:center;color:var(--coral)}
 .mock-gal span.big{flex:2.4}
 .mock-gal .ico{width:26px;height:26px}
 .mock-gal em{position:absolute;right:5px;bottom:5px;padding:1px 7px;border-radius:999px;background:rgba(16,36,72,.75);color:#fff;font-size:11px;font-style:normal;font-weight:800}
@@ -852,7 +857,9 @@ function status(e, now = new Date()) {
 }
 
 const fullAddress = (e) => [e.end, e.bairro, `${BRAND.city}-${BRAND.uf}`].filter(Boolean).join(', ');
-const hasWa = (e) => digits(e.wa).length >= 12;
+const hasWa = (e) => e.waBtn !== false && digits(e.wa).length >= 12;
+const fmtPhone = (v) => { let d = digits(v); if (d.length > 11 && d.startsWith('55')) d = d.slice(2); if (d.length === 11) return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`; if (d.length === 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`; return String(v || ''); };
+const waNum = (e) => (!hasWa(e) && digits(e.wa).length >= 12) ? fmtPhone(e.wa) : '';
 const guideLink = (text) => BRAND.whatsapp ? `https://wa.me/${digits(BRAND.whatsapp)}?text=${encodeURIComponent(text)}` : BRAND.email ? `mailto:${BRAND.email}?subject=${encodeURIComponent(`${BRAND.name}: ${text.slice(0, 60)}`)}&body=${encodeURIComponent(text)}` : '';
 const clientMessage = (e) => {
   const cfg = CONTENT.configuracoes || {};
@@ -1094,9 +1101,10 @@ function rowCard(e, opt = {}) {
     </div>
     ${chipsOf(e) ? `<div class="row-chips">${chipsOf(e)}</div>` : ''}
     <div class="row-actions">
+      ${!wa && (opt.preview ? opt.num : waNum(e)) ? `<span class="ra ra-num">${icon('whatsapp')}<span>${esc(opt.preview ? opt.num : waNum(e))}</span></span>` : ''}
       ${wa ? `<a class="ra ra-wa" ${opt.preview ? '' : `data-track="whatsapp" data-id="${esc(e.id)}" href="${links.wa(e)}" target="_blank" rel="noopener"`}>${icon('whatsapp')}<span>WhatsApp</span></a>` : ''}
       <a class="ra" ${opt.preview ? '' : `data-track="ligar" data-id="${esc(e.id)}" href="${links.tel(e)}"`}>${icon('phone')}<span>Ligar</span></a>
-      <a class="ra" ${opt.preview ? '' : `href="${links.maps(e)}" target="_blank" rel="noopener"`}>${icon('route')}<span>Rota</span></a>
+      <a class="ra ra-rota" aria-label="Como chegar" ${opt.preview ? '' : `href="${links.maps(e)}" target="_blank" rel="noopener"`}>${icon('route')}<span>Rota</span></a>
     </div>
   </article>`;
 }
@@ -1295,7 +1303,7 @@ function planPreviewHTML(id) {
   const nome = ($('#r-n')?.value || '').trim() || 'Sua empresa';
   const cat = $('#r-c')?.value || 'Comércio';
   const e = { id: 'preview', name: nome, cat, bairro: 'Centro', plan: id, verified: !!f.selo, n: [4.8, 32], delivery: !!f.entrega, f: 0, t: '30–40 min' };
-  const row = rowCard(e, { preview: true, wa: !!f.whatsapp, status: { on: true, text: 'Aberto agora · fecha às 18h' } });
+  const row = rowCard(e, { preview: true, wa: !!f.whatsapp, num: '(19) 99999-0000', status: { on: true, text: 'Aberto agora · fecha às 18h' } });
   const tiles = Math.min(p.photos, 4);
   const gal = `<div class="mock-gal">${Array.from({ length: tiles }, (_, i) => `<span class="${i === 0 ? 'big' : ''}">${i === 0 ? icon('store') : ''}</span>`).join('')}${p.photos > 4 ? `<em>+${p.photos - 4}</em>` : ''}</div>`;
   const mock = `<div class="mock">${gal}
@@ -1303,7 +1311,7 @@ function planPreviewHTML(id) {
     <div class="mock-sub">${esc(cat)} · Centro · Aberto agora</div>
     ${f.descricao ? '<div class="mock-lines"><i></i><i class="s"></i></div><div class="service-list"><span class="service"><span>Serviço 1</span></span><span class="service"><span>Serviço 2</span></span><span class="service"><span>Serviço 3</span></span></div>' : '<div class="mock-lines"><i class="s"></i></div>'}
     ${f.entrega ? `<div class="mock-pills"><span class="detail-pill pill-moto">${icon('moto')} Delivery</span><span class="detail-pill pill-free">${icon('gift')} Entrega grátis</span></div>` : ''}
-    <div class="mock-btns">${f.whatsapp ? `<span class="ra ra-wa">${icon('whatsapp')}WhatsApp</span>` : ''}<span class="ra">${icon('phone')}Ligar</span>${f.site ? `<span class="ra">${icon('globe')}Site</span>` : ''}${f.social ? `<span class="mock-soc"><b class="ig">${icon('instagram')}</b><b class="fb">${icon('facebook')}</b></span>` : ''}</div>
+    ${f.whatsapp ? '' : `<div class="mock-num">${icon('whatsapp')} WhatsApp: <b>(19) 99999-0000</b></div>`}<div class="mock-btns">${f.whatsapp ? `<span class="ra ra-wa">${icon('whatsapp')}WhatsApp</span>` : ''}<span class="ra">${icon('phone')}Ligar</span>${f.site ? `<span class="ra">${icon('globe')}Site</span>` : ''}${(f.instagram || f.facebook) ? `<span class="mock-soc">${f.instagram ? `<b class="ig">${icon('instagram')}</b>` : ''}${f.facebook ? `<b class="fb">${icon('facebook')}</b>` : ''}</span>` : ''}</div>
   </div>`;
   return `<div class="plan-preview"><div class="pp-col"><small class="pp-label">Assim aparece na busca</small>${row}</div><div class="pp-col"><small class="pp-label">Assim fica a ficha (${p.photos} ${p.photos === 1 ? 'foto' : 'fotos'})</small>${mock}</div></div>
   <p class="pp-note">Imagem ilustrativa. As empresas ${id === 'premium' ? 'Premium' : id === 'destaque' ? 'Destaque' : ''}${(id === 'premium' || id === 'destaque') ? ' aparecem primeiro entre as abertas agora.' : 'são listadas por relevância e horário de funcionamento.'}</p>`;
@@ -1442,6 +1450,8 @@ function sheetHTML(e) {
         <div class="detail-block">
           <h3>Onde encontrar</h3>
           <div class="detail-row"><b>Endereço</b><span>${e.end ? `${esc(e.end)}<br>` : '<em>Endereço não informado</em><br>'}${esc(e.bairro)}${e.bairro ? ', ' : ''}${esc(BRAND.city)}-${esc(BRAND.uf)}</span></div>
+          ${e.phone ? `<div class="detail-row"><b>Telefone</b><span>${esc(fmtPhone(e.phone))}</span></div>` : ''}
+          ${waNum(e) ? `<div class="detail-row"><b>WhatsApp</b><span>${icon('whatsapp', 'wa-inline')} ${esc(waNum(e))}</span></div>` : ''}
           <div class="links">
             <a target="_blank" rel="noopener" href="${links.maps(e)}">${icon('route')}<span>Como chegar</span></a>
             <a class="waze-link" target="_blank" rel="noopener" href="${links.waze(e)}">${icon('waze')}<span>Waze</span></a>

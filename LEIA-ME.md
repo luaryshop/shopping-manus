@@ -110,3 +110,10 @@ Além de Viva Ira, boas alternativas são **Perto de Ira**, **Conecta Ira**, **I
 - O plano pedido NÃO é ativado sozinho. Depois de confirmar o pagamento, clique em **Pagamento confirmado: ativar plano pedido**: o plano e a validade (hoje + meses contratados) são preenchidos e você salva.
 - Descontos por período (5%, 10% e 15%) e o preço por dia (total ÷ dias) ficam em `config.js` (`PERIODOS`). Ajuste os percentuais como quiser.
 - **IMPORTANTE:** cole de novo o arquivo `firestore.rules.ira-ADICIONAR.txt` nas regras do Firebase, porque o pedido ganhou campos novos. Sem isso o envio do formulário é recusado.
+
+## Recursos por plano (versão atual)
+- **Gratuito:** nome, categoria, endereço, telefone, **número de WhatsApp (só o número, sem botão)**, horário, 1 foto.
+- **Presença:** + descrição e serviços, botão de WhatsApp, botão Instagram, retirada/entrega/orçamento, até 3 fotos.
+- **Destaque:** + botão Facebook, prioridade nas listas, selo Verificado, métricas, até 6 fotos.
+- **Premium:** + botão Site, prioridade na home, banners e novidades, relatório avançado, até 10 fotos.
+Tudo isso é controlado em `config.js` (`PLANOS` e `features`).
