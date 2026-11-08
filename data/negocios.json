@@ -111,7 +111,8 @@
         "milk",
         "shake",
         "restaurante"
-      ]
+      ],
+      "site": "www.exemplo.com.br"
     },
     {
       "id": "ovos-vivi",
@@ -633,7 +634,8 @@
         "tosa",
         "veterinario",
         "animal"
-      ]
+      ],
+      "site": "www.exemplo.com.br"
     },
     {
       "id": "festa-encanto",
