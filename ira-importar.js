@@ -1,6 +1,6 @@
 /* Importação de empresas por planilha (CSV). Tudo roda no navegador; nada é enviado até você confirmar. */
 
-export const COLUNAS = ['nome', 'categoria', 'subcategoria', 'bairro', 'endereco', 'telefone', 'whatsapp', 'horario_seg_sex', 'horario_sab', 'horario_dom', 'descricao', 'servicos', 'palavras', 'instagram', 'facebook', 'latitude', 'longitude', 'emergencia', 'orcamento'];
+export const COLUNAS = ['nome', 'categoria', 'subcategoria', 'bairro', 'endereco', 'telefone', 'whatsapp', 'horario_seg_sex', 'horario_sab', 'horario_dom', 'descricao', 'servicos', 'palavras', 'site', 'instagram', 'facebook', 'latitude', 'longitude', 'emergencia', 'orcamento'];
 
 const ALIASES = {
   nome: ['nome', 'empresa', 'nome_da_empresa', 'nome_fantasia', 'estabelecimento'],
@@ -16,6 +16,7 @@ const ALIASES = {
   descricao: ['descricao', 'sobre', 'apresentacao', 'resumo'],
   servicos: ['servicos', 'produtos', 'servicos_produtos', 'servicos_e_produtos'],
   palavras: ['palavras', 'palavras_chave', 'palavras_de_busca', 'tags', 'busca'],
+  site: ['site', 'website', 'pagina', 'url'],
   instagram: ['instagram', 'insta'],
   facebook: ['facebook', 'face'],
   latitude: ['latitude', 'lat'],
@@ -173,6 +174,8 @@ export function converter(objetos, { categorias, existentes = [], ordemInicial =
       horariosFinal = horarios;
     } else if (hs === undefined) avisos.push('Sem horário: a ficha mostrará "Horário não informado".');
 
+    let site = String(o.site || '').trim();
+    if (site) { if (!/^https?:\/\//i.test(site)) site = 'https://' + site; try { site = new URL(site).href; if (!/\.[a-z]{2,}/i.test(new URL(site).hostname)) throw 0; } catch { avisos.push('Site ignorado (link inválido).'); site = ''; } }
     const ig = social('instagram', o.instagram), fb = social('facebook', o.facebook);
     if (ig === null) avisos.push('Instagram ignorado (link inválido).');
     if (fb === null) avisos.push('Facebook ignorado (link inválido).');
@@ -208,7 +211,7 @@ export function converter(objetos, { categorias, existentes = [], ordemInicial =
       horarios: horariosFinal,
       telefone: tel ? formataTelefone(tel) : '', whatsapp: wa ? `55${wa}` : '',
       emergencia: simNao(o.emergencia), orcamento: simNao(o.orcamento),
-      redes: { instagram: ig || '', facebook: fb || '' }, localizacao,
+      site, redes: { instagram: ig || '', facebook: fb || '' }, localizacao,
       ...(situacao === 'novo' ? { plano: 'gratis', planoAte: '', nota: { media: 0, qtd: 0 }, entrega: null, retirada: false, fotos: 0, ativo: true, verificado: false, ordem: ordem++, fonte: 'importacao', importadoEm: agora } : {})
     };
     return { linha: o._linha, nome, situacao: erros.length ? 'erro' : situacao, erros, avisos, item };

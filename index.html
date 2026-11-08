@@ -104,6 +104,113 @@ img.broken{opacity:.15}
 
 main{min-height:calc(100vh - var(--header-h))}
 
+
+/* ==========================================================================
+   LISTA COMPACTA, DESTAQUES, BALÕES E PRÉVIA DE PLANOS
+   ========================================================================== */
+.ico-fill{fill:currentColor;stroke:none}
+.row-list{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:900px){.row-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}}
+.row-card{position:relative;display:flex;flex-direction:column;gap:9px;padding:12px;background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow-sm);min-width:0}
+.row-open{position:absolute;inset:0;z-index:1;width:100%;border:0;background:transparent;border-radius:18px;cursor:pointer}
+.row-open:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
+.row-top{display:flex;gap:12px;align-items:flex-start;min-width:0}
+.row-media{position:relative;flex:none;width:92px;height:92px}
+.row-thumb{width:92px;height:92px;border-radius:14px;object-fit:cover;background:var(--surface-2);display:block}
+.row-thumb.ph{display:grid;place-items:center;color:var(--coral);background:var(--surface-2)}
+.row-thumb.ph .ico{width:34px;height:34px}
+.rbadge{position:absolute;left:5px;top:5px;padding:3px 7px;border-radius:999px;font-size:9.5px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;line-height:1.2;box-shadow:0 2px 6px rgba(0,0,0,.18)}
+.rb-premium{background:linear-gradient(135deg,#f3d27a,#c4933d);color:#3a2705}
+.rb-destaque{background:var(--coral);color:#fff}
+.row-body{flex:1;min-width:0;padding-right:34px}
+.row-body h3{margin:0;font:700 17px/1.2 var(--display);letter-spacing:-.01em;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;overflow-wrap:anywhere}
+.vcheck{display:inline-grid;place-items:center;width:17px;height:17px;margin-left:5px;vertical-align:1px;border-radius:50%;background:var(--green);color:#fff}
+.vcheck .ico{width:11px;height:11px;stroke-width:3}
+.row-sub{margin-top:3px;font-size:12px;line-height:1.35;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row-sub .rating-label{font-size:12px}
+.row-body .open-status{margin-top:5px;font-size:12px;white-space:normal;line-height:1.3}
+.row-fav.save{position:absolute;z-index:2;right:0;top:0;width:36px;height:36px;border:0;background:transparent;color:var(--muted);backdrop-filter:none}
+.row-fav.save[aria-pressed=true]{background:transparent;color:var(--coral)}
+.row-fav.save .ico{width:21px;height:21px}
+.row-chips{display:flex;flex-wrap:wrap;gap:6px;max-height:26px;overflow:hidden}
+.mchip{display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border-radius:999px;background:var(--surface-2);color:var(--ink);font-size:11.5px;font-weight:700;line-height:1.2}
+.mchip .ico{width:15px;height:15px}
+.mchip-moto{color:#2d6fc4;background:color-mix(in srgb,#4788d9 12%,var(--surface))}
+.mchip-free{color:#0f7a4c;background:color-mix(in srgb,var(--green) 13%,var(--surface))}
+.row-actions{display:flex;gap:8px;position:relative;z-index:2}
+.ra{flex:1;min-width:0;padding:0 6px;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:40px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap}
+.ra .ico{width:18px;height:18px}
+.ra-wa{background:#25d366;border-color:#25d366;color:#fff}
+.ra-wa .ico{fill:#fff}
+.row-card.plan-premium{border:1.5px solid #d9b25e;background:linear-gradient(180deg,color-mix(in srgb,#f3d27a 16%,var(--surface)),var(--surface) 60%);box-shadow:0 10px 28px rgba(196,147,61,.2)}
+.row-card.plan-premium .row-media,.row-card.plan-premium .row-thumb{width:104px;height:104px}
+.row-card.plan-destaque{border-color:color-mix(in srgb,var(--coral) 45%,var(--line));box-shadow:inset 4px 0 0 var(--coral),var(--shadow-sm)}
+.row-card.is-preview .ra,.row-card.is-preview .row-open{pointer-events:none}
+@media(hover:hover){.row-card:hover{border-color:color-mix(in srgb,var(--coral) 55%,var(--line));box-shadow:var(--shadow)}}
+@media(max-width:380px){.row-media,.row-thumb{width:80px;height:80px}.row-card.plan-premium .row-media,.row-card.plan-premium .row-thumb{width:88px;height:88px}.ra span{font-size:12px}}
+
+.rail{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -14px;padding:2px 14px 10px;scrollbar-width:none}
+.rail::-webkit-scrollbar{display:none}
+.mini-card{flex:none;width:210px;scroll-snap-align:start;display:flex;flex-direction:column;text-align:left;padding:0;overflow:hidden;border:1px solid var(--line);border-radius:18px;background:var(--surface);color:var(--ink);font:inherit;cursor:pointer;box-shadow:var(--shadow-sm)}
+.mini-img{position:relative;display:block;aspect-ratio:16/10;background:var(--surface-2)}
+.mini-img img{width:100%;height:100%;object-fit:cover;display:block}
+.mini-body{display:flex;flex-direction:column;gap:2px;padding:10px 12px 12px}
+.mini-body strong{font:700 15px/1.2 var(--display);display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:1;overflow:hidden}
+.mini-body small{color:var(--muted);font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini-body .open-status{margin-top:4px;font-size:11.5px}
+@media(min-width:900px){.rail{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));overflow:visible;margin:0;padding:0}.mini-card{width:auto}}
+
+.service-list{display:flex;flex-wrap:wrap;gap:8px}
+.service{display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border:1px solid color-mix(in srgb,var(--coral) 28%,var(--line));border-radius:999px;background:color-mix(in srgb,var(--coral) 7%,var(--surface));font-size:13px;font-weight:600;border-bottom:1px solid color-mix(in srgb,var(--coral) 28%,var(--line))}
+.service small{padding:2px 8px;border-radius:999px;background:var(--coral);color:#fff;font-size:11px;font-weight:800}
+.detail-pill .ico{width:16px;height:16px}
+.detail-pill.pill-moto{color:#2d6fc4;background:color-mix(in srgb,#4788d9 12%,var(--surface))}
+.detail-pill.pill-free{color:#0f7a4c;background:color-mix(in srgb,var(--green) 13%,var(--surface))}
+.social-btn .ico{width:20px;height:20px}
+.links .waze-link .ico{fill:#33ccff}
+.links .site-link{color:var(--ink)}.links .site-link .ico{color:var(--coral)}
+.btn-wa .ico,.empty-actions .primary .ico{fill:currentColor}
+
+.plan-benefits{min-width:0}
+.plan-preview{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;margin:4px 0 12px}
+@media(min-width:700px){.plan-preview{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)}}
+.pp-col{min-width:0}
+.pp-label{display:block;margin-bottom:6px;color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
+.pp-note{margin:0 0 12px;color:var(--muted);font-size:12px}
+.mock{border:1px solid var(--line);border-radius:16px;background:var(--surface);padding:10px;display:grid;gap:7px;max-width:300px}
+.mock-gal{display:flex;gap:4px;height:74px;position:relative}
+.mock-gal span{flex:1;border-radius:9px;background:linear-gradient(135deg,var(--surface-2),color-mix(in srgb,var(--coral) 18%,var(--surface-2)));display:grid;place-items:center;color:var(--coral)}
+.mock-gal span.big{flex:2.4}
+.mock-gal .ico{width:26px;height:26px}
+.mock-gal em{position:absolute;right:5px;bottom:5px;padding:1px 7px;border-radius:999px;background:rgba(16,36,72,.75);color:#fff;font-size:11px;font-style:normal;font-weight:800}
+.mock-name{font:700 16px/1.2 var(--display)}
+.mock-sub{font-size:11px;color:var(--muted);margin-top:-3px}
+.mock-lines{display:grid;gap:4px}.mock-lines i{height:6px;border-radius:3px;background:var(--line)}.mock-lines i.s{width:62%}
+.mock .service{padding:3px 9px;font-size:11px}
+.mock-pills{display:flex;flex-wrap:wrap;gap:5px}.mock-pills .detail-pill{font-size:11px;padding:3px 8px}
+.mock-btns{display:flex;gap:6px;align-items:center}
+.mock-btns .ra{min-height:32px;font-size:12px;padding:0 10px;flex:none}
+.mock-soc{display:flex;gap:5px;margin-left:auto}
+.mock-soc b{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;color:#fff}
+.mock-soc .ig{background:linear-gradient(135deg,#7a3fc0,#d6366f 55%,#f08a3c)}.mock-soc .fb{background:#1877f2}
+.mock-soc .ico{width:16px;height:16px}
+
+
+.per-day{margin:2px 0 10px;color:var(--ink);font-size:14px}.per-day b{color:var(--coral);font-size:17px}
+.period-box{margin:6px 0 14px}
+.period-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:8px}
+@media(min-width:700px){.period-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.period-opt{position:relative;display:flex;flex-direction:column;gap:2px;padding:10px;border:1.5px solid var(--line);border-radius:14px;background:var(--bg);cursor:pointer;margin:0}
+.period-opt input{position:absolute;opacity:0;pointer-events:none}
+.period-opt.on{border-color:var(--coral);background:color-mix(in srgb,var(--coral) 9%,var(--bg));box-shadow:0 0 0 3px color-mix(in srgb,var(--coral) 14%,transparent)}
+.po-name{font-weight:800;font-size:14px}.po-day{font-size:12px;color:var(--ink)}
+.po-off{font-size:11px;font-weight:800;color:var(--green)}.po-off.none{color:var(--muted);font-weight:600}
+.period-sum{margin:10px 0 0;font-size:13px}
+.more-info{border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:14px;background:var(--bg)}
+.more-info summary{cursor:pointer;font-weight:800;min-height:28px}.more-info summary small{color:var(--muted);font-weight:600}
+.more-info label{display:block;margin-top:10px}
+.more-hint{margin:8px 0 0;color:var(--muted);font-size:12px}
+
 /* ==========================================================================
    4. HERO E BUSCA
    ========================================================================== */
@@ -148,9 +255,9 @@ main{min-height:calc(100vh - var(--header-h))}
 .section-head h2{font:700 37px/1 var(--display);letter-spacing:-.02em;margin:0}
 .section-head h2 em{font-style:italic;color:var(--coral)}
 .section-head p{margin:5px 0 0;color:var(--muted)}
-.section-link{border:0;background:transparent;color:var(--coral);font-weight:800;white-space:nowrap}
+.section-link{display:inline-flex;align-items:center;min-height:44px;padding:0 4px;border:0;background:transparent;color:var(--coral);font-weight:800;white-space:nowrap}
 
-.intents{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.intents{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
 .intent{min-width:0;border:1px solid var(--line);background:var(--surface);border-radius:16px;padding:14px;display:flex;align-items:center;gap:10px;text-align:left;font-weight:800;box-shadow:var(--shadow-sm);transition:transform .22s,border-color .22s,box-shadow .22s}
 .intent:hover,.intent[aria-pressed=true]{transform:translateY(-3px);border-color:var(--coral);box-shadow:var(--shadow)}
 .intent-icon{width:40px;height:40px;flex:none;border-radius:13px;display:grid;place-items:center;color:var(--tone,var(--coral));background:color-mix(in srgb,var(--tone,var(--coral)) 13%,transparent)}
@@ -159,6 +266,7 @@ main{min-height:calc(100vh - var(--header-h))}
 .intent-aberto,.filter-aberto{--tone:#168b59}
 .intent-emergencia,.filter-emergencia{--tone:#c55245}
 .intent-delivery,.filter-delivery{--tone:#4788d9}
+.intent-entregagratis,.filter-entregagratis{--tone:#168b59}
 .intent-perto,.filter-perto{--tone:#b18028}
 
 .category-grid{display:grid;grid-template-columns:repeat(9,1fr);gap:10px}
@@ -390,9 +498,6 @@ button.plan-mini{text-align:left;font:inherit;color:inherit;cursor:pointer;width
 .detail-block h3{margin:0 0 10px;font:700 24px/1 var(--display)}
 .detail-row{display:grid;grid-template-columns:80px minmax(0,1fr);gap:10px;font-size:13px}
 .detail-row b{color:var(--muted)}
-.service-list{display:grid;gap:7px}
-.service{display:flex;justify-content:space-between;gap:10px;padding-bottom:6px;border-bottom:1px dashed var(--line);font-size:13px}
-.service small{color:var(--coral);font-weight:800;white-space:nowrap}
 .links{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .links a{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:999px;padding:8px 11px;color:var(--muted);font-size:12px;font-weight:700;white-space:nowrap}
 .links a .ico{width:16px;height:16px}
@@ -543,7 +648,7 @@ input,select,textarea{font-size:16px}
 #source-note{font-size:11px}
 
 /* alvos de toque confortáveis (>= 44px) */
-.section-link{min-height:44px;display:inline-flex;align-items:center}
+.section-link{display:inline-flex;align-items:center;min-height:44px;display:inline-flex;align-items:center}
 .icon-btn{min-height:44px!important;width:44px!important}
 .city-chip{min-height:44px}
 .btn,.card-actions .btn{min-height:44px}
@@ -660,7 +765,7 @@ input,select,textarea{font-size:16px}
 
 <script type="module">
 import { carregarNegocios, carregarConteudo, registrarContato, urlFoto, enviarCadastro } from './ira-data.js';
-import { BRAND, CATEGORIAS, INTENCOES, PLANOS, MENSAGENS_CLIENTE_PADRAO, preencherMensagem, SINONIMOS, MODO_DEMO, BUSCAS_POPULARES } from './config.js';
+import { BRAND, CATEGORIAS, INTENCOES, PLANOS, PERIODOS, precoPeriodo, MENSAGENS_CLIENTE_PADRAO, preencherMensagem, SINONIMOS, MODO_DEMO, BUSCAS_POPULARES } from './config.js';
 
 /* ==========================================================================
    ÍCONES
@@ -695,8 +800,19 @@ const PATHS = {
   'chev-l':'<path d="m15 18-6-6 6-6"/>',
   'chev-r':'<path d="m9 18 6-6-6-6"/>'
 };
-const icon = (name, cls = '') =>
-  `<svg class="ico ${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${PATHS[name] || PATHS.sparkle}</svg>`;
+const FILLED = {
+  instagram:'M7.03.084c-1.277.06-2.149.264-2.91.563a5.9 5.9 0 0 0-2.124 1.388 5.9 5.9 0 0 0-1.38 2.127C.321 4.926.12 5.8.064 7.076s-.069 1.688-.063 4.947.021 3.667.083 4.947c.061 1.277.264 2.149.563 2.911.308.789.72 1.457 1.388 2.123a5.9 5.9 0 0 0 2.129 1.38c.763.295 1.636.496 2.913.552 1.278.056 1.689.069 4.947.063s3.668-.021 4.947-.082c1.28-.06 2.147-.265 2.91-.563a5.9 5.9 0 0 0 2.123-1.388 5.9 5.9 0 0 0 1.38-2.129c.295-.763.496-1.636.551-2.912.056-1.28.07-1.69.063-4.948-.006-3.258-.02-3.667-.081-4.947-.06-1.28-.264-2.148-.564-2.911a5.9 5.9 0 0 0-1.387-2.123 5.86 5.86 0 0 0-2.128-1.38C19.074.322 18.202.12 16.924.066 15.647.009 15.236-.006 11.977 0S8.31.021 7.03.084m.14 21.693c-1.17-.05-1.805-.245-2.228-.408a3.7 3.7 0 0 1-1.382-.895 3.7 3.7 0 0 1-.9-1.378c-.165-.423-.363-1.058-.417-2.228-.06-1.264-.072-1.644-.08-4.848-.006-3.204.006-3.583.061-4.848.05-1.169.246-1.805.408-2.228.216-.561.477-.96.895-1.382a3.7 3.7 0 0 1 1.379-.9c.423-.165 1.057-.361 2.227-.417 1.265-.06 1.644-.072 4.848-.08 3.203-.006 3.583.006 4.85.062 1.168.05 1.804.244 2.227.408.56.216.96.475 1.382.895s.681.817.9 1.378c.165.422.362 1.056.417 2.227.06 1.265.074 1.645.08 4.848.005 3.203-.006 3.583-.061 4.848-.051 1.17-.245 1.805-.408 2.23-.216.56-.477.96-.896 1.38a3.7 3.7 0 0 1-1.378.9c-.422.165-1.058.362-2.226.418-1.266.06-1.645.072-4.85.079s-3.582-.006-4.848-.06m9.783-16.192a1.44 1.44 0 1 0 1.437-1.442 1.44 1.44 0 0 0-1.437 1.442M5.839 12.012a6.161 6.161 0 1 0 12.323-.024 6.162 6.162 0 0 0-12.323.024M8 12.008A4 4 0 1 1 12.008 16 4 4 0 0 1 8 12.008',
+  facebook:'M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a9 9 0 0 1 1.141.195v3.325a9 9 0 0 0-.653-.036 27 27 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.7 1.7 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647',
+  whatsapp:'M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52s.198-.298.298-.497c.099-.198.05-.371-.025-.52s-.669-1.612-.916-2.207c-.242-.579-.487-.5-.669-.51a13 13 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074s2.096 3.2 5.077 4.487c.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413s.248-1.289.173-1.413c-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.82 11.82 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.9 11.9 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.82 11.82 0 0 0-3.48-8.413',
+  waze:'M13.218 0C9.915 0 6.835 1.49 4.723 4.148c-1.515 1.913-2.31 4.272-2.31 6.706v1.739c0 .894-.62 1.738-1.862 1.813-.298.025-.547.224-.547.522-.05.82.82 2.31 2.012 3.502.82.844 1.788 1.515 2.832 2.036a3 3 0 0 0 2.955 3.528 2.966 2.966 0 0 0 2.931-2.385h2.509c.323 1.689 2.086 2.856 3.974 2.21 1.64-.546 2.36-2.409 1.763-3.924a13 13 0 0 0 1.838-1.465 10.73 10.73 0 0 0 3.18-7.65c0-2.882-1.118-5.589-3.155-7.625A10.9 10.9 0 0 0 13.218 0m0 1.217c2.558 0 4.967.994 6.78 2.807a9.53 9.53 0 0 1 2.807 6.78A9.53 9.53 0 0 1 20 17.585a9.65 9.65 0 0 1-6.78 2.807h-2.46a3.01 3.01 0 0 0-2.93-2.41 3.03 3.03 0 0 0-2.534 1.367v.024a9 9 0 0 1-2.41-1.788c-.844-.844-1.316-1.614-1.515-2.11a2.86 2.86 0 0 0 1.441-.846 2.96 2.96 0 0 0 .795-2.036v-1.789c0-2.11.696-4.197 2.012-5.861 1.863-2.385 4.62-3.726 7.6-3.726zm-2.41 5.986a1.19 1.19 0 0 0-1.191 1.192 1.19 1.19 0 0 0 1.192 1.193A1.19 1.19 0 0 0 12 8.395a1.19 1.19 0 0 0-1.192-1.192m7.204 0a1.19 1.19 0 0 0-1.192 1.192 1.19 1.19 0 0 0 1.192 1.193 1.19 1.19 0 0 0 1.192-1.193 1.19 1.19 0 0 0-1.192-1.192m-7.377 4.769a.596.596 0 0 0-.546.845 4.81 4.81 0 0 0 4.346 2.757 4.77 4.77 0 0 0 4.347-2.757.596.596 0 0 0-.547-.845h-.025a.56.56 0 0 0-.521.348 3.59 3.59 0 0 1-3.254 2.061 3.59 3.59 0 0 1-3.254-2.061.64.64 0 0 0-.546-.348',
+  moto:'M19 15c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1m0-2c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3m-9-7H5v2h5zm7-1h-3v2h3v2.65L13.5 14H10V9H6c-2.21 0-4 1.79-4 4v3h2c0 1.66 1.34 3 3 3s3-1.34 3-3h4.5l4.5-5.65V7a2 2 0 0 0-2-2M7 17c-.55 0-1-.45-1-1h2c0 .55-.45 1-1 1',
+  truck:'M19 15c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1m0-2c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3m-9-7H5v2h5zm7-1h-3v2h3v2.65L13.5 14H10V9H6c-2.21 0-4 1.79-4 4v3h2c0 1.66 1.34 3 3 3s3-1.34 3-3h4.5l4.5-5.65V7a2 2 0 0 0-2-2M7 17c-.55 0-1-.45-1-1h2c0 .55-.45 1-1 1'
+};
+const icon = (name, cls = '') => FILLED[name]
+  ? `<svg class="ico ico-fill ico-${name} ${cls}" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="${FILLED[name]}"/></svg>`
+  : `<svg class="ico ${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${PATHS[name] || PATHS.sparkle}</svg>`;
+PATHS.globe='<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"/>';
+PATHS.gift='<path d="M20 12v9H4v-9M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7Zm0 0h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7Z"/>';
 
 /* ==========================================================================
    UTILITÁRIOS
@@ -706,7 +822,7 @@ const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = (s = '') => String(s).replace(/[&<>"']/g, (c) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
 const norm = (s = '') => String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
 const digits = (s = '') => String(s).replace(/\D/g, '');
-const brl = (n) => `R$ ${Number(n || 0).toFixed(2).replace('.', ',')}`;
+const brl = (n) => `R$ ${Number(n || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 const store = {
   get(key, fallback) { try { return localStorage.getItem(`guia-busca:${key}`) ?? fallback; } catch { return fallback; } },
   set(key, value)    { try { localStorage.setItem(`guia-busca:${key}`, value); } catch {} }
@@ -757,7 +873,7 @@ let COMPANIES = [];
 let CONTENT = { novidades: [], plantoes: [], configuracoes: {} };
 let current = null, galleryIndex = 0, lastFocus = null;
 
-const state = { origem: '', prefill: null, plano: 'gratis', view: 'inicio', q: '', cat: '', intent: '', bairro: '', geo: null, geoStatus: '', sent: false, error: false, favs: new Set() };
+const state = { origem: '', prefill: null, plano: 'gratis', periodo: 1, view: 'inicio', q: '', cat: '', intent: '', bairro: '', geo: null, geoStatus: '', sent: false, error: false, favs: new Set() };
 try { state.favs = new Set(JSON.parse(store.get('favs', '[]'))); } catch {}
 const saveFavs = () => store.set('favs', JSON.stringify([...state.favs]));
 
@@ -852,6 +968,7 @@ function filtered() {
     if (state.intent === 'aberto' && !open) continue;
     if (state.intent === 'emergencia' && !(e.emergency || e.t24)) continue;
     if (state.intent === 'delivery' && !e.delivery) continue;
+    if (state.intent === 'entregagratis' && !(e.delivery && e.f === 0)) continue;
     let rel = 0;
     if (tokens.length) { rel = relevance(e, tokens); if (!rel) continue; }
     list.push({ e, tier: tokens.length ? Math.floor(rel / tokens.length) : 0, open, d: distOf(e) });
@@ -889,8 +1006,8 @@ function ratingLabel(e) {
   return `<span class="rating-label rating-score"><strong>${esc(score)}</strong> · ${count} avaliações</span>`;
 }
 
-const INTENT_ICON = { aberto: 'clock', emergencia: 'siren', delivery: 'truck', perto: 'pin' };
-const INTENT_HINT = { aberto: 'Veja quem atende agora', emergencia: 'Atendimento prioritário', delivery: 'Receba onde estiver', perto: 'Ordenar pela distância' };
+const INTENT_ICON = { aberto: 'clock', emergencia: 'siren', delivery: 'moto', entregagratis: 'gift', perto: 'pin' };
+const INTENT_HINT = { aberto: 'Veja quem atende agora', emergencia: 'Atendimento prioritário', delivery: 'Receba onde estiver', entregagratis: 'Sem pagar frete', perto: 'Ordenar pela distância' };
 
 const intentTiles = () => `<div class="intents">${INTENCOES.map((i) => `
   <button class="intent intent-${i.id}" data-intent="${i.id}" aria-pressed="${state.intent === i.id}">
@@ -935,11 +1052,65 @@ function card(e, eager = false) {
       <p class="card-desc">${esc(e.desc || 'Perfil em atualização.')}</p>
       <div class="card-location">${icon('pin')}<span>${esc(e.bairro || BRAND.city)}${distOf(e) != null ? ` · <span class="dist">${fmtDist(distOf(e))}</span>` : ''}</span></div>
       <div class="card-actions ${hasWa(e) ? '' : 'single'}">
-        ${hasWa(e) ? `<a class="btn btn-wa" data-track="whatsapp" data-id="${esc(e.id)}" href="${links.wa(e)}" target="_blank" rel="noopener">${icon('chat')} WhatsApp</a>` : ''}
+        ${hasWa(e) ? `<a class="btn btn-wa" data-track="whatsapp" data-id="${esc(e.id)}" href="${links.wa(e)}" target="_blank" rel="noopener">${icon('whatsapp')} WhatsApp</a>` : ''}
         <a class="btn" data-track="ligar" data-id="${esc(e.id)}" href="${links.tel(e)}">${icon('phone')} Ligar</a>
       </div>
     </div>
   </article>`;
+}
+
+/* Lista compacta (resultados e favoritos): foto pequena + o essencial. A ficha completa abre ao tocar. */
+function chipsOf(e) {
+  const out = [];
+  if (e.delivery) out.push(`<span class="mchip mchip-moto">${icon('moto')}Delivery</span>`);
+  if (e.delivery && e.f === 0) out.push(`<span class="mchip mchip-free">${icon('gift')}Entrega grátis</span>`);
+  if (e.t24) out.push(`<span class="mchip">${icon('clock')}24 horas</span>`);
+  if (e.orc) out.push('<span class="mchip">Orçamento</span>');
+  if (e.ret && out.length < 3) out.push('<span class="mchip">Retirada</span>');
+  return out.slice(0, 3).join('');
+}
+
+function rowCard(e, opt = {}) {
+  const s = opt.status || status(e);
+  const fav = state.favs.has(e.id);
+  const wa = opt.wa ?? hasWa(e);
+  const prem = e.plan === 'premium', dest = e.plan === 'destaque';
+  const ribbon = prem ? `<span class="rbadge rb-premium">★ Premium</span>` : dest ? `<span class="rbadge rb-destaque">Destaque</span>` : '';
+  const thumb = opt.preview
+    ? `<span class="row-thumb ph">${icon('store')}</span>`
+    : `<img class="row-thumb" loading="lazy" alt="" src="${urlFoto(e.id, 0, e.ver)}">`;
+  const dist = !opt.preview && distOf(e) != null ? ` · <span class="dist">${fmtDist(distOf(e))}</span>` : '';
+  return `<article class="row-card plan-${esc(e.plan)}${opt.preview ? ' is-preview' : ''}">
+    ${opt.preview ? '' : `<button class="row-open" data-open="${esc(e.id)}" aria-label="Abrir ficha de ${esc(e.name)}"></button>`}
+    <div class="row-top">
+      <div class="row-media">${thumb}${ribbon}</div>
+      <div class="row-body">
+        <h3>${esc(e.name)}${e.verified ? `<span class="vcheck" title="Perfil verificado">${icon('check')}</span>` : ''}</h3>
+        <div class="row-sub">${ratingLabel(e)}</div>
+        <div class="row-sub">${esc(e.cat)} · ${esc(e.bairro || BRAND.city)}${dist}</div>
+        <div class="open-status ${s.on ? '' : 'closed'}"><span class="dot"></span>${esc(s.text)}</div>
+      </div>
+      ${opt.preview ? '' : `<button class="row-fav save" data-fav="${esc(e.id)}" aria-pressed="${fav}" aria-label="${fav ? 'Remover dos favoritos:' : 'Salvar nos favoritos:'} ${esc(e.name)}">${icon('heart')}</button>`}
+    </div>
+    ${chipsOf(e) ? `<div class="row-chips">${chipsOf(e)}</div>` : ''}
+    <div class="row-actions">
+      ${wa ? `<a class="ra ra-wa" ${opt.preview ? '' : `data-track="whatsapp" data-id="${esc(e.id)}" href="${links.wa(e)}" target="_blank" rel="noopener"`}>${icon('whatsapp')}<span>WhatsApp</span></a>` : ''}
+      <a class="ra" ${opt.preview ? '' : `data-track="ligar" data-id="${esc(e.id)}" href="${links.tel(e)}"`}>${icon('phone')}<span>Ligar</span></a>
+      <a class="ra" ${opt.preview ? '' : `href="${links.maps(e)}" target="_blank" rel="noopener"`}>${icon('route')}<span>Rota</span></a>
+    </div>
+  </article>`;
+}
+
+/* Cartão pequeno para o carrossel de destaques da página inicial */
+function miniCard(e) {
+  const s = status(e);
+  const label = e.plan === 'premium' ? '★ Premium' : 'Destaque';
+  return `<button class="mini-card" data-open="${esc(e.id)}" aria-label="Abrir ficha de ${esc(e.name)}">
+    <span class="mini-img"><img loading="lazy" alt="" src="${urlFoto(e.id, 0, e.ver)}"><span class="rbadge ${e.plan === 'premium' ? 'rb-premium' : 'rb-destaque'}">${label}</span></span>
+    <span class="mini-body"><strong>${esc(e.name)}${e.verified ? `<span class="vcheck">${icon('check')}</span>` : ''}</strong>
+    <small>${esc(e.cat)} · ${esc(e.bairro || BRAND.city)}</small>
+    <span class="open-status ${s.on ? '' : 'closed'}"><span class="dot"></span>${esc(s.on ? 'Aberto agora' : s.text)}</span></span>
+  </button>`;
 }
 
 const emptyState = (ico, title, text) => `<div class="empty">${icon(ico)}<br><strong>${title}</strong><br>${text}</div>`;
@@ -949,13 +1120,13 @@ function emptyResults() {
   const filtros = state.cat || state.intent || state.bairro;
   const title = q ? `Não encontramos “${esc(q)}”.` : 'Nenhuma empresa com esses filtros.';
   const dica = q ? 'Tente uma palavra mais simples (ex.: farmácia, cabelo, marmita) ou escolha uma categoria.' : 'Tire um filtro para ver mais opções.';
-  const wa = BRAND.whatsapp ? `<a class="primary" href="https://wa.me/${digits(BRAND.whatsapp)}?text=${encodeURIComponent(`Olá! Procurei “${q || 'um serviço'}” no ${BRAND.name} ${BRAND.city} e não encontrei. Podem me ajudar?`)}" target="_blank" rel="noopener">${icon('chat')} Pedir ajuda no WhatsApp</a>` : '';
+  const wa = BRAND.whatsapp ? `<a class="primary" href="https://wa.me/${digits(BRAND.whatsapp)}?text=${encodeURIComponent(`Olá! Procurei “${q || 'um serviço'}” no ${BRAND.name} ${BRAND.city} e não encontrei. Podem me ajudar?`)}" target="_blank" rel="noopener">${icon('whatsapp')} Pedir ajuda no WhatsApp</a>` : '';
   return `<div class="empty">${icon('search')}<br><strong>${title}</strong><br>${dica}
     <div class="chip-row" style="margin-top:14px">${CATEGORIAS.slice(0, 6).map((c) => `<button class="cat-chip" data-cat="${c.id}">${icon(c.icon)}${esc(c.nome)}</button>`).join('')}</div>
     <div class="empty-actions">${(q || filtros) ? `<button data-clear>${icon('x')} Limpar busca e filtros</button>` : ''}${wa}<button data-go="perfil">${icon('store')} Minha empresa não está aqui</button></div>
   </div>`;
 }
-const resultsHTML = (items) => items.length ? items.map((e) => card(e)).join('') : emptyResults();
+const resultsHTML = (items) => items.length ? items.map((e) => rowCard(e)).join('') : emptyResults();
 
 function sectionHead(title, sub, go = 'buscar') {
   return `<div class="section-head"><div><h2>${title}</h2>${sub ? `<p>${sub}</p>` : ''}</div><button class="section-link" data-go="${go}">Ver todos →</button></div>`;
@@ -1057,13 +1228,13 @@ function newsView() {
 }
 
 function homeView() {
-  const featured = COMPANIES.filter((e) => e.plan === 'premium' || e.plan === 'destaque').slice(0, 4);
-  const shown = featured.length ? featured : filtered().slice(0, 4);
+  const featured = COMPANIES.filter((e) => e.plan === 'premium' || e.plan === 'destaque').slice(0, 6);
+  const shown = featured.length ? featured : filtered().slice(0, 6);
   return `${heroView()}
     <section class="section">${sectionHead('Escolha pelo que você precisa', 'Atalhos rápidos para resolver o dia.')}${intentTiles()}</section>
     <section class="section"><div class="section-head"><div><h2>Explore por <em>categoria</em></h2><p>Do essencial ao especial, tudo organizado.</p></div></div>${categoryTiles()}</section>
     ${bannersView()}
-    <section class="section">${sectionHead(`Destaques em ${esc(BRAND.city)}`, 'Empresas que estão fazendo bonito por aqui.')}<div class="grid">${shown.map((e) => card(e, true)).join('')}</div></section>
+    <section class="section">${sectionHead(`Destaques em ${esc(BRAND.city)}`, 'Empresas que estão fazendo bonito por aqui.')}<div class="rail">${shown.map((e) => miniCard(e)).join('')}</div></section>
     <section class="section split">${nearbyPanel()}${emergencyPanel()}</section>
     <section class="section">${sectionHead('Novidades na cidade', 'Conteúdo rápido para descobrir algo novo.', 'perfil')}${newsView()}</section>
     <div class="cta-business"><div><h2>Sua empresa merece ser encontrada.</h2><p>Crie um perfil e apareça para quem está procurando agora.</p></div><a href="#perfil" data-go="perfil">Cadastrar empresa →</a></div>`;
@@ -1101,7 +1272,7 @@ function resultsArea() {
   const anunciantes = results.some((e) => e.plan === 'premium' || e.plan === 'destaque');
   return `${geoNotice()}
     <div class="result-line"><h2 id="results-title">${resultsTitle()}</h2><span class="result-count" id="results-count" role="status">${results.length} ${results.length === 1 ? 'resultado' : 'resultados'}</span></div>
-    <div class="grid" id="results">${resultsHTML(results)}</div>
+    <div class="row-list" id="results">${resultsHTML(results)}</div>
     ${anunciantes ? '<p class="sponsor-note">Empresas Premium e Destaque são anunciantes do guia. Entre as que estão abertas agora, elas aparecem primeiro.</p>' : ''}`;
 }
 
@@ -1115,14 +1286,40 @@ function favoritesView() {
   return `${globalSearch()}
   <section class="section" style="padding-top:26px">
     ${sectionHead('Seus <em>favoritos</em>', 'Lugares guardados para você voltar depois.')}
-    <div class="grid">${items.length ? items.map((e) => card(e)).join('') : emptyState('heart', 'Sua lista ainda está vazia.', 'Toque no coração de um card para salvar uma empresa.')}</div>
+    <div class="row-list">${items.length ? items.map((e) => rowCard(e)).join('') : emptyState('heart', 'Sua lista ainda está vazia.', 'Toque no coração de um card para salvar uma empresa.')}</div>
   </section>`;
+}
+
+function planPreviewHTML(id) {
+  const p = PLANOS[id] || PLANOS.gratis, f = p.features || {};
+  const nome = ($('#r-n')?.value || '').trim() || 'Sua empresa';
+  const cat = $('#r-c')?.value || 'Comércio';
+  const e = { id: 'preview', name: nome, cat, bairro: 'Centro', plan: id, verified: !!f.selo, n: [4.8, 32], delivery: !!f.entrega, f: 0, t: '30–40 min' };
+  const row = rowCard(e, { preview: true, wa: !!f.whatsapp, status: { on: true, text: 'Aberto agora · fecha às 18h' } });
+  const tiles = Math.min(p.photos, 4);
+  const gal = `<div class="mock-gal">${Array.from({ length: tiles }, (_, i) => `<span class="${i === 0 ? 'big' : ''}">${i === 0 ? icon('store') : ''}</span>`).join('')}${p.photos > 4 ? `<em>+${p.photos - 4}</em>` : ''}</div>`;
+  const mock = `<div class="mock">${gal}
+    <div class="mock-name">${esc(nome)}${f.selo ? `<span class="vcheck">${icon('check')}</span>` : ''}</div>
+    <div class="mock-sub">${esc(cat)} · Centro · Aberto agora</div>
+    ${f.descricao ? '<div class="mock-lines"><i></i><i class="s"></i></div><div class="service-list"><span class="service"><span>Serviço 1</span></span><span class="service"><span>Serviço 2</span></span><span class="service"><span>Serviço 3</span></span></div>' : '<div class="mock-lines"><i class="s"></i></div>'}
+    ${f.entrega ? `<div class="mock-pills"><span class="detail-pill pill-moto">${icon('moto')} Delivery</span><span class="detail-pill pill-free">${icon('gift')} Entrega grátis</span></div>` : ''}
+    <div class="mock-btns">${f.whatsapp ? `<span class="ra ra-wa">${icon('whatsapp')}WhatsApp</span>` : ''}<span class="ra">${icon('phone')}Ligar</span>${f.site ? `<span class="ra">${icon('globe')}Site</span>` : ''}${f.social ? `<span class="mock-soc"><b class="ig">${icon('instagram')}</b><b class="fb">${icon('facebook')}</b></span>` : ''}</div>
+  </div>`;
+  return `<div class="plan-preview"><div class="pp-col"><small class="pp-label">Assim aparece na busca</small>${row}</div><div class="pp-col"><small class="pp-label">Assim fica a ficha (${p.photos} ${p.photos === 1 ? 'foto' : 'fotos'})</small>${mock}</div></div>
+  <p class="pp-note">Imagem ilustrativa. As empresas ${id === 'premium' ? 'Premium' : id === 'destaque' ? 'Destaque' : ''}${(id === 'premium' || id === 'destaque') ? ' aparecem primeiro entre as abertas agora.' : 'são listadas por relevância e horário de funcionamento.'}</p>`;
 }
 
 function planBenefitsHTML(id) {
   const p = PLANOS[id] || PLANOS.gratis;
   const next = PLANOS[p.proximo];
+  const per = p.price ? precoPeriodo(id, state.periodo) : null;
+  const periodos = p.price ? `<div class="period-box"><strong>Por quanto tempo?</strong>
+      <div class="period-grid" role="radiogroup" aria-label="Período do plano">${PERIODOS.map((o) => { const c = precoPeriodo(id, o.meses); const on = o.meses === state.periodo; return `<label class="period-opt ${on ? 'on' : ''}"><input type="radio" name="r-periodo" value="${o.meses}" ${on ? 'checked' : ''}><span class="po-name">${esc(o.label)}</span><span class="po-day">${brl(c.porDia)}/dia</span>${o.desconto ? `<span class="po-off">${o.desconto}% de desconto</span>` : '<span class="po-off none">sem fidelidade</span>'}</label>`; }).join('')}</div>
+      <p class="period-sum">${per.meses === 1 ? `Valor: <b>${brl(per.total)}</b> por mês.` : `Total: <b>${brl(per.total)}</b> por ${esc(per.label.toLowerCase())}${per.economia ? ` (você economiza ${brl(per.economia)})` : ''}.`} Nada é cobrado agora: combinamos o pagamento com você pelo WhatsApp.</p></div>` : '';
   return `<h4>${esc(p.label)} · ${p.price ? `${brl(p.price)}/mês` : 'sem custo'}</h4>
+    ${p.price ? `<p class="per-day">Apenas <b>${brl(precoPeriodo(id, 1).porDia)} por dia</b>${state.periodo > 1 ? ` · ${brl(per.porDia)} por dia no plano de ${esc(per.label.toLowerCase())}` : ''}</p>` : '<p class="per-day">Grátis, sem prazo e sem cobrança.</p>'}
+    ${periodos}
+    ${planPreviewHTML(id)}
     <ul>${p.benefits.map((b) => `<li>${icon('check')}<span>${esc(b)}</span></li>`).join('')}</ul>
     ${next ? `<p class="upsell">Quer ir além? No <b>${esc(next.label)}</b> você ganha: ${esc(next.novidades.join(', '))}.</p>` : '<p class="upsell">Este é o plano mais completo do guia.</p>'}
     ${p.price ? '<p class="upsell">Nossa equipe fala com você no WhatsApp para confirmar o plano antes de ativar.</p>' : ''}`;
@@ -1147,15 +1344,26 @@ function profileView() {
         <div id="form-msg" role="status">
           ${state.prefill?.nome ? `<div class="notice prefill">Você está confirmando o perfil de <strong>${esc(state.prefill.nome)}</strong>. Confira o nome e informe o WhatsApp da empresa.</div>` : ''}
           ${state.error ? '<div class="notice err">Não foi possível enviar agora. Tente novamente em instantes.</div>' : ''}
-          ${state.sent ? `<div class="notice ok">Cadastro recebido (plano ${esc(PLANOS[state.planoEnviado]?.label || 'Gratuito')}). Vamos confirmar o WhatsApp e publicar seu perfil em até 1 dia útil.</div>` : ''}
+          ${state.sent ? `<div class="notice ok">Cadastro recebido (plano ${esc(PLANOS[state.planoEnviado]?.label || 'Gratuito')}${state.planoEnviado && state.planoEnviado !== 'gratis' && state.periodoEnviado > 1 ? `, ${esc(PERIODOS.find((o) => o.meses === state.periodoEnviado)?.label.toLowerCase() || '')}` : ''}). Vamos confirmar o WhatsApp e publicar seu perfil em até 1 dia útil.</div>` : ''}
         </div>
         <label>Nome da empresa<input id="r-n" required maxlength="80" autocomplete="organization" value="${esc(state.prefill?.nome || '')}" placeholder="Ex.: Padaria Pão de Praça" aria-describedby="r-n-err"><small class="field-err" id="r-n-err" role="alert" hidden></small></label>
         <label>Categoria<select id="r-c">${CATEGORIAS.map((c) => `<option>${esc(c.nome)}</option>`).join('')}</select></label>
         <label>WhatsApp da empresa<input id="r-w" type="tel" required inputmode="tel" autocomplete="tel-national" maxlength="16" placeholder="(19) 99999-0000" aria-describedby="r-w-err"><small class="field-err" id="r-w-err" role="alert" hidden></small></label>
         <fieldset class="plan-picker"><legend>Escolha seu plano</legend>
-          ${Object.entries(PLANOS).map(([id, p]) => `<label class="plan-opt ${state.plano === id ? 'on' : ''}"><input type="radio" name="r-plano" value="${id}" ${state.plano === id ? 'checked' : ''}><span>${esc(p.label)}<small>${p.price ? `${brl(p.price)}/mês` : 'sem custo'}</small></span></label>`).join('')}
+          ${Object.entries(PLANOS).map(([id, p]) => `<label class="plan-opt ${state.plano === id ? 'on' : ''}"><input type="radio" name="r-plano" value="${id}" ${state.plano === id ? 'checked' : ''}><span>${esc(p.label)}<small>${p.price ? `${brl(p.price)}/mês · ${brl(precoPeriodo(id, 1).porDia)}/dia` : 'sem custo'}</small></span></label>`).join('')}
         </fieldset>
         <div id="plan-benefits" class="plan-benefits" aria-live="polite">${planBenefitsHTML(state.plano)}</div>
+        <details class="more-info"><summary>Quer adiantar o seu cadastro? <small>(opcional)</small></summary>
+          <p class="more-hint">Quanto mais você informar, mais rápido seu perfil fica pronto. Pode pular e completar depois.</p>
+          <label>Bairro<input id="r-bairro" maxlength="60" placeholder="Ex.: Centro"></label>
+          <label>Endereço<input id="r-end" maxlength="120" autocomplete="street-address" placeholder="Rua, número"></label>
+          <label>Horário de funcionamento<input id="r-hor" maxlength="80" placeholder="Ex.: seg a sex 8h às 18h, sáb 8h às 12h"></label>
+          <label>O que você oferece<input id="r-serv" maxlength="200" placeholder="Ex.: pães, bolos, salgados"></label>
+          <label>Conte em uma frase sobre a empresa<textarea id="r-desc" maxlength="300" rows="2" placeholder="Ex.: Padaria artesanal desde 2010."></textarea></label>
+          <label>Telefone fixo (se tiver)<input id="r-tel" type="tel" inputmode="tel" maxlength="16" placeholder="(19) 3456-0000"></label>
+          <label>Site (se tiver)<input id="r-site" inputmode="url" maxlength="120" placeholder="www.suaempresa.com.br"></label>
+          <label>Instagram (se tiver)<input id="r-ig" maxlength="80" placeholder="@suaempresa"></label>
+        </details>
         <label class="consent"><input type="checkbox" id="r-ok"><span>Concordo em ser contatado por WhatsApp pelo ${esc(BRAND.name)} e com a <a href="privacidade.html" target="_blank" rel="noopener">Política de Privacidade</a>.</span></label>
         <small class="field-err" id="r-ok-err" role="alert" hidden></small>
         <button type="submit">Enviar cadastro →</button>
@@ -1186,8 +1394,8 @@ function claimBlock(e) {
   const error = guideLink(`Olá! Quero corrigir ou remover as informações de "${e.name}" no ${BRAND.name} ${BRAND.city}. ${ficha}`);
   const errorLink = `<a class="link-quiet" href="${esc(error || 'privacidade.html')}" target="_blank" rel="noopener">Informar erro ou pedir remoção</a>`;
   if (e.verified) return `<div class="claim small"><span>Perfil confirmado pela empresa.</span>${errorLink}</div>`;
-  return `<div class="claim"><strong>Esta é a sua empresa?</strong>
-    <p>Este perfil foi montado pelo ${esc(BRAND.name)} com informações públicas. Confirme os dados, adicione fotos e conte o que você oferece. É grátis.</p>
+  return `<div class="claim"><strong>Você é o responsável por esta empresa?</strong>
+    <p>Confirme os dados com o ${esc(BRAND.name)}, adicione fotos e conte o que você oferece. É grátis.</p>
     <div class="claim-actions">
       ${claim ? `<a class="btn btn-claim" data-track-claim="${esc(e.id)}" href="${esc(claim)}" target="_blank" rel="noopener">${icon('store')}<span>Sou o dono · atualizar perfil</span></a>` : `<button class="btn btn-claim" type="button" data-claim="${esc(e.id)}">${icon('store')}<span>Sou o dono · atualizar perfil</span></button>`}
       ${errorLink}
@@ -1196,7 +1404,7 @@ function claimBlock(e) {
 
 function sheetHTML(e) {
   const s = status(e);
-  const services = e.services?.length ? `<div class="detail-block"><h3>Serviços e produtos</h3><div class="service-list">${e.services.map((x) => `<div class="service"><span>${esc(x.nome || x)}</span>${x.preco ? `<small>${esc(x.preco)}</small>` : ''}</div>`).join('')}</div></div>` : '';
+  const services = e.services?.length ? `<div class="detail-block"><h3>Serviços e produtos</h3><div class="service-list">${e.services.map((x) => `<span class="service"><span>${esc(x.nome || x)}</span>${x.preco ? `<small>${esc(x.preco)}</small>` : ''}</span>`).join('')}</div></div>` : '';
   const nav = e.photos > 1 ? `<div class="gallery-nav"><button id="gallery-prev" aria-label="Foto anterior">${icon('chev-l')}</button><button id="gallery-next" aria-label="Próxima foto">${icon('chev-r')}</button></div>` : '';
 
   /* Miniaturas exclusivas no Modal de Detalhes */
@@ -1224,8 +1432,9 @@ function sheetHTML(e) {
         <div class="category-line">${ratingLabel(e)} · ${esc(e.bairro)}</div>
         <div class="detail-status">
           <span class="detail-pill ${s.on ? 'live' : ''}"><span class="dot"></span>${esc(s.text)}</span>
-          ${e.verified ? `<span class="detail-pill verify">${icon('check')} Verificado</span>` : `<span class="detail-pill info" title="Dados públicos reunidos pelo guia, ainda não confirmados pela empresa">Perfil informado pelo guia</span>`}
-          ${e.delivery ? `<span class="detail-pill">${icon('truck')} ${e.f === 0 ? 'Entrega grátis' : 'Delivery'}</span>` : ''}
+          ${e.verified ? `<span class="detail-pill verify">${icon('check')} Verificado</span>` : `<span class="detail-pill info" title="O guia ainda não confirmou o contato com a empresa">Perfil em confirmação</span>`}
+          ${e.delivery ? `<span class="detail-pill pill-moto">${icon('moto')} Delivery${e.t ? ` · ${esc(e.t)}` : ''}${e.f > 0 ? ` · frete ${esc(brl(e.f))}` : ''}</span>` : ''}
+          ${e.delivery && e.f === 0 ? `<span class="detail-pill pill-free">${icon('gift')} Entrega grátis</span>` : ''}
           ${e.ret ? '<span class="detail-pill">Retirada no local</span>' : ''}
         </div>
         <p>${esc(e.desc || 'Perfil em atualização.')}</p>
@@ -1236,6 +1445,7 @@ function sheetHTML(e) {
           <div class="links">
             <a target="_blank" rel="noopener" href="${links.maps(e)}">${icon('route')}<span>Como chegar</span></a>
             <a class="waze-link" target="_blank" rel="noopener" href="${links.waze(e)}">${icon('waze')}<span>Waze</span></a>
+            ${e.site ? `<a class="site-link" data-id="${esc(e.id)}" target="_blank" rel="noopener noreferrer" href="${esc(e.site)}">${icon('globe')}<span>Site</span></a>` : ''}
           </div>
         </div>
         ${(e.social?.instagram || e.social?.facebook) ? `<div class="detail-block"><h3>Siga a empresa</h3><div class="social-row">
@@ -1247,7 +1457,7 @@ function sheetHTML(e) {
       </div>
     </div>
     <div class="sheet-actions ${hasWa(e) ? '' : 'two'}">
-      ${hasWa(e) ? `<a class="btn btn-wa" data-track="whatsapp" data-id="${esc(e.id)}" data-origin="public-modal" href="${links.wa(e)}" target="_blank" rel="noopener">${icon('chat')}<span>${e.orc ? 'Pedir orçamento' : 'WhatsApp'}</span></a>` : ''}
+      ${hasWa(e) ? `<a class="btn btn-wa" data-track="whatsapp" data-id="${esc(e.id)}" data-origin="public-modal" href="${links.wa(e)}" target="_blank" rel="noopener">${icon('whatsapp')}<span>${e.orc ? 'Pedir orçamento' : 'WhatsApp'}</span></a>` : ''}
       <a class="btn" data-track="ligar" data-id="${esc(e.id)}" data-origin="public-modal" href="${links.tel(e)}">${icon('phone')}<span>Ligar</span></a>
       <button class="btn" id="share-company" type="button">${icon('share')}<span>Compartilhar</span></button>
     </div>`;
@@ -1476,6 +1686,7 @@ document.addEventListener('input', (event) => {
   const id = event.target.id;
   if (id === 'r-w') { event.target.value = maskPhone(event.target.value); clearFieldError('r-w'); return; }
   if (id === 'r-n' || id === 'r-ok') clearFieldError(id);
+  if (id === 'r-n') { const box = $('#plan-benefits'); if (box) box.innerHTML = planBenefitsHTML(state.plano); }
   if (id !== 'q' && id !== 'global-q') return;
   state.q = event.target.value;
   if (state.view === 'buscar') { paintResults(); pushRoute('replace'); }
@@ -1500,6 +1711,8 @@ document.addEventListener('keydown', (event) => {
 document.addEventListener('change', (event) => {
   if (event.target.id === 'f-bairro') { state.bairro = event.target.value; paintResults(); pushRoute('replace'); return; }
   if (event.target.name === 'r-plano') selectPlan(event.target.value);
+  if (event.target.name === 'r-periodo') { state.periodo = Number(event.target.value) || 1; const box = $('#plan-benefits'); if (box) box.innerHTML = planBenefitsHTML(state.plano); }
+  if (event.target.id === 'r-c') { const box = $('#plan-benefits'); if (box) box.innerHTML = planBenefitsHTML(state.plano); }
 });
 document.addEventListener('click', (event) => {
   const card = event.target.closest('[data-plano]');
@@ -1532,7 +1745,9 @@ document.addEventListener('submit', async (event) => {
   if (first) { $(`#${first}`).focus(); return; }
   const button = event.target.querySelector('button[type=submit]');
   button.disabled = true; button.textContent = 'Enviando…';
-  try { await enviarCadastro({ nome, categoria, whatsapp, plano, aceite: true, origem: state.prefill?.origem || state.origem }); state.sent = true; state.error = false; state.planoEnviado = plano; state.prefill = null; }
+  try { const v = (id) => ($(id)?.value || '').trim();
+    await enviarCadastro({ nome, categoria, whatsapp, plano, periodo: plano === 'gratis' ? 1 : state.periodo, aceite: true, origem: state.prefill?.origem || state.origem,
+      bairro: v('#r-bairro'), endereco: v('#r-end'), horario: v('#r-hor'), servicos: v('#r-serv'), descricao: v('#r-desc'), telefone: v('#r-tel'), site: v('#r-site'), instagram: v('#r-ig') }); state.sent = true; state.error = false; state.planoEnviado = plano; state.periodoEnviado = state.periodo; state.prefill = null; }
   catch { state.sent = false; state.error = true; }
   render();
   $('#form-msg')?.scrollIntoView({ behavior: 'smooth', block: 'center' });

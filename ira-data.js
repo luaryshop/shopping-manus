@@ -25,6 +25,7 @@ const categoryMap = new Map([
 ]);
 const categoryId = (value = "") => categoryMap.get(String(value).toLowerCase()) || String(value).toLowerCase().replace(/\s+/g, "-");
 const categoryName = (value = "") => CATEGORIAS.find((item) => item.id === categoryId(value))?.nome || value || "Serviços";
+const safeSite = (value = "") => { let v = String(value || "").trim(); if (!v) return ""; if (!/^https?:\/\//i.test(v)) { if (!/^(www\.)?[a-z0-9-]+(\.[a-z0-9-]+)+(\/\S*)?$/i.test(v)) return ""; v = "https://" + v; } try { return new URL(v).href; } catch { return ""; } };
 const safeUrl = (value = "") => { const v = String(value || "").trim(); return /^https?:\/\//i.test(v) ? v : ""; };
 const asArray = (value) => Array.isArray(value) ? value : value ? String(value).split(",").map((item) => item.trim()).filter(Boolean) : [];
 
@@ -72,6 +73,8 @@ export function normalizar(n, i = 0, hoje = new Date()) {
     social: planoTem(plano, "social")
       ? { instagram: safeUrl((n.redes || n.social || {}).instagram), facebook: safeUrl((n.redes || n.social || {}).facebook) }
       : {},
+    // Botão do site: a partir do plano Presença (config.js → features.site).
+    site: planoTem(plano, "site") ? safeSite(n.site || n.website) : "",
     location: geo(n.localizacao || n.location),
     createdAt: n.createdAt || null,
     i
@@ -171,11 +174,19 @@ export async function registrarContato(negocioId, tipo, origem = "app") {
   } catch { /* analytics não pode impedir a conversão */ }
 }
 
-export async function enviarCadastro({ nome, categoria, whatsapp, plano = "gratis", aceite = false, origem = "" }) {
+export async function enviarCadastro({ nome, categoria, whatsapp, plano = "gratis", periodo = 1, aceite = false, origem = "", ...extra }) {
   const planoValido = PLANOS[plano] ? plano : "gratis";
   const payload = { nome: String(nome).slice(0, 80), categoria: String(categoria).slice(0, 40), whatsapp: String(whatsapp).slice(0, 25), plano: planoValido, aceite: aceite === true, status: "novo", criadoEm: serverTimestamp() };
+  const meses = [1, 3, 6, 12].includes(Number(periodo)) ? Number(periodo) : 1;
+  if (planoValido !== "gratis") payload.periodo = meses;
   const o = String(origem || "").toLowerCase().replace(/[^a-z0-9_-]/g, "").slice(0, 40);
   if (o) payload.origem = o;
+  // Dados opcionais que o dono já informa no pedido (a equipe só confere e publica).
+  const LIMITES = { bairro: 60, endereco: 120, horario: 80, servicos: 200, descricao: 300, telefone: 16, site: 120, instagram: 80 };
+  for (const [k, max] of Object.entries(LIMITES)) {
+    const v = String(extra[k] || "").trim().slice(0, max);
+    if (v) payload[k] = v;
+  }
   await addDoc(collection(db, COLECOES.cadastros), payload);
 }
 

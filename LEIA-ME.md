@@ -17,7 +17,9 @@ O painel `admin.html` foi redesenhado como uma central SaaS responsiva. Ele reú
 - **Cadastro:** erros por campo, máscara de WhatsApp, caixa de aceite da Política de Privacidade (`privacidade.html`, modelo para revisão jurídica) e passo a passo "Como funciona".
 - **Publicação:** `favicon.svg`, ícones, imagem de compartilhamento (`og-image.png`), `manifest.webmanifest`, `robots.txt`, `sitemap.xml`.
 
-## Cadastrar muitas empresas de uma vez (plano Gratuito)
+## Cadastrar várias empresas de uma vez (só com autorização)
+
+**Regra do projeto: nenhuma empresa entra no guia sem pedir ou autorizar.** O caminho principal é o formulário do site ("Sua empresa no guia"). A importação serve para lançar de uma vez as empresas que já autorizaram (formulário, WhatsApp ou termo). O painel exige marcar a confirmação e guarda como e quando houve a autorização.
 
 1. Painel → **Empresas → Importar planilha (CSV)** → "Baixar modelo". O arquivo `modelo-importacao-empresas.csv` também está na raiz do projeto.
 2. Preencha uma empresa por linha no Excel ou Google Planilhas e salve como **CSV**. Obrigatórios: nome, categoria e telefone (ou WhatsApp).
@@ -26,13 +28,13 @@ O painel `admin.html` foi redesenhado como uma central SaaS responsiva. Ele reú
    - Serviços e palavras de busca: separe com `;`.
    - Telefone fixo sem WhatsApp é aceito: o card mostra só o botão **Ligar**.
 3. O painel mostra uma **prévia** (prontas, avisos, erros, já existentes) e só grava depois do seu clique. Dá para baixar as linhas com erro, corrigir e importar de novo. Até 500 por vez.
-4. Todas entram como **Gratuito, não verificadas, sem fotos**, com o selo "Perfil informado pelo guia". Quem confirmar vira "Verificado" (caixa no editor da empresa).
+4. Todas entram como **Gratuito, sem fotos**, com o selo "Perfil em confirmação". Depois de confirmar o WhatsApp com a empresa, marque "Verificado" no editor.
 
 ## Divulgação e acompanhamento
 
 - Link para o cadastro: `https://SEU-SITE/?origem=instagram#participar`. Troque `instagram` por `facebook`, `whatsapp`, `grupo-bairro`, `visita`, `qr-balcao`… O painel (Cadastros) mostra "via instagram" em cada pedido, e você descobre qual divulgação funciona.
 - Link para o guia: `https://SEU-SITE/`. Link para uma empresa: `https://SEU-SITE/#empresa/<id>`.
-- Na ficha de cada empresa não verificada aparece **"Esta é a sua empresa?"**: com `BRAND.whatsapp` preenchido, o botão abre o WhatsApp do guia com a mensagem pronta; sem ele, leva ao cadastro com o nome já preenchido. Há também "Informar erro ou pedir remoção" (WhatsApp ou `BRAND.email`).
+- Na ficha de cada empresa ainda não verificada aparece **"Você é o responsável por esta empresa?"**: com `BRAND.whatsapp` preenchido, o botão abre o WhatsApp do guia com a mensagem pronta; sem ele, leva ao cadastro com o nome já preenchido. Há também "Informar erro ou pedir remoção" (WhatsApp ou `BRAND.email`).
 - Reponda cada pedido de remoção rapidamente: reduz risco jurídico e irritação.
 
 ## Checklist antes de publicar
@@ -97,3 +99,14 @@ Crie um Firebase e um repositório GitHub próprios, substitua os valores de `co
 ## Ideias de nomes
 
 Além de Viva Ira, boas alternativas são **Perto de Ira**, **Conecta Ira**, **Ira em Rede**, **Mapa da Cidade**, **Aqui em Ira**, **Vitrine Ira** e **Meu Comércio Ira**. Antes de decidir, confira domínio, redes sociais, facilidade de pronúncia e possibilidade de expansão para cidades próximas.
+
+## Botão "Site" da empresa
+- No painel, a empresa tem o campo **Site (link)**. O botão "Site" aparece na ficha a partir do plano **Presença** (Instagram e Facebook continuam no Premium). Para mudar, edite `features.site` em `config.js`.
+- Na importação por CSV existe a coluna `site` (guardada sempre; só aparece quando o plano permitir).
+
+## Pedido de participação → ficha completa
+- O formulário "Para empresas" agora aceita dados opcionais (bairro, endereço, horário, o que oferece, descrição, telefone, site, Instagram) e o período do plano (mensal, 3 meses, 6 meses, 1 ano).
+- No painel, em **Cadastros**, o botão **Criar ficha** abre a empresa já preenchida com esses dados. Ao salvar, o pedido vira "cadastrado".
+- O plano pedido NÃO é ativado sozinho. Depois de confirmar o pagamento, clique em **Pagamento confirmado: ativar plano pedido**: o plano e a validade (hoje + meses contratados) são preenchidos e você salva.
+- Descontos por período (5%, 10% e 15%) e o preço por dia (total ÷ dias) ficam em `config.js` (`PERIODOS`). Ajuste os percentuais como quiser.
+- **IMPORTANTE:** cole de novo o arquivo `firestore.rules.ira-ADICIONAR.txt` nas regras do Firebase, porque o pedido ganhou campos novos. Sem isso o envio do formulário é recusado.

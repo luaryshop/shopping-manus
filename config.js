@@ -73,7 +73,8 @@ export const CATEGORIAS = [
 export const INTENCOES = [
   { id: "aberto", label: "Aberto agora", icon: "clock" },
   { id: "emergencia", label: "Emergência 24h", icon: "siren" },
-  { id: "delivery", label: "Delivery", icon: "truck" },
+  { id: "delivery", label: "Delivery", icon: "moto" },
+  { id: "entregagratis", label: "Entrega grátis", icon: "gift" },
   { id: "perto", label: "Perto de mim", icon: "pin" }
 ];
 
@@ -90,6 +91,7 @@ export const FEATURES = [
   { id: "basico", label: "Nome, categoria, endereço, telefone e horário" },
   { id: "descricao", label: "Descrição e serviços" },
   { id: "whatsapp", label: "Botão de WhatsApp" },
+  { id: "site", label: "Botão para o site da empresa" },
   { id: "entrega", label: "Retirada / entrega / orçamento" },
   { id: "selo", label: "Selo Verificado" },
   { id: "prioridadeListas", label: "Prioridade nas listas" },
@@ -119,9 +121,9 @@ export const PLANOS = {
     photos: 3,
     proximo: "destaque",
     description: "Mais informação para gerar confiança.",
-    benefits: ["Tudo do Gratuito", "Descrição e serviços", "Botão de WhatsApp", "Retirada, entrega e orçamento", "Até 3 fotos"],
-    novidades: ["descrição e serviços", "botão de WhatsApp", "retirada/entrega", "até 3 fotos"],
-    features: { basico: true, descricao: true, whatsapp: true, entrega: true }
+    benefits: ["Tudo do Gratuito", "Descrição e serviços", "Botão de WhatsApp", "Botão para o seu site", "Retirada, entrega e orçamento", "Até 3 fotos"],
+    novidades: ["descrição e serviços", "botão de WhatsApp", "botão para o site", "retirada/entrega", "até 3 fotos"],
+    features: { basico: true, descricao: true, whatsapp: true, site: true, entrega: true }
   },
   destaque: {
     label: "Destaque",
@@ -132,7 +134,7 @@ export const PLANOS = {
     description: "Mais visibilidade e mais contatos.",
     benefits: ["Tudo do Presença", "Prioridade nas listas", "Selo Verificado", "Métricas básicas de contatos", "Até 6 fotos"],
     novidades: ["prioridade nas listas", "selo Verificado", "métricas de contatos", "até 6 fotos"],
-    features: { basico: true, descricao: true, whatsapp: true, entrega: true, selo: true, prioridadeListas: true, metricas: true }
+    features: { basico: true, descricao: true, whatsapp: true, site: true, entrega: true, selo: true, prioridadeListas: true, metricas: true }
   },
   premium: {
     label: "Premium",
@@ -143,7 +145,7 @@ export const PLANOS = {
     description: "A vitrine completa da sua empresa.",
     benefits: ["Tudo do Destaque", "Botões de Instagram e Facebook", "Prioridade na home", "Participação em banners e novidades", "Relatório avançado", "Até 10 fotos"],
     novidades: ["botões de Instagram e Facebook", "prioridade na home", "banners e novidades", "relatório avançado", "até 10 fotos"],
-    features: { basico: true, descricao: true, whatsapp: true, entrega: true, selo: true, prioridadeListas: true, metricas: true, social: true, prioridadeHome: true, banners: true, relatorio: true }
+    features: { basico: true, descricao: true, whatsapp: true, site: true, entrega: true, selo: true, prioridadeListas: true, metricas: true, social: true, prioridadeHome: true, banners: true, relatorio: true }
   }
 };
 
@@ -213,3 +215,23 @@ export const COLECOES = {
 export const IMAGE_BASE = "images/";
 export const GITHUB = { user: "luaryshop", repo: "ira-shopping", branch: "main", pasta: "images" };
 export const PRECOS = Object.fromEntries(Object.entries(PLANOS).map(([id, plano]) => [id, plano.price]));
+
+// ---------------------------------------------------------------------------
+// PERÍODOS DE CONTRATAÇÃO — o desconto é um valor sugerido: ajuste à vontade.
+// Preço por dia = valor total ÷ (meses × 30 dias). Nada é cobrado pelo site:
+// a equipe combina o pagamento pelo WhatsApp.
+// ---------------------------------------------------------------------------
+export const PERIODOS = [
+  { meses: 1, label: "Mensal", curto: "1 mês", desconto: 0 },
+  { meses: 3, label: "3 meses", curto: "3 meses", desconto: 5 },
+  { meses: 6, label: "6 meses", curto: "6 meses", desconto: 10 },
+  { meses: 12, label: "1 ano", curto: "1 ano", desconto: 15 }
+];
+export const periodoDe = (meses) => PERIODOS.find((p) => p.meses === Number(meses)) || PERIODOS[0];
+export function precoPeriodo(planoId, meses = 1) {
+  const plano = PLANOS[planoId] || PLANOS.gratis;
+  const per = periodoDe(meses);
+  const bruto = plano.price * per.meses;
+  const total = Math.round(bruto * (1 - per.desconto / 100) * 100) / 100;
+  return { meses: per.meses, label: per.label, desconto: per.desconto, total, economia: Math.round((bruto - total) * 100) / 100, mensal: total / per.meses, porDia: total / (per.meses * 30) };
+}

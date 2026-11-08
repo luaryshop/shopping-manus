@@ -1,4 +1,4 @@
-﻿nome;categoria;subcategoria;bairro;endereco;telefone;whatsapp;horario_seg_sex;horario_sab;horario_dom;descricao;servicos;palavras;instagram;facebook;latitude;longitude;emergencia;orcamento
+﻿nome;categoria;subcategoria;bairro;endereco;telefone;whatsapp;horario_seg_sex;horario_sab;horario_dom;descricao;servicos;palavras;site;instagram;facebook;latitude;longitude;emergencia;orcamento
 Padaria Pão Quente;Alimentação;Padaria e confeitaria;Centro;Rua das Flores, 120;(19) 3456-7890;(19) 99999-0001;6h às 19h;6h às 13h;fechado;Pães frescos, bolos e salgados todos os dias.;"Pães; Bolos; Salgados; Café";pao, bolo, cafe da manha, lanche;@padariapaoquente;;-22.5833;-47.5233;não;não
 Eletricista Carlos;Casa e obra;Instalações elétricas;Vila Nova;;;(19) 99999-0002;8h às 18h;8h às 12h;;Atendo residências e comércios.;"Instalação; Reparos; Quadro de luz";eletrica, tomada, fiacao, disjuntor;;;;;sim;sim
 Farmácia Saúde 24h;Saúde;;Centro;Av. Principal, 450;(19) 3456-1000;;24h;;;;"Medicamentos; Entrega";remedio, farmacia, plantao;;;;;sim;não
